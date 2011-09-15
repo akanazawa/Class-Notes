@@ -421,6 +421,106 @@ sucesses is $P(X=l) = {n \choose k} p^kq^{n-k}$
 \label{sec:probability}
 Experiment: three tosses of a coin $|\Omega|=2^3$
 
+\textbf{Definitino: } The distribution of discrete random variables is
+a collection of real positives $\{x_j\}^{\infty}_{j=1}$, s.t.  $P(X=x_j) = m_j$
+
+
+\textbf{Definition: } A \emph{mass function} of a discrete random
+variable $X$ is $m:\mathbf{R}\rightarrow [0, 1]$ s.t. $m(x)=P(X=x)\forall x
+\in \mathbf{R}$.
+
+\textbf{Definition:} The binomial distriubtion is a random experiment with two outcomes where
+$p$ is the probability of success, $1-p$ is the probability of
+failure. It performs the experiment $n$ times, and $X$ denotes the number of total
+successes.
+
+Q: what is the probability of exactly $k$ successes? ${n \choose k}
+p^k(1-p)^{n-k}$, let's check $\sum_{j=1}^\infty m_j =1$. This is
+$\sum_{k=0}^np^k(1-p)^{n-k} = (p + (1-p))^n = 1^n = 1$ so yes.
+
+\textbf{Definition:} Continuous random variables and
+distributions. ex: Average weight of 100 randomly selected
+, where $\Omega$=$\{$100 tuples of weights $\}$, $X(\omega) =1/100$
+(sum entries of $\omega$). Random number uniformly chosen from $[a,b]$.
+
+\textbf{Definition:} A function $f$ on $\mathbf{R}$ is called a
+\emph{density function} if it's non-negative and integrable and
+$\int_{-\infty}^\infty f(x)dx = 1$.
+
+A random variable with a density function $f$
+means $$P(\{ \omega \in \Omega | X(\omega) \in A \}) = \int_Af(x)dx$$
+for $A\subseteq \mathbf{R}$.
+
+example: we say $X$ is uniformly distributed on $[a,b]$ if it has
+density function 
+$$f(x)=
+\begin{cases}
+  \frac{1}{b-a} & \text{ for } x\in [a,b]\\
+  0 & \text{ otherwise }\\
+\end{cases}
+$$
+
+Alternatively, $X$ is normally distributed with mean $\mu$ and
+variance $\sigma^2$ if 
+$$f(x) = \frac{1}{\sqrt{2\pi \sig^2}}e^{-\frac{(x-\mu)^2}{2\sig^2}}$$
+Exercise: check $\int_{-\infty}^{\infty} f(x)dx=1$
+
+\textbf{Defintion:} \emph{mean}, $\mathbf{E}(x)=\mu$,  of a random variable. Discrete case:
+$\mu = \sum_{x\in \mathbf{R}}x\times m(x)$, continuous case:
+$\mu = \int_{-\infty}^{\infty}x\times f(x)dx$
+$$
+\begin{cases}
+  \sum_{x\in \mathbf{R}} x\times m(x) & \text{ Discrete }\\
+  \int_{-\infty}^\infty x\times f(x) & \text{ Continuous } 
+\end{cases}
+$$
+
+\textbf{Definition:} \emph{Distribution of a continuous r.v.}: $F(x) =
+P(X(\omega) \le x) = \int_{-\infty}^xf(\xi)d\xi$. So if $F(x)$ is
+normal with $\mathcal{N}(\mu, \sig)$, $\mu$ is at the tip of the
+gaussian mountain, and $\mu$ has val $0.5$ in the CDF, $F(x)$.
+
+
+Let $\Phi: \mathbf{R} \rarr \mathbf{R}$. \emph{Claim:} 
+$$E(\Phi(x)) =
+\begin{cases}
+  \sum_{x\in \mathbf{R}} \Phi(x)m(x) & \text{ Discrete }\\
+  \int_{-\infty}^\infty \Phi(x)f(x)dx & \text{ Continuous }  
+ 
+\end{cases}
+$$
+This is not obvious.
+
+Now how to define R.V, $X$, formally. $\Omega \rarr \textbf{R}$. Using
+the example of 3 coin tosses, $\Omega =
+\{000,001,\dots,111\}$. $X(\omega) =$ decimal version of binary value
+of $\omega$. Then, $X(\omega)= [1, 7] \in \textbf{N}$. Now, we can do:
+$\forall x\in \textbf{R}$, define $m(x)$ by $$
+m(x)=
+\begin{cases}
+1/8 & \text{ if } 1\ge x\le 7 \\
+0 & \text{ otherwise}
+\end{cases}
+$$
+
+Let us call 1 or more consecu, tive tosses of same type as \emph{run}s. This is a
+new R.V. where $\Omega$ is the same, and $Y(\omega) = $number of
+runs.
+
+i.e. $Y(000) = 1 = \Phi(0), Y(001) =2=\Phi(1), Y(010)=3=\Phi(2),
+Y(011)=2, \dots$. Note $Y=\Phi(X)$. So $m_y(y) = P(Y=y)$, and $m_y(1)
+= 1/4, m_y(2)=1/2, m_y(3)=1/4, m_y(\text{else}) =0$. Then,
+\begin{align*}
+\mathbf{E}(Y) &= \sum_{y\in R}ym_y(y)\\
+& = 1/4 + 2(1/2) + 3(1/4) = 2  
+\end{align*}
+
+This is the same as 
+\begin{align*}
+\sum_{x\in R}\Phi(x)m(x) &= (1+2+3+2+3+2+1)(1/8)\\
+&=16/8=2
+\end{align*}
+
 
 \end{enumerate}
 
