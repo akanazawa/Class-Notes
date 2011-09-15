@@ -1,0 +1,150 @@
+\message{ !name(notes.tex)}\documentclass[a4paper]{article}
+\usepackage{amsmath}
+\begin{document}
+
+\message{ !name(notes.tex) !offset(-3) }
+
+\title{Scientific Computing CS660 Fall '11}
+\author{Angjoo Kanazawa}
+\maketitle
+\section{September 1st Class one}
+\subsection{Logistics}
+\label{sec:logistics}
+Prof. Howard Elman CSI 2120 TR 2pm-3:15pm
+class url:http://www.cs.umd.edu/~elman/660.11/syl.html
+\begin{itemize}
+\item Scientific Computing puts heavier emphasis on computing, Numerical
+  Analysis is more about proofs/theories.
+
+\item 4-6 hw asg: \textbf{35\%} Penalty on late assignments (-15\%
+  after 24 hrs, -30\% after 48 hrs. 
+\item in-class midterm: \textbf{25\%}
+\item final project: \textbf{40\%}
+\end{itemize}
+
+\subsection{Content} 
+\label{sec:content}
+\textbf{Newton's Method}: Root finding. 
+Objective: Fine $x$ s.t. $f(x) = 0$, where $f$ is a scalar,
+$f:\mathbf{R}\Rightarrow \mathbf{R}$
+function. Where does the function cross 0 (x-axis)?
+
+Given $x_n$, some guess, find where the line through $(x_n, f(x_n))$
+tangent to the solution curve intersects the $x$-axis. Call that
+pt of intersection $x_{n+1}$
+
+The equation of the tangent line: $$\frac{y-f(x_n)}{x-x_n} = f'(x_n)$$
+Set $y=0$: then
+\begin{align*}  \frac{0-f(x_n)}{x_{n+1}-x_n} &= f'(x_n)\\
+  \frac{x_{n+1}-x_n}{-f(x_n)} &= 1/f'(x_n)\\
+  x_{n+1} &= x_n - f(x_n)/f'(x_n)\\
+\end{align*}
+
+\textbf{Another Derivation}
+Consider the taylor series $f(x_n+(x-x_n)) = f(x_n) + f'(x_n)(x-x_n) +
+1/2f''(x_n)(x-x_n)^2 + \text{ etc}$. This is a function of some
+variable $x$. Approximate it just by using the first two terms (linear
+approximation).
+So above becomes a new function $f(x_n+(x-x_n))~= f(x_n) +
+f'(x_n)(x-x_n) = l(x)$.
+Find where $l(x) = 0$. That is: $x_{n+1} = x_n - f(x_n)/f'(x_n)$
+
+This is not guaranteed to work, i.e. when the tangent doesn't cross
+the $x$-axis.
+
+
+\textbf{Problem}: given $\alpha \in \mathbf{R} > 0$ Find $1/\alpha$ without
+doing any division.
+First thing you need to do if identify (concoct) a $f(x)$ whose root
+is $1/\alpha$.
+Naive: try $f(x) = x - 1/\alpha$. But this won't work, because this
+requires division.
+Howabout: $f(x) = \alpha x - 1$. $f'(x) = \alpha$, so in the newton
+iteration.. 
+\begin{align*}
+x_{n+1} &= x_n - \frac{\alpha x - 1}{\alpha}\\
+&= x_n - x_n + 1/\alpha \\
+&= 1/\alpha
+\end{align*}
+No! because you need to divide.
+
+Answer: $f(x) = \alpha - 1/x$. Not transparent, because intuitively it
+looks like there's a divide into it.
+$f'(x) = - -1/x^2 = 1/x^2$. Then, $f/f' = \alpha x^2 - x$. So given $x_n$,
+the iteration goes $x_{n+1} = x_n - (\alpha x_n^2 - x_n) = 2x_n -
+\alpha x_n^2 = x_n(2-\alpha x_n)$.
+
+Numerical example in matlab: let $\alpha = 2$, solve with this method. Use $x_0
+= 0.1$. Notice that $err(i)/err(i-1)^2$ is constant and \emph{is} $\alpha$.
+Notice the $err(i)$ decreases faster as iteration moves on, this is
+the super linear convergence property of Newton's method.
+With $\alpha = 0.25$, same thing.\\
+
+\textbf{Analysis of the Newton's Method}:
+$|x_{x_{n+1}}|/|x-x_n|^2 \approx 1/2 | f''(x_n)/f'(x_n)| \approx 1/x$
+So @ $x = 1/\alpha$, this turns out to be $\alpha$, just for this
+example.
+
+The ratio was derived from the idea to find a patter in the errors
+s.t. $e_{n+1} ~ c e_n^2$, for some $c\in \mathbf{R}$
+
+The question is to find trends in data, and this relationship $e_{n+1}
+~ ce_n^p$ is useful to tell us the rate of convergence as the solution
+approches the optimal one. (I think $p$ goes down to the golden
+ratio). Our goal is to find what $p$ is for a specific problem.
+
+\section{September 6th class 2}
+\label{sec:class2}
+
+\subsection{Process of Scientific Computing}
+
+\begin{itemize}
+\item Start with a mathematical model. (In general we don't have an analytic solution, so we get
+  insight from numerical computation)
+\item Example with heat conduction in a bar:
+  \begin{itemize}
+  \item A 1-D object $\in [0, 1]$, $u(x)=$temperature in the bar, with
+  $u(0)=0, u(1) = 0$. $q$=heat flow induced by a heater of intensity $f$.
+  \item We want what the temperature will be given $q$.
+  \item get some models: \emph{Fourrier's Law}: $q= -ku'$, $k$=conductivity
+    coefficient, transfer of heat in direction of decreasing
+    temperature (hence the -). \emph{Conservation of energy}: $q' = f$.
+  \item \textbf{Goal}: find $u$. \textbf{Equation of interest}: $-(ku')' = f$, the 1D diffusion
+    equation.
+  \item Typical strategy: lay down a grid $x_o=0, x_1, \dots, x_n,
+    x_n+1=1$. Compute a discrete solution, $\bar{u}$, vector of size $n$. $\bar{u} = [u_1, \cdot, u_n]^T$, where $u_i \approx u(x_i)$
+  \item \textbf{Claim}: we can find the discrete sol, $\bar{u}$ by
+    solving an algebraic system of equations. For this example, this
+    system is a matrix equation $$A\bar{u} = \bar{b}$$
+
+  \end{itemize}
+  \item No matter how hard I try, we're never going to get the exact
+    solution. This process $A\bar{u}=\bar{b}$ leads to errors
+  \item \textbf{Sources of error}:
+    \begin{enumerate}
+       \item Modeling error: we may not know $k$ exactly.
+       \item Discretization error/Truncation error: difference between the discrete and
+         the continuous values (from the approximation on a discrete
+         set of points)
+       \item Representation error: we don't have the entire
+         $\mathbf{R}$, we only have a finite set, in floating point
+         format. ($A$ and $b$ may have error)
+       \item Additional error: from the computation of $\tilde{u}$,
+         will get something else $\hat{\tilde{u}}\neq \tilde{u}$
+
+         
+    \end{enumerate}
+  \item We're really trying to solve $\tilde{A}\tilde{u} =
+    \tilde{b}$., where $\tilde{A}\approx A$, $\tilde{u} =
+    \bar{u}$. Typically $\approx$ is machine precision, $10^{-16}$
+
+  \item In the end, we want $u(x)$, and would be happy with $u(x_j)$,
+    $j=1,\dots, n$. That will get $\tilde{u_j}$
+
+\end{itemize}
+
+
+
+\end{document}
+
+\message{ !name(notes.tex) !offset(-150) }

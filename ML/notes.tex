@@ -1,0 +1,391 @@
+\newcommand{\sig}{\sigma}
+\newcommand{\eps}{\epsilon}
+\newcommand{\ah}{\alpha}
+\newcommand{\lam}{\lambda}
+\newcommand{\gam}{\gamma}
+\newcommand{\rarr}{\rightarrow}
+\newcommand{\larr}{\leftarrow}
+\newcommand{\ol}{\overline}
+\newcommand{\mbb}{\mathbb}
+\newcommand{\contra}{\Rightarrow\Leftarrow}
+
+%other shortcuts
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\beq}{\begin{quote}}
+\newcommand{\enq}{\end{quote}}
+\newcommand{\hsone}{\hspace*{1cm}}
+\newcommand{\hstwo}{\hspace*{2cm}}
+
+\newcommand{\noi}{\noindent}
+
+
+\documentclass[a4paper]{article}
+\begin{document}
+\title{Machine Learning CS726 Fall
+ '11}
+\author{Angjoo Kanazawa}
+\maketitle
+\section{September 1st: Class one}
+
+\subsection{Logistics}
+\label{sec:logistics}
+
+
+\begin{itemize}
+\item Uname: cmsc726 Pass: generalize
+\item Programming projects \textbf{27\%}: 3 total, after 48hrs 50\%
+  down, teams. (Python with numpy).
+\item Written hw \textbf{18\%}: 13 of them, one per week out of 3
+  scales \{0, 0.5, 1\}. Individual, can't belate.
+\item Midterm \textbf{25\%}:
+\item Final ``practical'' exam \textbf{25\%}: Canned or your
+  choice/teams, presentations during the final slot
+\item Class/Piazza participation \textbf{5\%}
+\end{itemize}
+Time expectation
+\begin{itemize}
+\item 3 hrs in class
+\item 2 hrs reading
+\item 2 hrs on written asg
+\item 2 hrs on programming projects
+\item Don't ask questions that have already been answered
+\end{itemize}
+Do now:
+\begin{itemize}
+\item \textbf{Do hw00}: Due 6 Sept, next tuestday (Submit in .pdf only using \emph{handin})
+\item \textbf{Do the first reading}: pass protected, read the web page.
+\item \textbf{Sign up}: Subscribe to the Piazza group
+\end{itemize}
+
+\subsection{Contents}
+\label{sec:contents}
+\textbf{Classification}
+\begin{itemize}
+\item When there's an ambiguity in the data, which function are you
+  going to learn? => \textbf{Inductive Bias} (i.e. bird vs non-bird,
+  fly vs land, background focus vs bg blurred)
+\item Which is the more reasonable distinction to make?
+\item The primary way different learning algorithms vary. There's no
+  right answer. Does your inductive bias match your problem?
+\item 3 primary components: labels, features, model
+\end{itemize}
+\textbf{Ingredients for classification}
+\begin{enumerate}
+\item Feature representation
+  \begin{itemize}
+  \item not typically a focus of machine learning
+  \item Considered as ``problem specific'', but very problematic if bad.
+  \end{itemize}
+\item Training data: labeled examples
+  \begin{itemize}
+  \item Often expensive
+  \item Sometimes available for free
+  \end{itemize}
+\item Model
+  \begin{itemize}
+  \item No single learning algorithm is always good (``no free lunch''
+    theorem)
+  \item Requires some control over \textbf{generalization}
+  \end{itemize}
+\end{enumerate}
+
+
+\textbf{Regression} is like classification, except that the \emph{labels are
+real values.}
+\textbf{Structured Prediction} 
+
+
+
+\section{September 6th: Class 2}
+Answer hw questions in few sentences.
+
+\subsection{Intro cont}
+\begin{itemize}
+\item 95\% of things in ML are binary classification. But many ML
+  problems reduce to binary classification. We don't have to develop
+  solutions for different problems
+\item \textbf{Reinforcement Learning }- unlike classification, regression, and
+  unsupervised learning, RL doesnot recieve examples, but it
+  \textbf{experiences} by interacting with the world.
+\item RL always has \emph{time} as a variable. i.e. chess, robot
+  control. Comes with the ``exploration vs exploitation''
+  trade-off. Humans are really bad at exploitation.
+\item Defined by \emph{state space}, the world, \emph{actions}, and
+  the \emph{reward}.
+\item Is a natural extention to search etc we won't cover this too much.
+\end{itemize}
+
+Why we need some math:
+\begin{itemize}
+\item \textbf{Calc/Linear Algebra}: finding maxima/minima of
+  functions, allows high-dimensional data analysis.
+\item \textbf{Probability}: the study of the outcome of repeated
+  experiments (frequentist), the study of the plausibility of some
+  event (bayesian)
+\item \textbf{Statistics}: the analysis and interpretation of
+  data. Uses probability theory a lot. Stat is very similar to ML. But
+  stat is about analysis/interpretation of data, but ML is about
+  generalizing and using the analysis to make predictions.
+  \begin{itemize}
+  \item A lady drinking tea..
+  \item model vs predictions
+  \item model fit vs generalization
+  \item explain the world vs predict the future
+  \end{itemize}
+\end{itemize}
+
+\subsection{Decision Trees}
+\begin{itemize}
+\item Asks questions at nodes, edges are possible options.
+\item Super efficient, the amount of time is the depth of the tree.
+\item Histogram representation: in the absence of extra information
+  (no info, no question), make a frequency histogram of the end result. i.e. 62\%
+  play, 38\% no play.
+\item Hope that you get about 62\% right. Assumption: relative frequency of
+  play/no play is indicative of the real distribution of play/no play.
+\item Try to ask one question at a time that's most benefitial.
+
+\item \emph{example: is sunny?} =>\{no (play-80\%, noplay-20\%),
+  yes(play-33\%, noplay-66\%)\}. If no, I'll guess play and expect to
+  get 80\%, if yes, I'll guess no and expect about 2/3rds right.
+\item On 5/8th of the days it's not sunny, 3/8th of the days is sunny.
+\item $5/8\times 80\% + 3/8\times 66\% \approx 75\%$
+\item \emph{example: is windy?} => \{ yes(p-50\%, np-50\%),
+  no(p-75\%, np-25\%). Frequecy of windy days is 1/2.
+\item So the training accuracy under this feature(question): $1/2(75\%) + 1/2(50\%) =5/8 = 62\% $
+\item So, do I want to ask ``is windy'' or ``is sunny''? Is sunny!
+\item For each of the featuers, we're going to compute the training
+  accuracy, get the feature that maximizes the accuracy. Then make
+  that the first question on the decision tree.
+\item After the root of the tree is found, remove that feature,
+  partition the data associated with the correct edge (not sunny days
+  or sunny days) and repeat the step == The algorithm for decision
+  tree:
+\begin{verbatim}
+
+
+  \begin{enumerate}
+  \item guess - get the most frequent answer
+  \item base case: labels are umbiguous, no more features.
+  \item else for all features, compute the score (training
+    accuracy). Find the guy with max score, split the data, remove
+    that guy, recurse on left and right
+  \end{enumerate}
+\end{verbatim}
+
+\item A recursive function, so the depth of the recursion is the number
+  of features, if the features are binary (other wise it's the number
+  of possible feature values etc). So this will terminate.
+\item Eventually you'll ask every question, so we'll hit the second
+  base case only if there is an inconsistency (two examples with exact
+  same features but with different labels)
+\item \textbf{goal}: good future predictions given (label, example)
+  pairs. A probability distribution, $D$, is the guy generating the
+  examples of what the problem looks like. Is the God. Good future
+  predictions means minimum test error.
+
+\item $P_D(label, example)$. If I have learned well, I
+  should be correctly assign labels to examples that $D$ thinks is likely.
+\item test error=$\epsilon = E_{(x,y)~D}[f(x) \neq y]$, where $f(x)$
+  is the prediction, $y$ is the true label.
+
+\item $x$ may be reasonable, or not, because it may not fit the type
+  of data for the problem.
+\item We don't have $D$, but we have the training data $(x,y)$,
+  examples drawn from $D$. Without $D$, minimizing $\epsilon$ is too hard.
+\item \textbf{goal'}: good training predictions, i.e. minimize
+  training error.
+\item  $\hat{\epsilon} = 1/N \sum_{(x,y)\in train}[f(x)\neq y]$
+\item Can the decision tree algorithm minimize $\hat{\epsilon}$? if
+  there is no ambiguity in the training data, we can ask all the
+  question (worst case), then we pinned down all examples (and there
+  are no diff labels), and we can do this. If there is an
+  ambiguity/inconsistency,  it's not possible to always get the 0 training error.
+\item The best we can hope for is that whatever this minimum error is,
+  it will achieve that. For this goal', the algorithm is optimum.
+\item Does solving goal' help us help solve goal? if the assumption
+  that test comes from the same $D$, we can.
+\item Doesn't work when test data is small, and is not representative
+  of the $D$.
+\item Say there are spurious correlations between features and the labels in the
+  training data. (looks useful in training, but not in real
+  test). The decision tree will pick these features, it will make
+  $\hat{\epsilon}$ low, but $\epsilon$ will be high. This is \textbf{overfitting}.
+\item Solutions: constrain the height of the tree (you can only ask x
+  questions and hope that it won't ask questions about this spurious feature), get more data.
+\end{itemize}
+
+
+\section{September 8th Class 3}
+\label{sec:class3}
+
+Project 1 is online now. Implement basic classifiers. Start early! Due
+27th September.
+
+\subsection{HW1}
+\label{sec:hw1}
+
+\begin{enumerate}
+\item Memorizing doesn't generalize, and overfits.
+\item Look at \ref{sec:decisiontree}
+\item Goal: minimize $\epsilon = \mathbf{E}_{(x,y)~D}[f(x)\neq y]$. We
+  can calculate $\hat\eps =\frac{1}{N}\sum_n[f(x_n)\neq y_n]$. If
+  overfit, we do too well on the training data so $\hat \eps$ will
+  be tiny but not the $\eps$.
+\item The algorithm should never look at the data because it'll overfit and we won't
+  be able to say anything about the model's performance. We shouldn't
+  look at it because we'll get a sense of what features will be
+  important and fix the model accordingly.
+\end{enumerate}
+
+\subsection{Decision Tree}
+\label{sec:decisiontree}
+\textbf{Claim}: shallow trees are less prone to overfitting.\\
+\noi
+Example: two coins, A, B. Result of coin A will be the feature,$x$, that
+of coin B will be the label,$y$ (they aren't correlated). Got $(1,1),
+(0,0), (0,0), (0,1)$. Looks like the feature is very useful, but
+not. The hope is that these accidental correlation will go down the
+tree, and the actual features that work go up the tree.
+
+The depth is a \emph{hyper parameter}. The goal of using
+hyperparameters is to reduce overfitting. If we treat it as a
+parameter, it'll just use max depth and lower $\hat
+\eps$.  \emph{Parameters} are what you estimate on the training data.
+  
+\subsection{Geometry}
+\label{sec:geometry}
+We represent our inputs as vectors in high dimensional space. $y =
+\pm1$, $x = (x_1, x_2, \cdots, x_n) \in \mathbf{R}^D$
+
+\noi
+\textbf{K-NN}: Look at $K$ nearest neighbors, label the new point as
+the majority/mean of the neighbors. If $\inf$-NN, that's just taking the majority. This is
+underfitting. $1$-NN would be overfitting. Choose odd $K$ so that
+there won't be any ties.
+
+\noi
+\textbf{K-mediods Clustering}. 
+\begin{enumerate}
+\item Pick $K$ datapoints to be representatives
+\item $\forall n$, put $n$ in the closest cluster (closest $K$ datapoints)
+\item Choose a new prepresentative that minimizes the average dist to all
+  cluster members
+\item Go back to 2
+\end{enumerate}
+\noi
+\textbf{K-means Clustering}. 
+\begin{enumerate}
+\item Pick $K$ datapoints randomly $\mu_1, \dots, \mu_k$
+\item $\forall n$, $z_n = \arg\min_k |x_n - \mu_n|$. 
+\item $\forall k$, $\mu_k = \frac{1}{n_k} \sum_{n; z_n = k}[x_n]$ (Make a new mean prepresentative who is an average of all cluster members.)
+\item Go back to 2
+\end{enumerate}
+\noi
+Does $K$-means always converge? 
+Measure the quality of the solution by
+the average distance from each point to its mean (score).
+(Convergence as in this measure of cluster quality won't change.)\\
+Observation 1:  Everytime step 2 or 3
+is executed, the score goes down or stays the same. \\ 
+Oberservation 2: If there are $n$ members and $k$ clusters, the
+possible clustering assignment is finite, $k^n$.
+
+
+\noi
+Does $K$-means always find the optimal clustering?\\
+No! Not necessarily. The initial point assignment is random and it
+changes the result. The practical method is to do multiple
+initialization and pick the smallest score.
+
+\noi
+How many iteration does it take to converge?\\
+In theory it takes a time that's exponential to $k$. In practice, it
+converges in like 4 iterations. Smooth analysis of why this converges
+quickly. Only certain initial points take a long time. If it's taking a loong time, if you
+perturbe the initial points and move it away (like how simplex is
+really fast in real life).
+
+$K=n$ ($\hat\eps=0$) or $K=1$ gives us no information about the data. As an implementation
+note, some cluster centers will disappear and never come back. So be able to handle that situation.
+
+\subsection{Curse of High Dimentionality}
+\label{sec:curseofhighdimentionality}
+
+as we make the dimention higher, the distance between points get
+smaller. If every point is about the same distance from everything
+else, the $k$-nn are just random points. Picking the majority of those
+random points, is just another random guessing. As $D$ increases, the
+distance between points concentrates to a point.
+\begin{verbatim}
+D = 100; hist(flatten(XtoD(rand(1000, D )) / sqrt(D)));
+%XtoD takes the distance between points
+\end{verbatim}
+
+Seems like $K$-nn shouldn't work, but because the $D$ is uniform. It does work in real life,
+because in real life the actual data is correlated.
+
+\section{September 15th Class 4}
+\label{sec:class4}
+
+\subsection{HW2}
+\label{sec:hw2}
+
+\begin{enumerate}
+\item[2.] Decision boundary for a one nearest neighbor classifiers on
+  two datapoints is a linear plane perpendicular to both points.
+\item[3.] Clustering as in given labled data $(x_n, y_n)$, $\forall
+  n\in N$ for each label run $K$-means on subset of data with this
+  label, then run $KNN$ using $\mu_i$s. A lot faster on $KNN$ test
+  time but more time on training,  in a sense clustering throws
+  away bunch of data. This could avoid overfitting. (Assuming that
+  we're working on relevant feature set).
+\item[4.] in 2D space, the dot product, $<\bar w,\bar x>$, projects
+  all the points, $X$, onto $\bar w$ and makes it 1D.\\
+If $y=sign(w\cdot x)$, is the decision rule, then the boundary $B$ is $\{x: w\cdot x =
+0\}$. The disadvantage is that it assumes the decision boundary lies
+on the origin. This won't work if all the points are positive. So now,
+modify $y$ to $y=sign(w\cdot x + b)$, s.t. $B=\{x:w\cdot x =
+-b\}$. Bias is always $-b$, as $b\ra -\infty$ , nothing can be
+classified as positive.\\
+Claim: using bias is the same as not using the bias but adding a new
+feature. i.e. $x$ or $<1,x>=\tilde x$, where $x$ uses $w$ (to get
+$w\cot x + b$) and $\tilde
+x$ uses $\tilde w = <b w>$ so it's the same thing i.e. $w\cot x + b =
+\tilde w \cdot \tilde x = <b,w>\cdot<1,x>$. So we can always write as
+if there's not bias.
+\end{enumerate}
+
+\subsection{Perceptron}
+\label{sec:perceptron}
+General algorithm
+\begin{verbatim}
+for each (x,y)
+   //if error, do an update
+   if y(w\cdot x + b) \le 0: or if sign(y) == sign(w\cdot x + b):
+      w = w + yx
+      b = b + y
+\end{verbatim}
+Usually people scale the update with some constant $\gam < 1$, the
+learning rate, so that it won't be so influenced by $x$. (each single
+error);
+
+\emph{Question:} If you add $\gam$ does it change?? Doesn't really change anything,
+because after one update, the scale of $w$ changes, but the direction
+is the same. With a bias, it'll shift it a lot of a little. 
+After any number of updates, without using the learning rate, you'll
+get $(w,b)$ in the end but with $\gamma$, all you'll get is $(\gam w,
+\gam b)$., the decision boundary will have the same direction.\\
+In the case of perceptrons, adding a $\gam$ makes no difference
+(assuming we have infinite floating point). In the case that $w$ is a
+unit vector, $b$ shifts the decision boundary $b$ units, if $w$ is not
+unit, it shifts $b/||w||$ units. So if $||w||>>$, $b$ won't really
+make that much difference.\\
+More important point: the more you run, the less sentisitive the
+algorithm will be for any update. Early on, the decision boundary
+moves all over the place, but as the number of epoches increases, the
+relative magnitude of the update is smaller than that of the beginning
+updates. I.e. even if it won't converge, it'll slow down in the end.
+
+\end{document}
