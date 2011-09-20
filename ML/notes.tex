@@ -96,7 +96,7 @@ real values.}
 \textbf{Structured Prediction} 
 
 
-
+\pagebreak
 \section{September 6th: Class 2}
 Answer hw questions in few sentences.
 
@@ -162,17 +162,14 @@ Why we need some math:
   partition the data associated with the correct edge (not sunny days
   or sunny days) and repeat the step == The algorithm for decision
   tree:
-\begin{verbatim}
-
-
   \begin{enumerate}
-  \item guess - get the most frequent answer
-  \item base case: labels are umbiguous, no more features.
-  \item else for all features, compute the score (training
+  \item \texttt{guess - get the most frequent answer}
+  \item \texttt{base case: labels are umbiguous, no more features.}
+  \item \texttt{else for all features, compute the score (training
     accuracy). Find the guy with max score, split the data, remove
-    that guy, recurse on left and right
+    that guy, recurse on left and right}
   \end{enumerate}
-\end{verbatim}
+
 
 \item A recursive function, so the depth of the recursion is the number
   of features, if the features are binary (other wise it's the number
@@ -216,7 +213,7 @@ Why we need some math:
   questions and hope that it won't ask questions about this spurious feature), get more data.
 \end{itemize}
 
-
+\pagebreak
 \section{September 8th Class 3}
 \label{sec:class3}
 
@@ -325,7 +322,7 @@ D = 100; hist(flatten(XtoD(rand(1000, D )) / sqrt(D)));
 
 Seems like $K$-nn shouldn't work, but because the $D$ is uniform. It does work in real life,
 because in real life the actual data is correlated.
-
+\pagebreak
 \section{September 15th Class 4}
 \label{sec:class4}
 
@@ -347,7 +344,7 @@ If $y=sign(w\cdot x)$, is the decision rule, then the boundary $B$ is $\{x: w\cd
 0\}$. The disadvantage is that it assumes the decision boundary lies
 on the origin. This won't work if all the points are positive. So now,
 modify $y$ to $y=sign(w\cdot x + b)$, s.t. $B=\{x:w\cdot x =
--b\}$. Bias is always $-b$, as $b\ra -\infty$ , nothing can be
+-b\}$. Bias is always $-b$, as $b\rarr -\infty$ , nothing can be
 classified as positive.\\
 Claim: using bias is the same as not using the bias but adding a new
 feature. i.e. $x$ or $<1,x>=\tilde x$, where $x$ uses $w$ (to get
