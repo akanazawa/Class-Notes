@@ -388,7 +388,7 @@ Here $\Omega$ is countably infinite. The sum:
 \begin{align*}
 \sum_{j=1}^\infty p_j &= 1/6 + (5/6)(1/6) + (5/6)^2(1/6) + \cdots\\
 &=1/6\sum_{l=0}^\infty (5/6)^l\\
- &= 1/6(\frac{1}{1-5/6} = 1/6(\frac{1}{1/6}) = 1
+ &= 1/6(\frac{1}{1-5/6}) = 1/6(\frac{1}{1/6}) = 1
 \end{align*} 
 
  \textbf{Definition:} An \emph{event} is a subset $A \subseteq
@@ -520,9 +520,141 @@ This is the same as
 \sum_{x\in R}\Phi(x)m(x) &= (1+2+3+2+3+2+1)(1/8)\\
 &=16/8=2
 \end{align*}
-
-
 \end{enumerate}
+\pagebreak
+\section{September 20th Class 5}
+\label{sec:class5}
+
+\subsection{Continue on Probability}
+\label{sec:prob3}
+
+Given random variable $X$ and $E(x)=\mu = \int_{-\infty}^{\infty}xf(x)dx$,
+the variance is $var(x)=\sigma=E[(X-\mu)^2] = E(X^2)-E(X)^2$
+If $x$ has a desity function $f(x)$, then
+$E(\phi(x))=\int_{-\infty}^\infty \phi(x)f(x)dx$
+
+\subsection{Monte Carlo Integeration}
+\label{sec:montecarlo}
+Let $X$ be a uniformly distributed random variable on $[0,1]$. If
+$\phi:[0,1]\rarr \mathbf{R}$, suppose we want an approximation to
+$\int_0^1\phi(x)dx = I(\phi)$.
+
+Sample $X$ from $[0,1]$, and get $x_1, x_2, \dots, x_n$. We'll
+approximate $I(\phi)$ by the average
+$\frac{1}{N}\sum_{i=1}^N\phi(x_i)$. This is the quadrature rule
+$Q_{MC, N}(\phi)$.
+
+Notice: $\phi(x)$ is a random variable. The expected value of
+$\phi(x)$ is $E(\phi(x)) = \int_{0}^1 \phi(x)dx = I(\phi)$, because $X$
+is uniform. (so $f(x) =
+\begin{cases}
+1 & \text{ if }  x\in [0,1]\\
+0 & \text{ otherwise}
+\end{cases}
+$)
+
+The approximation $Q_{MC,N}(\phi) = Q_N(\phi)$ is called the sample
+mean of $\phi(x)$. Approximates the mean of $\phi$, which is $I(\phi)$
+or $\mu(\phi)$. i.e. a trivial example if $\phi(x) = x$, then $I(\phi)
+= \int_0^1xdx = \frac{1}{2}x^2|_0^1 = 1/2$
+
+Contrast this with standard ways to do quadrature.
+\emph{examples:}
+\begin{itemize}
+\item  the trapezoidal rule: area under the curve is approximated by
+  the trapezoid bewteen $f(a)$ and $f(b)$. $\int_a^b\phi(x)dx \approx 1/2(b-a)(\phi(a)+\phi(b))$
+\item the simpson's rule: $\int_a^b\phi(x)dx\approx 1/6(\phi(a) +
+  4\phi(\frac{a+b}{2}) + \phi(b))(b-a)$
+\item Composite trapezoidal rule on [0, 1]: $\approx h/2\phi(x_0) +h\sum_i^{N-1}f(x_i) + h/2\phi(x_N)$
+\end{itemize}
+\subsubsection{Monte Carlo history}
+\label{sec:mchistory}
+
+From high energy physics by  John von Newmann and Stanislaw
+Ulam. Monte Carlo, an island in the meditteranian where people gamble.
+
+\subsection{Error Analysis}
+\label{sec:erroranalysis}
+Simpson's rule is better. The error analysis of sympson's rule
+is: $I(\phi) - Q_s(\phi) \le ch^4 = c1/N^4 = O(1/N^4)$
+
+With trapezoid it's $O(1/N^2)$. Is this better than monte carlo? \\In
+$1D$, monte carlo does worse.
 
 
+\emph{Claim:} error $|I(\phi) - Q_{MN, N}(\phi)| "\le"
+O(1/\sqrt{N})$. Suppose $N=10000$, so $1/100$, but in simpson's rule's
+error, $O(1/10^{16})$. Simpson's does way better.
+
+ From probability analysis, using the Law of Large Numbers, if we let
+ $S_N = \phi(x_1) + \cdots + \phi(x_N)$, and the sample mean $S_N/N=\mu_N$,
+ (which is our approximated integral), by LNN,
+ $\lim_{n\rarr\infty}P(|\frac{S_N}{N} - I(\phi)| < \eps) = 1$, where
+ $I(\phi)$ is the real $\mu$. That is $P(|\frac{S_N}{N} -
+ I(\phi)| > \eps) \rarr 0$ as $N\rarr \infty$. In words, it's ``very
+ unlikely'' that $Q_{MC,N}(\phi)$ is different from $I(\phi)$ when $N$
+ is very large.
+
+\textbf{Chebyshev's inequality}: Given $c>o$, $$P(|\frac{S_N}{N} -
+\mu|\ge c) \le \frac{\sig^2}{Nc^2}$$ Commentary: suppose we want this
+probability to correspond to 95\% confidence, that is the probability on the left
+to be $.05$, then  we require $.05 \le \frac{\sig^2}{Nc^2}$, solve for
+$c$ and we get $c^2\le \frac{\sig^2}{.05N}$ or $c\le
+\frac{\sig}{\sqrt{.05N}}$. So with $95\%$ confidence, $error\le
+\frac{sig}{\sqrt{.05}}\frac{1}{\sqrt{N}}$
+That's what we can say about the error. If we want $99\%$ confidence,
+then $\sqrt{.05}$ becomes $\sqrt{.01}$
+
+Two cons: convergence is quite a bit slower, we're not as confident as
+the other quadrature methods (the others give us a guarantee)
+
+Suppose instead of uniform, say we had two box, $N$ samples of
+2-tuples, then with double integral and think about monte carlo. The
+procedure is the same, sample, evaluate the value at that sample, then
+take the average. Suppose we have a cube, same thing. Nothing of monte carlo is
+tied to the underlying domain. The analysis using LLN and chebyshev is
+always the same.
+
+Consider 2D. Simpsons rule on $[a,b]\times[c,d]$. 
+\begin{align*}
+\int_0^\phi\int_a^b\phi(x,y)dxdy &\approx \text{let } \Phi(y) = \frac{b-a}{6}(\phi(a,y)+4\phi(\frac{a+b}{2}, y) + \phi(b,y))\\
+&\approx \frac{d-c}{6}(\Phi(c) + 4\Phi(\frac{c+d}{2}) + \Phi(d))
+\end{align*}, where $\Phi(\frac{c+d}{2}) = \phi(\frac{a+b}{2}, \frac{c+d}{2})$
+Total number of points $N=n^2$, $h=1/n = 1/\sqrt{N}$. The error is
+$O(h^4)= O(1/n^4) = O(1/N^2)$
+
+In 3D, the error on simpsons is still $O(h^4)$, but $h=1/n, N=n^3$, so
+this is $O(1/N^{4/3})$, in $D$ dimensions, it's $O(1/N^{4/d})$)
+
+In monte carlo, the error analysis is the same in any dimension. Has
+nothing to do with the integral. so the big pro is that we can never
+be certain but we're always working with the same error around
+$\frac{\sig}{\sqrt{a}}\frac{1}{\sqrt{N}}$.
+
+Now, which technique is better? If we ignore the uncertainty, we're
+asking when is $\frac{1}{N^{4/d}} < \frac{1}{N^{1/2}}$?
+
+\begin{align*}
+\frac{1}{N^{4/d}} &< \frac{1}{N^{1/2}}?\\
+N^{1/2} &< N^{4/d}\\
+\frac{1}{2} &<\frac{4}{d}\\
+d &< \frac{4}{1/2} = 8
+\end{align*}
+So when $d<8$, simpson is better, else, MC is better. (Although we're
+ignoring the constant and the uncertainty factor so it won't be exact
+like this but still around there)
+
+In model of particle physics, the number of dimensions is basically is
+equal to the number of particles, which could be hundreds. It's not
+unusual to have large $d$.
+
+\emph{Example:} of high dimensional integral (in the text/wiki). In
+particle physics, a \emph{partition function} $Z(\beta)$ describes the
+statistical properties a system of $d$ particles, thermodynamic
+equilibrium, \\$Z(\beta) = \int exp(-\beta H(p_1, \cdots, p_d, x_1,
+\cdots, x_d)d^3p_1\cdots d^3p_dd^3x_1\cdots d^3x_d$, \\where this
+integral is a $3d$ integral. where $d=$ number of particles, and
+$\beta = \frac{1}{\alpha\tau}$, a Boltzmann constant, $\tau$ is
+temperature, and $H$ is hte hamiltonian function. And the point is
+that people care about this. This is about a 3 million dimensional integral.
 \end{document}

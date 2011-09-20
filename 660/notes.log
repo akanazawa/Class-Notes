@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  15 SEP 2011 15:19
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  20 SEP 2011 15:17
 entering extended mode
  %&-line parsing enabled.
 **\input notes.tex
@@ -90,6 +90,9 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 
 LaTeX Warning: Label `sec:probability' multiply defined.
 
+
+LaTeX Warning: Label `sec:class5' multiply defined.
+
 )
 \openout1 = `notes.aux'.
 
@@ -159,18 +162,18 @@ Package amsmath Warning: Foreign command \atopwithdelims;
 (amsmath)                \frac or \genfrac should be used instead
 (amsmath)                 on input line 415.
 
-[8] [9] [10] (./notes.aux)
+[8] [9] [10] [11] [12] [13] (./notes.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 1171 strings out of 495062
- 12765 string characters out of 1182645
- 65897 words of memory out of 3000000
- 4380 multiletter control sequences out of 15000+50000
+ 1175 strings out of 495062
+ 12826 string characters out of 1182645
+ 66897 words of memory out of 3000000
+ 4384 multiletter control sequences out of 15000+50000
  12468 words of font info for 48 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  27i,10n,24p,227b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on notes.dvi (10 pages, 29444 bytes).
+Output written on notes.dvi (13 pages, 39988 bytes).
