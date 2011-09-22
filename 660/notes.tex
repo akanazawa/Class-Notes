@@ -601,7 +601,7 @@ probability to correspond to 95\% confidence, that is the probability on the lef
 to be $.05$, then  we require $.05 \le \frac{\sig^2}{Nc^2}$, solve for
 $c$ and we get $c^2\le \frac{\sig^2}{.05N}$ or $c\le
 \frac{\sig}{\sqrt{.05N}}$. So with $95\%$ confidence, $error\le
-\frac{sig}{\sqrt{.05}}\frac{1}{\sqrt{N}}$
+\frac{\sig}{\sqrt{.05}}\frac{1}{\sqrt{N}}$
 That's what we can say about the error. If we want $99\%$ confidence,
 then $\sqrt{.05}$ becomes $\sqrt{.01}$
 
@@ -656,5 +656,112 @@ equilibrium, \\$Z(\beta) = \int exp(-\beta H(p_1, \cdots, p_d, x_1,
 integral is a $3d$ integral. where $d=$ number of particles, and
 $\beta = \frac{1}{\alpha\tau}$, a Boltzmann constant, $\tau$ is
 temperature, and $H$ is hte hamiltonian function. And the point is
-that people care about this. This is about a 3 million dimensional integral.
+that people care about this. This is about a 3 million dimensional
+integral.
+
+\pagebreak
+\section{September 22 Class 6}
+\label{sec:class6}
+
+\subsection{Continue on Monte Carlo}
+\label{sec:montecarlo2}
+Monte Carlo Integration: Given a r.v. $Y$, $P(Y\subseteq
+A)=E(I_A(Y))$, where $I_A(Y) =
+\begin{cases}
+ 1 & \text{ if } Y\in A\\
+ 0 & \text{ otherwise} 
+\end{cases}
+$. 
+And $E(I_A(Y)) = \int_AI_a(y)dy$, where the integral can be
+multi-dimensional. One way to deal with high-dimensional integral is
+to use Monte Carlo Integration.\\
+
+\noi
+\emph{Review}: Monte Carlo gives us the approximation $\int_{\mathbf{R^D}}\phi(x)dx =
+I(\phi)$, where $I(\phi) \approx 1/N\sum_n=1^NQ(x_n) = Q_{MC,N}(\phi)$ where $\{x_n\}$
+are samples of randome variable $X$.
+\\
+We showed that the error was $|I(\phi) - Q_{MC,N}(\phi)|"\le"
+\frac{\sig}{c\sqrt{N}}$
+
+\noi
+If the goal is to make this bound $\le \tau$ tolerance,
+i.e. $\frac{\sig}{c\sqrt{N}} \le \tau$, then we need 
+\begin{align*}
+\sqrt{N} &\le \frac{\sig}{c\tau}\\
+N &\le  \frac{\sig^2}{c^2\tau^2}  
+\end{align*}
+many samples.
+\subsection{Variance Reduction Methods}
+\label{sec:variancereduction}
+The aim is to reduce $\sig$
+Examples of idea to do this:
+\begin{enumerate}
+\item Antithetical variables: Assume $\phi \in [0,1]$, and $I(\phi)
+  =\int_0^1\phi(x)dx = E(\phi(x))$ (remember !!) where $X$ is a r.v. from a uniform
+  distribution on $[0,1]$. ($E(x) = \int_0^1xdx = 1/2x^2|_0^1 = 1/2$,
+  and we approximate $I(\phi)$ with
+  $1/N\sum_n=1^NQ(x_n)$).\\ Antithetical variables are $x$, and $x^c$
+  s.t. $x+x^c = 1$ or  $x^c= 1-x$, $x = \mu + d$, $x^c = \mu - d$
+
+Assume $\sig$ small. Write $d = \sig \hat d$ ($d$ will not grow too
+much because they're from a bounded distribution..) Let $D = X - \mu$,
+another r.v., and let $\hat D = D/\sig$ also a r.v. Then,
+\begin{align*}
+E(\hat D) &= \frac{1}{\sig}E(D)\\
+&= \frac{1}{\sig}E(x-\mu)  \\
+&=\frac{1}{\sig}[E(x) - E(\mu)] \\
+&=\frac{1}{\sig}[\mu-\mu] = 0
+\end{align*}
+Now, consider $\phi(x)$. (he used 1/2 as $\mu$ following the example on board)
+\begin{align*}
+\phi(x) &= \phi(\mu + d) = \phi(\mu + \sig\hat d)\\
+&= \phi(\mu) +   \phi'(\mu)\sig \hat d + \phi''(\xi)\sig^2 \hat d^2
+\text{ by taylor series}\\
+&\approx \phi(\mu) +   \phi'(\mu)\sig \hat d + O(\sig^2)\\
+\end{align*}
+And $\phi(x^c)$
+\begin{align*}
+  \phi(x^c) &= \phi(\mu - d) = \phi(\mu - \sig \hat) \\
+&\approx \phi(\mu) - \phi'(\mu)\sig\hat d +  O(\sig^2)
+\end{align*}
+SO, 
+$$\frac{\phi(x)+\phi(x^c)}{2} = \phi(\mu) + O(\sig^2)$$
+Now look at $I(\phi) = E(\phi(x)) = \int_0^1\phi(x)dx$. This is
+\begin{align*}
+ &=E[\phi(\mu) + \phi'(\mu)\sig \hat D + O(\sig^2)]\\
+&=\phi(\mu) + \phi'(\mu)\sig E[\hat D] + O(\sig^2)\\
+&=\phi(\mu) + 0 + O(\sig^2)
+\end{align*}
+
+Now a new integration method. Smaple $X$ $N$ times and get $x_1,
+\dots, x_N$, also let $x^c_1,\dots, x^c_N$. Let the complementary
+quantities:
+$$
+Q^c_{MC,N}(\phi) =  \frac{1}{2N}(\phi(x_1) + \phi(x_1^c) + \cdots +
+\phi(x_n) + \phi(x_n^c)
+$$
+
+For each $n$,
+\begin{align*}
+ \phi(x_n) &= \phi(\mu + \sig \hat d_n) = \phi(\mu) + \phi'(\mu)\sig
+ \hat d_n + O(\sig^2)\\
+ \phi(x_n^c) &= \phi(\mu - \sig \hat d_n) = \phi(\mu) - \phi'(\mu)\sig
+ \hat d_n + O(\sig^2)\\
+1/2(\phi(x_n) + \phi(x_n^c)) &= \phi(\mu) + O(\sig^2)\\
+\Rightarrow Q^c_{MC,N}(\phi) &= \frac{1}{N}(N\phi(\mu) +
+N(\phi(\sig^2)) = \phi(\mu) + O(\sig^2)\\
+\end{align*}
+Now the difference: $I(\phi) - Q_{M,N}^c(\phi) = \phi(\mu) - \phi(\mu)
++ O(\sig^2)$
+So \textbf{the error is 1/4th the size} or $\sig^2$ instead of $\sig$.
+\end{enumerate}
+
+Smmmary:
+\begin{enumerate}
+\item[Method 1] Take $N$ samples, error ~ $\frac{\sig}{\sqrt{N}}$
+\item[Method 1] Take $2N$ samples, error ~ $\frac{\sig}{\sqrt{2N}}$
+\item[Method 2] Take $N+N_{\text{antithetical}}$ samples, error ~ $\frac{\sig^2}{\sqrt{N}}$
+\end{enumerate}
+
 \end{document}

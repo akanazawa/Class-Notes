@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  20 SEP 2011 15:17
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  22 SEP 2011 15:01
 entering extended mode
  %&-line parsing enabled.
 **\input notes.tex
@@ -162,18 +162,43 @@ Package amsmath Warning: Foreign command \atopwithdelims;
 (amsmath)                \frac or \genfrac should be used instead
 (amsmath)                 on input line 415.
 
-[8] [9] [10] [11] [12] [13] (./notes.aux)
+[8] [9] [10] [11] [12] [13]
+Underfull \hbox (badness 10000) in paragraph at lines 668--678
+
+ []
+
+
+Overfull \hbox (0.89243pt too wide) in paragraph at lines 700--706
+[]\OT1/cmr/m/n/10 Antithetical vari-ables: As-sume $\OML/cmm/m/it/10 ^^^ \OMS/c
+msy/m/n/10 2 \OT1/cmr/m/n/10 [0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 1]$, and $\OM
+L/cmm/m/it/10 I\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^^\OT1/cmr/m/n/10 ) = [][] \O
+ML/cmm/m/it/10 ^^^\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )\OML/cmm/
+m/it/10 dx \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 E\OT1/cmr/m/n/10 (\OML/cmm/m/it/1
+0 ^^^\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ))$
+ []
+
+
+Overfull \hbox (5.7176pt too wide) in paragraph at lines 700--706
+\OT1/cmr/m/n/10 ($\OML/cmm/m/it/10 E\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr
+/m/n/10 ) = [][] \OML/cmm/m/it/10 xdx \OT1/cmr/m/n/10 = 1\OML/cmm/m/it/10 =\OT1
+/cmr/m/n/10 2\OML/cmm/m/it/10 x[]\OMS/cmsy/m/n/10 j[] \OT1/cmr/m/n/10 = 1\OML/c
+mm/m/it/10 =\OT1/cmr/m/n/10 2$, and we ap-prox-i-mate $\OML/cmm/m/it/10 I\OT1/c
+mr/m/n/10 (\OML/cmm/m/it/10 ^^^\OT1/cmr/m/n/10 )$ with $1\OML/cmm/m/it/10 =N []
+[] \OT1/cmr/m/n/10 =
+ []
+
+[14] [15] (./notes.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 1175 strings out of 495062
- 12826 string characters out of 1182645
+ 1178 strings out of 495062
+ 12878 string characters out of 1182645
  66897 words of memory out of 3000000
- 4384 multiletter control sequences out of 15000+50000
+ 4387 multiletter control sequences out of 15000+50000
  12468 words of font info for 48 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  27i,10n,24p,227b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on notes.dvi (13 pages, 39988 bytes).
+Output written on notes.dvi (15 pages, 46864 bytes).
