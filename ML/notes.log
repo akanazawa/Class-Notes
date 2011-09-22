@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  17 SEP 2011 15:00
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  22 SEP 2011 12:17
 entering extended mode
  %&-line parsing enabled.
 **\input notes.tex
@@ -105,14 +105,29 @@ it/10 x\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 6\OT1/cmr/m/n/10 = \OML/cmm/m/it/10 y
 0 =
  []
 
-[6] [7] [8] (./notes.aux) ) 
+[6] [7] [8]
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+ [9]
+Underfull \hbox (badness 10000) in paragraph at lines 474--476
+
+ []
+
+[10] (./notes.aux) ) 
 Here is how much of TeX's memory you used:
- 286 strings out of 495062
- 3056 string characters out of 1182645
+ 291 strings out of 495062
+ 3144 string characters out of 1182645
  52208 words of memory out of 3000000
- 3532 multiletter control sequences out of 15000+50000
+ 3537 multiletter control sequences out of 15000+50000
  9028 words of font info for 32 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  23i,6n,19p,169b,187s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on notes.dvi (8 pages, 21996 bytes).
+Output written on notes.dvi (10 pages, 27812 bytes).

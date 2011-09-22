@@ -385,4 +385,102 @@ moves all over the place, but as the number of epoches increases, the
 relative magnitude of the update is smaller than that of the beginning
 updates. I.e. even if it won't converge, it'll slow down in the end.
 
+\pagebreak
+\section{September 22nd Class 6}
+\label{sec:class6}
+
+\subsection{Linear Seperability}
+\label{sec:perceptron2}
+
+Perceptrons can't do XOR, because 2D XOR is not linearly
+seperable. But if you add a 3rd dimension, where $-$'s have 0 and
+$+$'s have 1. Then you can have a hyperplane that seperates them.
+
+You can add all possible combinations linearly, this is what
+perceptrons do. But that's computationally expensive and makes the
+feature very high dimension. This is prone to overfitting, and you
+need more examples.
+
+DT can combine few features but in a complicated way.\\
+DT might fail on XOR because of all ties, features very slightly
+correlated with the label..
+
+\subsection{Evaluation/ROC}
+\label{sec:roc}
+
+Given a ratio of dataset where $1\%$ of them are positive and $99\%$
+is negative, the classifier will say all of them are negative and
+achieve $99\%$ accuracy.
+Example for cancer detection, false negative is worse than false positive.
+So there are different costs associated with different classification.
+Perhaps my goal is to order the data to see what's interesting to look
+at.
+
+In biology, people look at \emph{Sensitivity vs Specificity}, we call
+it \emph{Precision vs Recall}.
+Precision says of all the $X$’s that you found, how many of them were
+actually $X$’s? Recall asks: of all the $X$’s that were out there, how many
+of them did you find? (should've found)
+
+Choose the best threshold and get the harmonic mean, or their
+\textbf{f-measure}:
+$$F = \frac{2PR}{P+R}$$
+
+\subsection{Cross-validation}
+\label{sec:crossvalidation}
+
+Get bunch of data, divide it in $n$ equal size. Say $n=10$, train on
+$n_2\dots n_{10}$, and test on $n_1$, but now, you can train on $n_1
+\dots n_9$, then test on $n_{10}$. You can do this $n$ times. Then
+you'll get performance over all of the data I have, not just a single
+slice.
+
+Also you do this to tune your hyperparameters. For each hyperparameter
+setting, you get the score of each, you want the hyperparameter that
+does the best on average over all slices.
+
+Say you run this on DT and get that depth = 17 is the best, so you
+have $n$ trained classifier, get the one that does the best or,
+retrain a new classifier on all $n-1$ training slices.
+Usually learning a new classifier is a better idea, but it might be
+slightly underfit, because you're regularizing (with depth=17), but
+using more data.
+
+4 choices: Number of slices $n=10$ if you're normal, you do $n=5$ if you're
+running out of time, you do $n=2$, you'll make sure your two
+classifiers aren't trained on the same data points, one more is train on everything except 1,
+\emph{leave-one-out}, great for $knn$ but too expensive for others.
+Leave-one-out is the least succeptable to underfitting.
+
+\subsection{Statistical Significance}
+\label{sec:statisticalsignificance}
+
+Try to answer the question, ``given this new method, does it actually
+work?''. You should use the most commen thing in your field. Two
+examples we cover is \emph{Paired T-test} and \emph{Jacknifing/Bootstrapping}.
+
+Given DT and Perceptron's performance, say perceptron always does better.
+``If I were to do a new experiment, with what probability would
+Perceptron beats DT''
+
+This is what T-test does, fit gaussian to DT, fit gaussian to
+Perceptron, and if the overlap is tiny, then there's small probability
+that DT will beat perceptron, this gives us a $p$-value. 
+
+Weakness is that there is a normal distribution assumption. LLN
+argument, it should be kind of, but... not really because accuracy
+lives between [0, 1], normal lives between $[-\infty, \infty]$.
+
+So some people say that you should do binomial tests, but ppl still do
+$p$-value.\\
+
+\textbf{Jackknifing/Bootstrapping} (The word ``Bootstrapping'' is used
+a lot everywhere). This is suited where your evaluation method is
+holistic over the tneir data. Like $F$-measure.. Way around when T-test can't really be
+applied. Doesn't make normality assumption, it's a
+\emph{non-parametric} test.
+
+If you have a big dataset, it's easier to seperate the two gaussian
+curves (because they'll have more peaks), so you can get more
+examples to get more statistical significance.
 \end{document}
