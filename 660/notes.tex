@@ -678,7 +678,7 @@ to use Monte Carlo Integration.\\
 
 \noi
 \emph{Review}: Monte Carlo gives us the approximation $\int_{\mathbf{R^D}}\phi(x)dx =
-I(\phi)$, where $I(\phi) \approx 1/N\sum_n=1^NQ(x_n) = Q_{MC,N}(\phi)$ where $\{x_n\}$
+I(\phi)$, where $I(\phi) \approx 1/N\sum_{n=1}^NQ(x_n) = Q_{MC,N}(\phi)$ where $\{x_n\}$
 are samples of randome variable $X$.
 \\
 We showed that the error was $|I(\phi) - Q_{MC,N}(\phi)|"\le"
@@ -695,9 +695,10 @@ many samples.
 \subsection{Variance Reduction Methods}
 \label{sec:variancereduction}
 The aim is to reduce $\sig$
-Examples of idea to do this:
-\begin{enumerate}
-\item Antithetical variables: Assume $\phi \in [0,1]$, and $I(\phi)
+2 examples of idea to do this
+
+\subsubsection{Antithetical variables}
+Assume $\phi \in [0,1]$, and $I(\phi)
   =\int_0^1\phi(x)dx = E(\phi(x))$ (remember !!) where $X$ is a r.v. from a uniform
   distribution on $[0,1]$. ($E(x) = \int_0^1xdx = 1/2x^2|_0^1 = 1/2$,
   and we approximate $I(\phi)$ with
@@ -754,14 +755,38 @@ N(\phi(\sig^2)) = \phi(\mu) + O(\sig^2)\\
 \end{align*}
 Now the difference: $I(\phi) - Q_{M,N}^c(\phi) = \phi(\mu) - \phi(\mu)
 + O(\sig^2)$
-So \textbf{the error is 1/4th the size} or $\sig^2$ instead of $\sig$.
-\end{enumerate}
-
+So \textbf{the error is 1/4th the size} or $\sig^2$ instead of
+$\sig$.
 Smmmary:
 \begin{enumerate}
 \item[Method 1] Take $N$ samples, error ~ $\frac{\sig}{\sqrt{N}}$
 \item[Method 1] Take $2N$ samples, error ~ $\frac{\sig}{\sqrt{2N}}$
 \item[Method 2] Take $N+N_{\text{antithetical}}$ samples, error ~ $\frac{\sig^2}{\sqrt{N}}$
 \end{enumerate}
+
+\subsubsection{Importance Sampling}
+\label{sec:importancesampling}
+$I(\phi) = \int_0^1\phi(x)dx$, written in a different way
+is $$\int_0^1 \frac{\phi(x)}{p(x)}p(x)dx$$
+Where $p$ is a positive function on $[0,1]$ s.t. $\int_0^1 p(y)dy=1$
+. Notice $p(x)$ is a density function.
+
+Suppose we can randomly sample variable $x$ from the distribution defined by
+$p$. This means $P(X\in A) = \int_A p(x)dx$.
+
+\noi \textbf{Rule:}
+\begin{enumerate}
+\item Sample $x_1, x_2, \dots, x_n$
+\item Form the MC cost estimate, $I_N(\phi) = \frac{1}{N}\sum_{n=1}^N\frac{\phi(x_n)}{p(x_n)}$
+\end{enumerate}
+
+The variance of this process is $$\hat \sig^2 = \int_0^1
+(\frac{\phi(x)}{p(x)} - I(f))^2p(x)dx$$
+Error is proportional to $\frac{\hat\sig}{\sqrt{N}}$
+We want $p$ s.t. $\hat \sig < \sig_{\phi}$
+$I(f)$ is just a number. We would like $p$ close to
+$\frac{\phi}{I(\phi)}$. But we don't know what $I(\phi)$ is.
+
+
 
 \end{document}
