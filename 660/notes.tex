@@ -787,6 +787,100 @@ We want $p$ s.t. $\hat \sig < \sig_{\phi}$
 $I(f)$ is just a number. We would like $p$ close to
 $\frac{\phi}{I(\phi)}$. But we don't know what $I(\phi)$ is.
 
+\pagebreak{}
+\section{September 27th Class 7}
+\label{sec:class7}
+
+\subsection{Continue on Importance Sampling}
+\label{sec:importancesampling}
+
+For variance reduction, we're computing $\int_0^1\phi(x) dx$, MC says
+that this is approximated by $\frac{1}{N}\sum_i^N\phi(x_i)$. We'll write the
+integral as $I(\phi) = \int_0^1\frac{\phi(x)}{p(x)}dx$, where $p$ is
+positive and $\int_0^1p(x) = 1$, i.e. $p(x)$ is a density function.\\
+
+We know that the error for MC is
+$~\frac{\sig_{\phi}^2}{\sqrt{N}}$. Supposition is that we can sample
+$\{x_i\}$ from a distributionwith density $p(x)$, and sampling will
+approximate $I(\phi)$ by
+$\frac{1}{N}\sum_i^N\frac{phi(x_i)}{p(x_i)}$. The variance of this
+process: $\hat \sig^2 = \int_0^1(\frac{\phi(x)}{p(x)} -
+I(\phi))^2p(x)dx$, and the error $~ \frac{\hat \sig^2}{\sqrt{N}}$, and
+$\hat \sig < \sig_p$. We need $p$ and be able to sample from it to do
+this.
 
 
+We need a way to define $p(x)$ and a technique to sample from it. 
+
+\subsubsection{Technique: Accept/Reject sampling method}
+Supposed we have $q(x)\ge p(x)$ ($q$ could be a constant too).
+Let $\hat q(x)= \frac{q(x)}{\int_0^1q(x)dx} = \frac{q(x)}{I(q)}$, and
+so $I(\hat q) = 1$ (scaled version of q). (in the hw $\hat q$ is just
+a constant)
+
+\emph{Algorithm} to draw random numbers with density $p(x)$. 
+\begin{enumerate}
+\item Pick two random numbers $x'$ with density $\hat q$ and $y$ from
+  uniform distribution [0,1].
+\item Then make a decision: Accept $x'$ as one of my samples if $y\le \frac{p(x')}{q(x')}$,
+  reject otherwise.
+\item \emph{claim} the number of accepted samples is approximately $\frac{1}{I(q)}$
+\end{enumerate}
+
+Why does this work? \\Consider a function $C(\xi) = C_\ah(\xi) =
+\mathbf{X}(\xi \le \ah)
+\begin{cases}
+  1&\text{ is }\xi \le \ah \\
+0 & \text{ otherwise}
+\end{cases}$. For $\ah\in [0,1]$, $\int_0^1C_\ah(\xi)d\xi =$ area under line from 0
+to $\ah$, which is $\ah$. Now..use
+\begin{equation}
+  \label{eq:Cxi}
+C(\xi) =
+C_{\frac{p(x)}{q(x)}}(\xi)
+\end{equation}
+where $x$ is given.
+
+We want to know if 
+\begin{equation}
+  \label{eq:wewant}
+\mathbf{E}(X) \approx \int_0^1xp(x)dx =
+\frac{1}{N}\sum_j^Nx_j
+\end{equation}
+ (we can take out $p(x)$ because of the way we
+sampled $x_j$). Notice $p(x) = \frac{p(x)}{q(x)}q(x) =
+\frac{p(x)}{q(x)}\hat q(x)I(q)$, now using \ref{eq:Cxi}, this is the
+same as $\int_0^1C_{\frac{p(x)}{q(x)}}(\xi)d\xi \hat q(x)I(q)$.
+Then,
+\begin{align*}
+\int_0^1xp(x)dx &=
+\int_0^1xdx \int_0^1C_{\frac{p(x)}{q(x)}}(\xi)d\xi \hat q(x) I(q)\\
+&=\int_0^1\int_0^1x C_{\frac{p(x)}{q(x)}}(\xi)\hat q(x)d\xi dx I(q)\\
+&\approx \frac{1}{N'}\sum x_i C_{\frac{p(x)}{q(x)}}(\xi_i)I(q)\text{
+  this step was doing MC to estimate}\\
+\end{align*}
+Using $N'$ samples from the distribution for $x$ taken from $\hat q$,
+and $\xi$, taken from uniform dist. $C(\xi_i)=1$ if $\xi_i \le
+\frac{p(x)}{q(x)}$, 0 otherwise. So the entire thing is equal to 
+$$
+\frac{1}{N}\sum_{\text{indicies of accepted samples}}x_i
+$$
+Using the claim that $\frac{N=\text{\# accepted}}{N'=\text{\# sampled}}
+= \frac{1}{I(q)}$
+($\frac{I(q)}{N'} = \frac{1}{N}$) So this is what we wanted \ref{eq:wewant}.
+
+\textbf{Proof of the claim}: Rule is accept if $y\le
+\frac{p(x')}{q(x')}$, which is $yq(x')\le p(x')$.
+For a given $y$, $P(\text{resulting experiment leads to accept }x')$ is deteremined by integrating
+$y\int_0^1q(x')dx' \le \int_0^1p(x')dx'$. So
+$$y \le \frac{I(p)}{I(q)} = \frac{1}{I(q)}$$ because $p$ is a density
+function.
+
+Then $P(\text{experiment leads to acceptance}) = P(\text{sample $y$
+  from uniform }\le \frac{1}{I(q)}) = \frac{1}{I(q)}$ (since
+  $\int_0^{\frac{1}{I(q)}}dy = \frac{1}{I(q)}$
+
+This probability is approximately just $\frac{N}{N'} \approx
+\frac{1}{I(q)}$, which is our claim! (Reference R. Caflisch Acta
+Numerica 1:49, 1998 Monte Carlo and quasi-Monte Carlo methods)
 \end{document}

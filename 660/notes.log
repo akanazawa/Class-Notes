@@ -1,12 +1,8 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.9.4)  26 SEP 2011 14:34
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  27 SEP 2011 14:56
 entering extended mode
  %&-line parsing enabled.
-**notes.tex
-(./notes.tex
-LaTeX2e <2009/09/24>
-Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
-yphenation, loaded.
-(/usr/share/texmf-texlive/tex/latex/base/article.cls
+**\input notes.tex
+(./notes.tex (/usr/share/texmf-texlive/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/base/size10.clo
 File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
@@ -97,6 +93,9 @@ LaTeX Warning: Label `sec:probability' multiply defined.
 
 LaTeX Warning: Label `sec:class5' multiply defined.
 
+
+LaTeX Warning: Label `sec:importancesampling' multiply defined.
+
 )
 \openout1 = `notes.aux'.
 
@@ -134,7 +133,7 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 35.
  [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+]
 Underfull \hbox (badness 10000) in paragraph at lines 101--105
 
  []
@@ -171,38 +170,29 @@ Underfull \hbox (badness 10000) in paragraph at lines 668--678
 
  []
 
-[14] [15] [16] (./notes.aux)
+[14] [15] [16]
+Underfull \hbox (badness 10000) in paragraph at lines 797--801
+
+ []
+
+[17]
+Overfull \hbox (19.67337pt too wide) in paragraph at lines 879--882
+[]\OT1/cmr/m/n/10 Then $\OML/cmm/m/it/10 P\OT1/cmr/m/n/10 ([]) = \OML/cmm/m/it/
+10 P\OT1/cmr/m/n/10 ([] \OMS/cmsy/m/n/10 ^^T []\OT1/cmr/m/n/10 ) =
+ []
+
+[18] (./notes.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 1180 strings out of 495061
- 12912 string characters out of 1182622
+ 1182 strings out of 495062
+ 12933 string characters out of 1182645
  66897 words of memory out of 3000000
- 4388 multiletter control sequences out of 15000+50000
+ 4391 multiletter control sequences out of 15000+50000
  12468 words of font info for 48 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 27i,10n,24p,220b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
-re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-te
-xlive/fonts/type1/public/amsfonts/cm/cmbx5.pfb></usr/share/texmf-texlive/fonts/
-type1/public/amsfonts/cm/cmbx7.pfb></usr/share/texmf-texlive/fonts/type1/public
-/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/c
-m/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi5.pfb
-></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share
-/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texli
-ve/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/typ
-e1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/public/am
-sfonts/cm/cmr5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr
-7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr
-/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texmf
--texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fon
-ts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/pu
-blic/amsfonts/symbols/msam10.pfb>
-Output written on notes.pdf (16 pages, 275851 bytes).
-PDF statistics:
- 126 PDF objects out of 1000 (max. 8388607)
- 0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 27i,10n,24p,227b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
 
+Output written on notes.dvi (18 pages, 56252 bytes).
