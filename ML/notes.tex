@@ -21,6 +21,7 @@
 
 
 \documentclass[a4paper]{article}
+\usepackage{amsmath}
 \begin{document}
 \title{Machine Learning CS726 Fall
  '11}
@@ -483,4 +484,157 @@ applied. Doesn't make normality assumption, it's a
 If you have a big dataset, it's easier to seperate the two gaussian
 curves (because they'll have more peaks), so you can get more
 examples to get more statistical significance.
+
+\pagebreak
+
+\section{September 27th Class 7}
+\label{sec:class7}
+
+\subsection{HW3}
+\label{sec:hw3}
+
+\begin{enumerate}
+\item About non-linearly seperable data and perceptron: Do the add one
+  feature augmentation trick, why is this linearly seperable now? For
+  example, $\vec w$ $D$ zeros and all indicators as corresponding
+  $y_n$ the label.\\
+Does this affect generalization? The above construction will not work
+for test data at all. Generally it overfits, because it's like
+cheating after the first couple of passes when you start using the
+labels $y_n$ as the components of your new augmented $\vec w$\\
+How long does it take to converge on this augmented data? Previously,
+$||x||\le R$, but now, we have $||<x, 0,0,\dots,1,\dots>||?$. Square
+it:
+\begin{align*}
+  ||<x, 0,0,\dots,1,\dots>||^2 &= ||<x,
+  \dots,1,\dots>\dot<x,\dots,1,\dots>||\\
+&= x\dot x + 1\\
+&=||x||^2 + 1
+\end{align*}
+So $\hat R = \sqrt{R^2+1}$, but now $\gamma$ changes also. Using the
+$\vec w$ above, the margin for this $\vec w$ is $\min_{(x,y)\in
+  D}\frac{y}{||w||}w\dot x$
+$||w|| = \sqrt{N}$, and max $w\dot x$ is $1$ so the new margin is at
+least $\frac{1}{\sqrt{N}}$
+\item Centering, Variance scaling vs DT, KNN, perceptron:\\
+  \begin{itemize}
+  \item \textbf{KNN} is not sensitive to centering but it is sensitive to
+    variance scaling.
+  \item \textbf{DT} is not sensitive to centering or scaling because the cut
+    off is still the cut off.
+  \item \textbf{Perceptron} is sensitive to centring and variance scaling, because if the
+    feature value is huge, it'll move $\vec w$ a lot to one direction,
+    it'll take more time because $R$ is huge. 
+  \end{itemize}
+\end{enumerate}
+
+\subsection{Blue Box}
+\label{sec:bluebox}
+
+\begin{itemize}
+\item In the realm of \emph{scale} of features, variance pruning might
+  not work if done prior to scaling because it might be a good feature
+  in the correct scale.
+\item \emph{How do you get a confidence out of a DT or KNN?} For DT
+  you can calclulate the probability. Each node is a conditional
+  probability. For KNN, we can calculate the average within $k$
+  neighbors and get a percentage (with $K=6$, 3 might be $VE$, 3 might
+  be $-VE$, so 50\% chance
+\end{itemize}
+
+\subsection{Multiclass Classification}
+\label{sec:multiclass}
+
+\textbf{Reduction-based ML}: Is multiclass harder than binary? If I
+could do binary, then I'll use that to solve multiclass.
+
+\emph{Error-bounds}: If I can achieve $\eps$ error in binary
+classification, we can have $\le f(\eps)$ error on multiclass
+classification.
+
+The big assumption is that we can achieve $\eps$ error.
+
+\textbf{Definition:} Binary Classification.
+\begin{itemize}
+\item Assume some distribution $\mathbf{D}$ of $(x,y)$ pairs
+\item get sample $D$ $(x_1,y_1),\dots,(x_n,y_n)$ drawn from $\mathbf{D}$
+\item The goal is to compute $f:X\rarr \{-1, +1\}$
+  s.t. $\mathbf{E}_{(x,y)~D}[f(x)\neq y]$ is small.
+\end{itemize}
+
+\textbf{Weighted binary classification}: Weight the negative sample less and
+positive samples more, so that the classifier has to put more effort
+to classify positive examples correctly. Now the goal is different it
+is to minimize (arbitrarly assuming that possitive error costs more here):
+$$\mathbf{E}_{(x,y)~D}
+\begin{cases}
+  \ah[f(x)\neq  1]& \text{ if y=1}\\
+[f(x)\neq -1] &  \text{ if y=-1}\\
+\end{cases}
+$$
+For some $\ah > 0 \in \mathbf{R}$. Above can be re-written as
+$\mathbf{E}_{(x,y)~D}[\ah^{y=1}[f(x)\neq y]$
+Algorithm to use: \textbf{Subsampling}. We end up with a ``balanced''
+data. If the cost is $\ah=10$, I want 10th as many positive
+examples. This is optimal for us.
+What we want
+\begin{enumerate}
+\item given $\mathbf{D}^{WBC}$, we want to reduce it to $\mathbf{D}^{BC}$
+\item learn a function $f$ on the binary classification problem.
+\item given a test point $\hat x$, use $f$ to solve the weighted
+  binary classification problem.
+\end{enumerate}
+The algorithm
+\begin{enumerate}
+\item[1a] Retain all positive examples
+\item[1b] For each negative examples, sample $1/\ah$ of them.
+\item[2]  $\hat y= f(\hat x)$ (i.e. 100 exmples, 98 -ve, 2ve, $\ah=2$,
+  randomly select 49 negative examples.
+\end{enumerate}
+We want $\mathbf{E}_{(x,y)~D^{WBC}}[\ah^{y=1}[f(x)\neq y]]$, from
+weighted $D$.
+\begin{align*}
+  \mathbf{E}_{(x,y)~D^{WBC}}[\ah^{y=1}[f(x)\neq y]]&=
+ \sum_{(x,y)}\mathbf{D^{WBC}}(x,y)[\ah^{y=1}[f(x)\neq y]]\\
+ &= \sum_x \begin{cases} \mathbf{D^{WBC}}(x, +1)[\ah [f(x)\neq 1]]& \\
+     \mathbf{D^{WBC}}(x, -1)[f(x)\neq -1]\end{cases}\\
+ &= \sum_x \begin{cases} \mathbf{D^{BC}}(x, +1)[\ah [f(x)\neq 1]]\\
+     \ah\mathbf{D^{BC}}(x, -1)[f(x)\neq -1]\end{cases}\\
+ &= \ah \sum_x\begin{cases} \mathbf{D^{BC}}(x, +1)[[f(x)\neq 1]]\\
+     \mathbf{D^{BC}}(x, -1)[f(x)\neq -1]\end{cases}\\
+&=\ah \eps
+\end{align*}
+Because we downselected negative examples, so to go from $D^{WBC}$ to
+$D^{BC}$, we need to multiply it with $\ah$. 
+
+Can we do better than $\ah \eps$ (on the weighted problem)? No, the
+error grows linearly with the size of $\ah$. You could imagine to do
+slightly better because of the sampling more of +ve but something
+around there.
+
+Sampling seems wasteful. SO instead, we can keep all negative
+examples and put $\ah$ times more positive examples (replacement
+of). This is \textbf{over-sampling}. Both gives us the same bounds,
+but $\eps$ can be different. $\eps$ is the error rate of the BC
+classifier. The big assumption is that we can achieve $\eps$, it's
+easier to achive low $\eps$ in oversampling than undersampling. \emph{Even
+though the bound for both sampling is $\ah\eps$, $\eps$ is smaller
+from oversampling, generally.}
+
+\subsection{Turning MC to BC}
+\label{sec:MC2BC}
+
+\begin{enumerate}
+\item \textbf{OVA} (one-vs-all): with $k$ classifiers $f_1\dots f_k$, where $f_1$ seperates
+  $y=1$ from $y\neq 1$ and $f_k$ seperates $y=k$ from $y\neq k$. Two
+  bad things can happen:no one says yes, more than one says yes. Just
+  pick at random for each, but these are the cases when the error
+  occurs. Not great because of this. In practice, you pick the one
+  with the highest confidence. Called brittle, because it takes only
+  one error will shoot up the probability of error on MC. Any errors
+ can cause grave harm, if each error is $\eps$, and you have $k$
+ chances, it's pretty bad.
+\item \textbf{AVA} (all-vs-all): $ k \choose 2 $ classifices where
+  $f_{ij}$ seperates class $i$ from $j$.
+\end{enumerate}
 \end{document}
