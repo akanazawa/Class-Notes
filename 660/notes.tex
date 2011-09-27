@@ -883,4 +883,17 @@ Then $P(\text{experiment leads to acceptance}) = P(\text{sample $y$
 This probability is approximately just $\frac{N}{N'} \approx
 \frac{1}{I(q)}$, which is our claim! (Reference R. Caflisch Acta
 Numerica 1:49, 1998 Monte Carlo and quasi-Monte Carlo methods)
+
+\subsection{Matrix Factorization Methods}
+\label{sec:matrixfactorization}
+Four basic algorithms:
+\begin{enumerate}
+\item Gaussian Elimination (solving $Ax=b$ where $A$ is nonsingular)
+\item QR Factorization (same, or solving least squares min$||Ax-b||$
+  where $A$ is a long thin $m$by$n$ matrix, $m>>n$)
+\item Singular value decomposition (also for least squares)
+\item Eigenvalue decomposition (SVD and this are used to solve eigen
+  value problems, $Av= \lambda v$, find $v, \lambda$
+\end{enumerate}
+
 \end{document}

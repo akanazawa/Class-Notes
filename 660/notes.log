@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  27 SEP 2011 14:56
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  27 SEP 2011 15:11
 entering extended mode
  %&-line parsing enabled.
 **\input notes.tex
@@ -187,12 +187,12 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 1182 strings out of 495062
- 12933 string characters out of 1182645
+ 1183 strings out of 495062
+ 12958 string characters out of 1182645
  66897 words of memory out of 3000000
- 4391 multiletter control sequences out of 15000+50000
+ 4392 multiletter control sequences out of 15000+50000
  12468 words of font info for 48 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  27i,10n,24p,227b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on notes.dvi (18 pages, 56252 bytes).
+Output written on notes.dvi (18 pages, 56872 bytes).
