@@ -637,4 +637,130 @@ from oversampling, generally.}
 \item \textbf{AVA} (all-vs-all): $ k \choose 2 $ classifices where
   $f_{ij}$ seperates class $i$ from $j$.
 \end{enumerate}
+
+\pagebreak
+
+\section{September 29th Class 8}
+\label{sec:class8}
+
+\subsection{HW 4}
+\label{sec:hw4}
+
+\begin{enumerate}
+\item Task for squared error regression: Given: input space $\mathcal{X}$
+  and an unknown distribution $\mathcal{D}$ over $\mathcal{X}\times\mathbf{R}$, Compute $f:X\rarr
+  \mathbf{R}$, minimize $\mathbf{E}_{(x,y)~\mathcal{D}}[f(x)\neq y]$
+\item \emph{To what types of error do these theorems apply?} All error
+  in respect to data taken from the same distribution $\mathcal{D}$.
+\item OVA vs AVA. If training for each classifier is $O(N)$, OVA:
+  $O(NK)$, AVA:$O(K^2N/K) = O(K)$, if training for each classifier is
+  $O(N^2)$, OVA: $O(N^2K)$, AVA: $O(K^2(N/K)^2)=O(N^2)$, so AVA is
+  better! so the worst it is to train, the better and better AVA gets.
+\item A ranking preference function $\omega$ that penalizes
+  mispredictions linearly up to $K$: 
+$$\omega(x,y) =
+\begin{cases}
+  min\{k, |i-j|\} & \text{ if $i\neq j$}\\
+  0 & \text{ else}
+\end{cases}$$
+\end{enumerate}
+
+\subsection{Continue on Multiclass classification}
+\label{sec:multiclass}
+
+There's OVA, AVA(the default), and \textbf{Tree-based}
+classification. Idea is to divide and conquer, split all the classes
+in two, then keep on splitting. At the leaf we make decisions. So if
+we have $K$ classes, we have $K-1$ nodes and so we train $K-1$
+classifiers. This divides the data, so we beat OVA's $O(K\eps^8)$, $K$
+factor.
+
+As soon as we make an error, we're done. The chance of making an error
+is $\eps^b$, the number of times you can make an error is how many
+nodes you go down (pf union bound: $P(A_1\cup A_2\cup \dots A_n) \le
+\sum P(A_i)$, so at most the error caused by tree based is
+$$\eps^{MC}\le O(\eps^blog(K))$$
+If the number of features is not a power of 2, it might not be a full
+binary tree with height $log(K)$, so more of the emphasis on $\le$.
+
+But here we can't specify which order/the layout of the tree. Certain
+layouts could make making a binary classifier easier. I.e. if data
+were clustered in $1:(0,0), 2:(0,1), 3:(1,0), 4:(1,1)$, shouldn't
+split classes $\{1,4\} vs \{2,3\}$.
+
+\subsection{Ranking}
+\label{sec:ranking}
+\textbf{Bipartite Ranking}: Some are labeled good and some are
+bad. The job is to rank the good, relevant ones before the bad
+ones. Given nodes $a,b$, the labels is $1$ is $a$ is good and comes before $b$ and
+should, $-1$ if $b$ comes before $a$.\\
+We use $\omega(x,y)$ as the preference function just like binary classification's loss
+function. Where $x$ is the true position, $y$ is my ranking.
+
+\textbf{Objective}
+\emph{Given} an input space $\mathcal{X}$, and an unknown distribution
+$\mathbf{D}$ over $\mathcal{X}$, \emph{compute:} a function
+$f:\mathcal{X}\rarr \Sigma_M$ minimizing $$\mathbf{E[\sum_{u\neq
+    v}[sig_u<sig_v][\hat \sig_u < \hat \sig_v]\omega(\sig_u,\sig_v)}$$
+Where $\hat sig = f(x)$. Basically did we swap $u$ adn $v$, if so, pay
+$\omega(u,v)$.
+$$f(x_{uv}) \begin{cases}
+  +1& \text{ if } u<v\\
+-1&\text{ if }v < u
+\end{cases}$$
+$f(x_{uv})$ answers ``is $u<_fv$?'' Now use this as a comparison
+function and use any sorting algorithm, like quicksort. So it's just a
+quicksort with a minor tweak:\\
+
+Consider $f(x_{uv})$ as $P(u<v)$, so in quicksort, pick a pivot, is
+this other number greater than the pivot or not? We answer this by
+running $f$, and $f$ will tell us $x\%$ it's less. So it's like a
+randomized quicksort.
+
+So the weighted problem looks like:, given $(y=\{+1,-1\},x,w)$, (where
+$w=\omega$, $x= x_{uv}$) we want to minimize
+$$\eps^w = \mathbf{E}_{(x,y,w)~\mathcal{D}}[w(y\neq f(x))]$$
+How would you solve this? Over sampling, add 2 more $(x,y)$ if
+$w=2$. Undersampling, we want to keep if $w$ is high, so throw out
+data with probability $1/w$. So if $w$ large, we most likely never
+throw out the data. And we have $\eps^w \le \eps^b[\mathbf{E}_w[w]]$
+is the best we can hope for.
+
+\subsection{Collective Classification}
+\label{sec:collectiveclassification}
+
+Given a graph, where node is a feature, like a website, and if we were
+to label each node as $+1$ not offensive, or $-1$ offensive, the idea
+is that some information in the graph structure will tell us about the
+label. i.e. offensive websites tend to link to offensive websites.
+
+So train a classifier with a bigger feature, wher you include
+information about the node itself plus the number of positive
+neighbors and negative neighbors. Problem with this is that.......TODO!
+
+The \textbf{Stacking algorithm}: Forget that we have a graph structure. First try
+to classify each page based on its individual features alone. So
+think: $f_0:\mathcal{X}\rarr \{+1, -1\}$, and now I have guesses for
+all.
+Now we can train a second round classifier, that takes an input from
+the pages themselves and the neighbor information from the previous
+classifier ( the new added info on the feautures are given by
+$f_0$). So train $f_1:\mathcal{X}+f_0\text{'s output}\rarr
+\{+1,-1\}$. Now, the hope is that $f_1$ wil get everything correct.
+Now train $f_2$ that takes in $\mathcal{X}$ and $f_0$ and $f_1$'s
+output. etc.
+
+Problem: it never get's the true label of the neighbors, but only the
+predicted data. This might be beneficial because at test time we never get to see
+the true label of the neighbors. But the issue is overfitting: $f_0$
+is trained and tested on the original data, so chances are it'll do
+really good on the input data. So input to $f_1$ will be
+unrealistically close to perfect. In the real world $f_0$ will do much
+worse.
+
+Concrete example: task for each 3D point, guess if it corresponds to a
+tree or not, don't get info but angle and distance. It's nearly
+impossible to classify the point just by using it's features, you
+really need the entire graph structure. So at train time we do well,
+but ... not in test..
 \end{document}
