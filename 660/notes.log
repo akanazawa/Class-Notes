@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  27 SEP 2011 15:11
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  4 OCT 2011 15:08
 entering extended mode
  %&-line parsing enabled.
 **\input notes.tex
@@ -99,47 +99,47 @@ LaTeX Warning: Label `sec:importancesampling' multiply defined.
 )
 \openout1 = `notes.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Try loading font information for U+msa on input line 28.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Try loading font information for U+msa on input line 29.
  (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 28.
+LaTeX Font Info:    Try loading font information for U+msb on input line 29.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-Overfull \hbox (20.85034pt too wide) in paragraph at lines 32--34
+Overfull \hbox (20.85034pt too wide) in paragraph at lines 33--35
 \OT1/cmr/m/n/10 Prof. Howard El-man CSI 2120 TR 2pm-3:15pm class url:http://www
 .cs.umd.edu/ el-
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 35.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 36.
 (/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 35.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 36.
  [1
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 101--105
+Underfull \hbox (badness 10000) in paragraph at lines 102--106
 
  []
 
 
-Overfull \hbox (17.5361pt too wide) in paragraph at lines 106--110
+Overfull \hbox (17.5361pt too wide) in paragraph at lines 107--111
 []\OT1/cmr/bx/n/10 Analysis of the New-ton's Method\OT1/cmr/m/n/10 : $\OMS/cmsy
 /m/n/10 j\OML/cmm/m/it/10 x[]\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 =\OMS/cmsy/m/n/
 10 j\OML/cmm/m/it/10 x \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 x[]\OMS/cmsy/m/n/1
@@ -150,7 +150,7 @@ y/m/n/10 j ^^Y
  []
 
 [2] [3] [4] [5] [6] [7]
-Overfull \hbox (5.72202pt too wide) in paragraph at lines 376--378
+Overfull \hbox (5.72202pt too wide) in paragraph at lines 377--379
 []\OT1/cmr/m/n/10 Roll two fair dice, out-comes: $
  = \OMS/cmsy/m/n/10 f\OT1/cmr/m/n/10 (1\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 1)\OM
 L/cmm/m/it/10 ; \OT1/cmr/m/n/10 (1\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 2)\OML/cmm
@@ -163,36 +163,44 @@ t/10 ; []  ; \OT1/cmr/m/n/10 (6\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 6)\OMS/cmsy/m
 
 Package amsmath Warning: Foreign command \atopwithdelims;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 415.
+(amsmath)                 on input line 416.
 
 [8] [9] [10] [11] [12] [13]
-Underfull \hbox (badness 10000) in paragraph at lines 668--678
+Underfull \hbox (badness 10000) in paragraph at lines 669--679
 
  []
 
 [14] [15] [16]
-Underfull \hbox (badness 10000) in paragraph at lines 797--801
+Underfull \hbox (badness 10000) in paragraph at lines 798--802
 
  []
 
 [17]
-Overfull \hbox (19.67337pt too wide) in paragraph at lines 879--882
+Overfull \hbox (19.67337pt too wide) in paragraph at lines 880--883
 []\OT1/cmr/m/n/10 Then $\OML/cmm/m/it/10 P\OT1/cmr/m/n/10 ([]) = \OML/cmm/m/it/
 10 P\OT1/cmr/m/n/10 ([] \OMS/cmsy/m/n/10 ^^T []\OT1/cmr/m/n/10 ) =
  []
 
-[18] (./notes.aux)
+[18]
+Overfull \hbox (10.40837pt too wide) in paragraph at lines 913--916
+[]\OT1/cmr/m/n/10 For his-togram & den-sity es-ti-ma-tion: If we have a pdf $\O
+ML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )$, the $[][
+] \OML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )\OML/cm
+m/m/it/10 dx \OT1/cmr/m/n/10 =
+ []
+
+[19] [20] (./notes.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 1183 strings out of 495062
- 12958 string characters out of 1182645
+ 1188 strings out of 495062
+ 13017 string characters out of 1182645
  66897 words of memory out of 3000000
- 4392 multiletter control sequences out of 15000+50000
- 12468 words of font info for 48 fonts, out of 3000000 for 9000
+ 4396 multiletter control sequences out of 15000+50000
+ 12636 words of font info for 49 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  27i,10n,24p,227b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on notes.dvi (18 pages, 56872 bytes).
+Output written on notes.dvi (20 pages, 62348 bytes).

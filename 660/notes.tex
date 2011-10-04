@@ -18,7 +18,8 @@
 \newcommand{\hstwo}{\hspace*{2cm}}
 
 \newcommand{\noi}{\noindent}
-
+\parskip 5pt
+\parindent 0pt
 
 \documentclass[a4paper]{article}
 \usepackage{amsmath,amssymb}
@@ -900,5 +901,84 @@ Four basic algorithms:
 \section{October 4th Class 8}
 \label{sec:class8}
 
+Corrections for hw 2:
+\begin{itemize}
+\item Problem 1(a): $f(X) \in [0,1]$, not $[-1,1]$
+\item Problem 3: should read $\rho(x) = \frac{4}{10}\hat \rho(x)$
+  because we need $\int_0^1\rho(x)dx = 1$. Also $q(x)=1.6$
+  constant. When sampling, $q(x)$ induces a density function $\hat
+  q(x)$ by $\hat q = \frac{q}{\int q(x)dx}=\frac{1.6}{1.6}$, which means that we
+  still sample from $U(0,1)$, but when you compare the ratio $p/q$, we
+  use 1.6.
+\item For histogram \& density estimation: If we have a pdf $p(x)$,
+  the $\int_{D~X}p(x)dx = 1$. For r.v. $X$ with density $p$, then
+  $P(\ah \le X\le \beta) = \int_\ah^\beta p(x)dx$. 
+
+If we're sampling $\{x_i\}$ from such an $X$(using reject/accept), then the number of $\text{num of
+}x_i \in [\ah,\beta]/\text{num of samples} \approx \int_\ah^\beta
+p(x)dx$. This is called the kernel density estimate. The goal here is
+to approximate $p(x)$ by some constant $p_c(x)$ on $[\ah, \beta]$. If
+we had $p_c$, then $\int_\ah^\beta p(x) \approx p_c[\beta-\ah]$. Turn
+this around to define $p_c$ as 
+$$p_c = \frac{\text{\# of }x_i\in[\ah, \beta]}{\text{\# of
+    samples}}\frac{1}{\beta-\ah}$$
+Given $x$, let $[\ah_j, \beta_j]$ be the interval containing $x$,
+define $p_c(x)=$ number of $x_i\in[\ah_j,\beta_j]$/number of
+samples$\frac{1}{\beta_j-\ah_j}$, and this is the histogram he's looking for.
+Does it come out the way it should?
+
+In matlab use $hist$, and if you really want to compare/plot $p_c$,
+specify bin set \texttt{hist(X, [1/8,3/8/,5/8,7/8])}, it will give you
+exactly what you want (same centers). Better yet, let that hist be $z$
+and do a bar graph \texttt{bar(z, centers)}.
+\item For prob 1.b, do $log(\text{error})$vs$log(N)$ scale. Second
+  graph is to ask whether things really look clean (no, not really bc
+  of the probabilistic nature). Because if we were
+  to use trapezoid, we'll get a very clean ratio between the error.
+\item For prob 1.c, 3 sets, each of 4 pictures.. sample $E_N$ $n$
+  times, try different sets of $n$s. (I did 1000, use that for
+  $\frac{\sig}{n}$..?, but try different samples).
+\end{itemize}
+
+\subsection{Matrix Factorization}
+\label{sec:matrix}
+
+\subsubsection{Gaussian Elimination}
+\label{sec:gaussian}
+Solve $Ax=b$, where $A$ $NbyM$ is non-singular. Procedure also called $LU$
+factorization.
+\begin{enumerate}
+\item Add multiple of first row of $A$ and first entry of $b$ to the
+  second to the last rows to produce zeroes on the first column of $A$
+  except the first entry. We get $\hat A = L_1A$
+\item repeat this, then $L_{n-1}\cdots L_1=U$ the upper triangle.
+\end{enumerate}
+
+\emph{Cost}: number of floating point multiplication and divisions:
+\begin{itemize}
+\item $n-1$ for column of $L_1$.
+\item $(n-1)(n-1)$  to produce $\hat A$
+\item Just the operation on $A$ is $n(n-1)$ for step 1.
+\item plus $(n-1)(n-2)$ for step 2
+\item $\cdots$ and we get $(n-(n-2))(n-(n-1)) = 2$ at step $n$
+\end{itemize}
+So total is 
+\begin{align*}
+  \sum_{j=1}^{n-1}j(j+1)&= \sum_{j=1}^{n-1}j^2 + \sum_{j=1}^{n-1}j\\
+&=\sum_{j=1}^{n-1}j^2 + \frac{n(n-1)}{2}\\
+&= O(\frac{1}{3}n^3) + n^2 = O(n^3)
+\end{align*}
+Exercise: Identify how to get $x$, \emph{back substitution} and what's
+the cost? ($O(n^2)$)
+
+What happens if $a_{00} == 0$?
+Since $A$ nonsingular, we know that there must be at least one
+$a_{j1}\neq 0$. Take the $j$ with largest $|a_{j1}|$ and switch it
+with $a_{11}$. Formally, the switch is done by multiplying the system
+by $P_1$, a matrix with all diagonal values $1$ but $a_{11}$ and
+$a_{jj}$ and all 0 but $a_{0j}$ and $a_{j1}$., the permutation matrix.
+
+So result is $L_1P_1Ax = L_1P_1b$, where $L_1$ is taken from
+$P_1A$. This is called \emph{pivotting}.
 
 \end{document}
