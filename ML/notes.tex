@@ -19,6 +19,7 @@
 
 \newcommand{\noi}{\noindent}
 
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
 
 \documentclass[a4paper]{article}
 \usepackage{amsmath}
@@ -763,4 +764,185 @@ tree or not, don't get info but angle and distance. It's nearly
 impossible to classify the point just by using it's features, you
 really need the entire graph structure. So at train time we do well,
 but ... not in test..
+\pagebreak
+\section{Oct 4th Class 8}
+\label{sec:class8}
+
+\subsection{Linear Classifiers}
+\label{sec:linear}
+
+Linear decision boundary: $sign(\vec w \cdot \vec x + b)$. If $b=0$,
+the plane passes through the origin. Computing the distance of this
+plane from any point $\vec z$, is $\frac{\vec w \cdot \vec z +
+  b}{||\vec w||}$.
+ So from the origin is $\frac{b}{||\vec w||}$. If margin < 0,
+loss is 1, if margin > 0, loss is 0.
+
+Indicator function $\mathcal{1}(\cdot):
+\begin{cases}
+  1 & \text{ if argument is true }\\ 0
+\end{cases}
+$ Using 0-1 loss finding the decision boundary is NP-hard.
+
+\subsection{Regularization}
+\label{sec:regularization}
+
+We're concerned about test error, not training error. Just minimizing
+the training error will overfit. So Regularized Learning
+(Tikhonov($\lam R(\vec w)$),
+Ivanov(minimize the loss with constraints that $R(\vec w) \le \del$), Morozov
+(minimize the regularizer with constraints on the loss function $le \del$)) All
+three do the same thing, but most common is Tikhonov:
+$$w = argmin_{w,b} \frac{1}{N}\sum_n\mathcal{1}(y_n(\vec w\cdot \vec
+x_n + b) < 0) + \lam R(\vec w)$$
+This balances empirical loss and complexity of the classifier -
+prefers simpler one. $R(\vec w)$ is the regularizer for linear hyperplanes.
+We want both the loss and regularizaer to be convex.
+
+\subsection{Convexity}
+\label{sec:convexity}
+
+\textbf{Definition:}A set $S$ is convex if $\forall x,y\in S, \ahx + (1-\ah)y \in S$ where
+$\ah\in [0,1]$. THe line segment joining $x$ and $y$ is contained in
+$S$.
+$S=\{x:x^2 > 2\}$ is non-convex because $x\ge \pm\sqrt{2}$, inside
+it's empty
+$S=\{x: \vec x^T \vec x < 1\}$. Show in two points norm will always be
+< 1 with $\ah$
+$S=\{U: U^T U = 1\}$, orthogonal matrices, is\emph{ not }convex. So
+eigenvalue problems are non-convex.
+
+Operations that preserve convexity:
+\begin{itemize}
+\item Intersetion
+\item Affine function $f(x)=Ax+b)$
+\end{itemize}
+
+\textbf{Definition:} $f$ defined on a \emph{convex} set is a
+\emph{convex} if 
+$$f(\ahx + (1-\ah)y) \le \ah f(x) + (1-\ah)f(y) \forall \ah \in
+[0,1]$$
+The line is always above the function. Or equivalently, $f$ is convex if its \emph{epigraph} is a convex set:
+$$E=\{(x,\mu):\mu \in \mathbf{R}, f(x)\le \mu\}$$ (region(set of points) that lies
+above the graph of the function f.
+
+Also, $f$ convex $\Rightarrow$ $-f$ concave.
+
+Checking for convexity: First check if the domain is convex
+\begin{enumerate}
+\item Use definition (chord lies above hte function)
+\item For differentiable $f$, function lies above all tangents i.e.
+$$f(y) \ge f(x) + f'(x)(y-x)$$
+\item For twice differentiable $f$, second derivative is
+  non-negative. (These are positive definite matrices)
+\end{enumerate}
+If the inequalities are strict, then $f$ is \emph{stritctly convex}.
+Operations that preserve convexity:
+\begin{itemize}
+\item Positive scaling/addition
+\item Affine function composition: $f$ convex $\rarr$ $f(Ax+b)$ convex
+\item Pointwise maximum: $f,g,$ convex $\rarr h(x) = max(f(x),g(x))$
+  is convex
+\item $f$ convex, $g$ convex non-decreasing => $h(x)=g(f(x))$ convex
+\item $f$ concave, $g$ convex non-increasing $\rarr h(x) =g(f(x))$ convex
+
+\end{itemize}
+$exp$ good example of strictly convex, non-decreasing
+Examples:
+\begin{itemize}
+\item $e^x,x,x^2,x^4$ take the second derivati
+\item Any vector or matrix norm
+\item $h(x) = max(|x|,x^2), x\in \mathbf{R}$
+\item $exp(f(x))$, convex, by the 4th property
+\item $\frac{1}{log(x)}, x>0$. $log(x)$ is concave, $1/x$
+  is convex non-increasing in $\mathbf{R^+}$, so by 5 this is convex.
+\end{itemize}
+
+\subsubsection{Convex Loss Functions}
+\label{sec:convexlossfunctions}
+
+Hinge loss, exponential loss, and logistic loss
+\begin{itemize}
+\item Hinge loss: $L(y,\hat y) = max\{0, 1-y\hat y\}$
+\item Exponential loss: $L(y,\hat y) = exp(-y\hat y)$ 
+\item Logistic Loss:$L(y,\hat y) = log_2(1+exp(-y\hat y\)$ 
+\end{itemize}
+Even if margin  is good, won't get 0 for exponential and logistic.
+
+\subsection{Weight Regularization}
+Why?
+\begin{itemize}
+
+\item  We need our weights to be small i.e. we DON'T want $\eps$ change in
+input($\hat x=(x+\eps)$) to make $\hat y$ chnage a lot i.e. $\vec
+w\eps$ will have a lot of influence if $||\vec w|| >>$.
+\item Regularization is generalization, regularized learning is
+  statistically stable and bounds generalization error. Stability here
+  means that differences in $\eps$ is bounded..
+\item We want regularizer to be convex for computational reasons
+\end{itemize}
+
+\subsubsection{Norm based Regularizers}
+$l_p$ norm: $$||w||_p = (\sum_i|w_i|^p)^{1/p}, p\in[1,\intfy]$$
+if $p<1$, it won't satisfy triangle inequality and convexity.
+We use $l_1$,$l_2$ usually. 
+A unit ball in $l_p$ is a set $S=\{w:||w||_p \le 1\}$, so in $l_2$ it
+will be a unit circle, with $l_1$, it will be a unit square rotated 90
+degrees. As $p\rarr 0$, the sides approach the axis, $l_0$ ball looks
+like a plus sign. As $p\rarr \infty$ the circle approaches
+square. ($l_\infy(\vec w) = max \vec w$).
+
+Properties:
+\begin{itemize}
+\item Solution often lies on the singularity (corners) of the ball
+  when constrained enough. Why? (Why $l_1$ gives us sparsity, because
+  the corners/edges are 4 or constant)
+\item Rotational Invariance: $l_2$ is invariant to rotations
+\item When to use $l_1$: less number of samples, lot of irrelevant features
+\item When to use $l_2$: otherwise, leads to good generalization.
+\end{itemize}
+
+Now we our final objective is:
+$$L(\vec w, b) = \frac{1}{N}\sum_n l(\hat y, y_n) +
+\frac{\lam}{2}||w||_2^2$$
+
+\subsubsection{Gradient Descent}
+\label{sec:graddescent}
+Gradient of a function $$\bigtriangledown f(x) = (\frac{\partial
+  f(x)}{\partial x_1}, \frac{\partial
+  f(x)}{\partial x_2},\dots, \frac{\partial
+  f(x)}{\partial x_n}$$
+
+\textbf{Directional derivative} Rate of change o fcuntion along a
+direction $\vec v$. $D_v(f) = \bigtriangledown f\cdot \vec v$
+The function increases the most along the direction of the
+gradient. Why? because $\bigtriangledown f\cdot \vec v =
+cos(\theta)|\bigtriangledown||\vec v|$, when the angle is 0,
+$cos(0)=1$ and gives us the biggest increase.
+
+
+Geometric interpretation:
+\begin{itemize}
+\item \textbf{Level sets}: for function $f(x)$, the level set
+  containing a point $a$ is a set of points $S=\{\vec x: f(\vec x) =
+  f(\vec a)\}$. Function admits same value at all points in the level
+  set $S$
+\item Gradient at a point $\vec y$ is perpendicular to the level set
+  containing $\vec y$. i.e. a gradient at point $(x,y)$ will be
+  perpendicular ot the level set going through $(x,y)$. (from
+  definition, gradient is always normal to the tangent going through
+  the point)
+\item i.e. $f(x,y) = \sqrt{x^2 + y^2}$, level set is a cone, for
+  $f(x,y,z) = \sqrt{x^2 + y^2+z^2}$, the level set is a sphere.
+\end{itemize}
+
+\textbf{Gradient Descent}:
+\begin{itemize}
+\item Move in the negative direction of gradient to minimize a
+  function.
+\item Steepest radient descent: To minimize a function $f$, start wiht
+  some initial guess $x^(0)$ with update rule:
+$$x^{(t)} = x^{(t-1)} -\eta^{(t)}\bigtriangledown f(x^{(t-1)})$$
+\end{itemize}
+
 \end{document}
