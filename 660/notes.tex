@@ -1,5 +1,6 @@
 \newcommand{\sig}{\sigma}
 \newcommand{\eps}{\epsilon}
+\newcommand{\del}{\delta}
 \newcommand{\ah}{\alpha}
 \newcommand{\lam}{\lambda}
 \newcommand{\gam}{\gamma}
@@ -797,7 +798,7 @@ $\frac{\phi}{I(\phi)}$. But we don't know what $I(\phi)$ is.
 
 For variance reduction, we're computing $\int_0^1\phi(x) dx$, MC says
 that this is approximated by $\frac{1}{N}\sum_i^N\phi(x_i)$. We'll write the
-integral as $I(\phi) = \int_0^1\frac{\phi(x)}{p(x)}dx$, where $p$ is
+integral as $I(\phi) = \int_0^1\frac{\phi(x)}{p(x)}p(x)dx$, where $p$ is
 positive and $\int_0^1p(x) = 1$, i.e. $p(x)$ is a density function.\\
 
 We know that the error for MC is
@@ -980,5 +981,115 @@ $a_{jj}$ and all 0 but $a_{0j}$ and $a_{j1}$., the permutation matrix.
 
 So result is $L_1P_1Ax = L_1P_1b$, where $L_1$ is taken from
 $P_1A$. This is called \emph{pivotting}.
+\pagebreak
+
+\section{October 6th Class 9}
+\label{sec:class9}
+
+\subsection{More Linear Algebra}
+\label{sec:linearAlgebra}
+\subsubsection{Cont on Gaussian Elimination}
+Solving $Ax=b$, $A$ nonsingular. Without pivoting, $L_{n-1}\cdots L_1A
+= U$, where $L_{n-1}\cdots L_1 = L^{-1}$ Claim: $L^{-1}$ and $L$ are
+lower triangulare
+\begin{itemize}
+\item product of lower triangular matrices is a lower triangular. 
+\item Inverse of lower triangular matrices is lower triangular.
+\end{itemize}
+So we have $$A = LU$$
+Formally, solving $Ax=b$ consists of forming $U=L^{-1}A$ (step 1a) and $\hat b = L^{-1}b$
+(step 1b) and solving $Ux=\hat b$ for $x$ (step 2).
+
+We showed last time that (1a) costs $O(n^3/3)$. Claim: cost of (1b) is
+$O(n^2)$ and cost of (2) is $O(n^2)$.
+
+Step 1 is $x_n=b_n/U_{n,n}$
+Idea of solving $Ux=\hat b$ to do row $j$
+\begin{verbatim}
+for j=n:-1:1
+   x_j = (\hat b_j - \sum_{l=j+1}^n U_{j,l}x_l)U_{j,j}
+end
+\end{verbatim}
+For each step j, cost is:  $n-j + 1$ plus 1 for divide
+So the total cost is $\sum_{j=1}^n(n-j+1)$, $n+1 - 1+n+1, -2+\cdots +
+n+1-n = n+n-1 \cdots +1 $ so total $\frac{n(n+1)}{2}$
+
+One thing we missed is what's the entries of matrix $L$ look like. We
+know $U$, it's what's been left behind. \emph{Claim}: the entries of
+$L$ are - cost of $L_i$'s that are constructed. i.e. first column is
+$\begin{smallmatrix}
+1\\ a_{21}/a_{11}\\a_{31}/a_{11}\\ \vdots \\ a_{nn}/a_{11}
+\end{smallmatrix}$
+
+To do this correctly, we may need to \emph{pivot}. When we pivot in
+floating point, we compute a solution $\hat x$ that satisfies
+$(A+\delta A)\hat x=b$, where $\frac{||\delta A||}{||A||}$ is
+small. What we looked at in week 1, $\frac{||x-\hat x||}{||x||} =
+||A||||A^{-1}||\frac{||\delta A||}{||A||} = \kappa(A)$
+
+Now, look at the relative error $$\frac{||x-\hat
+  x||}{||x||}=\frac{||x-\hat x||}{||\hat x||}\frac{||\hat
+  x||}{||x||}$$
+\begin{align*}
+Ax&=b \\
+(A+\delta A)\hat x &= b\\
+A\hat x&= b-(\delta A)\hat x\\
+\hat x &= A^{-1}b - A^{-1}(\delta A)\hat x\\
+&= x -  A^{-1}(\delta A)\hat x\\
+||\hat x|| &\le ||x|| + ||A^{-1}(\delta A)\hat x|| \text{ take the
+  norm}\\ 
+&le  ||x|| + ||A^{-1}|| ||(\delta A)||||\hat x|| 
+(1-||A^{-1}||||(\delta A)|| )||\hat x|| &\le ||x||\\
+1-\kappa(A)\frac{||\delta A||}{||A||}||\hat x|| &\le ||x||
+\end{align*}
+$\kappa(A)$ is a property of our matrix A. In numerical computing, we
+can only work with A with reasonable conditioning number.\\
+Put things together we have
+$$\frac{||x-\hat
+  x||}{||x||} \le \frac{ \kappa(A)\frac{||\delta A||}{||A||}}{1-\kappa(A)\frac{||\delta A||}{||A||}}$$
+The way to think bout hte denominator:$\frac{||\delta A||}{||A||}$
+small means aroung $10^{-12}$~$10^{-14}$~$10^{-16}$. Suppose
+$\kappa(A)=500$, then the denominator is
+$1-500(10^{-12})=1-5(10^{-10})$ not that bad at all. In fact, we can
+deal up till like $5000$ can handle it until $10^{10}$ (for this
+proble)
+
+\subsection{Least Squares Problem}
+\label{sec:leastsquares}
+
+Given data $\{(x_i,y_i)\}$, find a simple function $p(x)$
+s.t. $p(x_i)\approx y_i$. Example of such a function is
+$p(x)=\ah_0+\ah_1x$ a linear polynomial. 
+
+\noi
+A least squares fit is to find $\ah_0$ and $\ah_1$ s.t. sum of squares
+of $y_i-(\ah_0+\ah_1x_i)$ is minimized. $min
+\sum_{i=1}^n[y_i-(\ah_0+\ah_1x_i)]^2$
+Note: if we tried to make $p(x_i)=y_i$ for all $i$, we have
+\begin{align*}
+\ah_0+\ah_1x_1 &= y_1\\  
+\ah_0+\ah_1x_2 &= y_2\\ 
+&\vdots\\
+ \ah_0+\ah_1x_m &= y_m\\  
+\end{align*}
+$m$ equations and $2$ unknowns. Write in matrix form:
+$$\begin{pmatrix}
+  1&x_1\\
+  1&x_2\\
+\vdots\\
+  1&x_m\\
+\end{pmatrix}
+\begin{pmatrix}
+  \ah_0\\ \ah_1
+\end{pmatrix} = \begin{pmatrix}
+  y_1\\ \vdots \\ y_m
+\end{pmatrix}$$
+Write this $Aa=y$. In general, there is no solution. Gvien any $\ah =
+\begin{smallmatrix}
+  \ah_0\\ \ah_1
+\end{smallmatrix}$, let $r=y-Aa$, a vector of length $m$.
+
+Notice $r_i=y_i-[Aa]_i=y_i-(\ah_0+\ah_ix_i)$. We can restate the goal
+as to minimize $\sum_i^n r_i^2 = ||r||_2^2$
 
 \end{document}
