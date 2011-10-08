@@ -30,7 +30,9 @@
 \maketitle
 
 \section{Gaussian Elimination and LU Factorization}
-
+Gaussian Elimination is a way of solving systems of linear
+equations. When you apply the algorithm in a matrix form, it lets us
+write a matrix as the product of a unit lower-triangular matrix and an upper-triangular matrix. \textbf{TODO: check if it's unit or not}
 \textbf{Problem Statement:} Solve $Ax=b$, where $A$ is a $N$ by $M$
 non-singular matrix. 
 
@@ -73,7 +75,11 @@ A&= (L_{1}^{-1}\cdots L_{n-1}^{-1})(L_{n-1}\cdots L_1A) \\
 
 \section{Step-by-Step example with 3 by 3 case}
 \label{sec:example}
+
 Let's walk through the entire thing with a 3 by 3 $A$:
+
+\subsection{LU Factorization}
+
 $$Ax=b \Rightarrow
 \begin{pmatrix}
   a_{11}&  a_{12}&  a_{13}\\
@@ -148,20 +154,20 @@ Formally, our $L_1$ is $(\begin{smallmatrix}
   \end{align*}
 \end{enumerate}
 
-For all of $L_i$'s we use, $L_i^{-1} = -L_i$ (check it). So our 
+Now What's $L$? Note that for all of $L_i$'s we use, $L_i^{-1} = -L_i$ (check it). So our 
 $L=L_1^{-1}L_2^{-1} =$
 $$\begin{pmatrix}
   1&0&0\\
   a_{21}/a_{11}& 1 & 0\\
 a_{31}/a_{11}& a_{32}^{(1)}/a_{22}^{(1)}& 1 \\
 \end{pmatrix}
-$$ Or just all of the elements of $-L_i$s.
+$$ Or just all of the nonzero elements of $-L_i$'s.
 
 (Remember that inverse/multiplication of a lower triangular matrix is also a lower
 triangular matrix)
 
 \noi
-long... So now, we have:
+phew... Finally we have:
 \begin{align*}
 A &= LU  \\
 &=\begin{pmatrix}
@@ -175,8 +181,67 @@ a_{31}/a_{11}& a_{32}^{(1)}/a_{22}^{(1)}& 1 \\
 \end{pmatrix}
 \end{align*}
 
+\subsection{Forward-substitution}
+
+Going back to our objective of solving $Ax=b$, now we do $\hat b =
+L^{-1}b$, or often written as $Ly= b$ ($y=\hat b$).
+
+Looking at $$\begin{pmatrix}
+  1&0&0\\
+  a_{21}/a_{11}& 1 & 0\\
+a_{31}/a_{11}& a_{32}^{(1)}/a_{22}^{(1)}& 1 \\
+\end{pmatrix}\begin{pmatrix}y_1 \\y_2 \\ y_3\end{pmatrix}=
+\begin{pmatrix}b_1 \\b_2 \\ b_3\end{pmatrix}$$
+The first two equations are $y_1 = b_1$ and $\frac{a_{21}}{a_{11}}y_1
++ y_2 = b_2$. But since we know $y_1$ from the first line, we can
+subsitute $b_1$ for $y_1$ and yeild $y_2 = b_2 -
+b_1\frac{a_{21}}{a_{11}}$. We can keep on substituting earlier results
+to obtian all $y_1$ and this is \emph{forward-substitution}.
+
+
+Using this, our $\hat b$ is:
+\begin{align*}
+  y_1 &= b_1\\
+  b_2 &= y_2 + y_1\frac{a_{22}}{a_{11}}\\
+  &\rarr y_2 = b_2 - b_1\frac{a_{22}}{a_{11}} \text{ \tiny substitute $y_1$ }\\
+  b_3 &= y_3 + y_1\frac{a_{31}}{a_{11}} +y_2\frac{a_{32}^{(1)}}{a_{22}^{(1)}}\\
+  &\rarr y_3= b_3 - (y_1\frac{a_{31}}{a_{11}}
+  +y_2\frac{a_{32}^{(1)}}{a_{22}^{(1)}})\\
+\end{align*}
+
+Formally:
+$$y_m= b_m - \sum_{i=1}^{m-1}l_{mi}y_{i}$$
+
+
+This is long and details don't matter so just denote $\hat b = (
+\begin{smallmatrix}
+\hat b_1\\ \hat b_2 \\ \hat b_3  
+\end{smallmatrix})$
+
+\subsection{Backward-substitution}
+\label{sec:backward}
+
+Similarly, now that we have our $\hat b$, we do $U\hat b = x$.
+Since $U$ is an upper triangular, it's the same thing as forward
+substitution but we progress from $x_n$ ($x_n=\hat b_1$)
+For us the $x$ is:
+\begin{align*}
+x_3 &= \frac{\hat b_3}{u_{33}}\\
+\hat b_2 &=u_{22}x_2 + u_{23}x_3\\
+&\rarr x_2 = \frac{\hat b_2 - u_{23}x_3}{u_{22}}\\
+&\rarr x_2= \frac{\hat b_2 - u_{23}\frac{\hat b_3}{u_{33}}}{u_{22}}
+\text{ \tiny substitute $x_3$ }\\
+\hat b_1 &= u_{11}x_1 + u_{12}x_2 + u_{13}x_3\\
+&\rarr x_1 =  \frac{\hat b_1 -(u_{12}x_2 + u_{13}x_3)}{u_{11}}\\
+\end{align*}
+Formally:
+$$x_m= (\hat b_m - \sum_{i=m+1}^{1}u_{mi}x_{i})/u_{mm}$$
+
+\noi
+And finally we get our $x$!!
+
 \section{Pivoting}
-If $a_{11} = 1$, none of that will work. In such a case we need to
+If $a_{11} = 1$, everything above falls apart. In such a case we need to
 permute the first row of $A$ with another row of $A$ with
 $max_j|a_{j1}|$.
 This is the same as multiplying $Ax=b$ with a \emph{permutation
@@ -195,7 +260,33 @@ $$P_1 =
 \end{pmatrix}
 $$
 
-So in the end, we do the same as above and compute $L$, $U$, adn
+So in the end, we do the same as above and compute $L$, $U$, and
 $P=P_1P_2\cdots P_{k}$ where $k\le n-1$ and get $PA=LU$. Note that there is no
 mutliplication/divsion in doing $PA$.
+
+\section{Cost Analysis/Complexity}
+$P$ is costless in terms of $flop$s (in the context of number of multiplication and divisions). Three components that contribute
+are the cost of:
+\begin{enumerate}
+\item \textbf{LU decomposition}: to make $L_1$ requires $n-1$ divisions, and
+  doing  $L_1A$ requires $(n-1)(n-1)$ multiplications. So total of $(n-1)^2 + n-1
+  = n^2-n+1$ or $n(n-1)$ operations for step 1 ($n$ diagonal elements
+  to multpily with elements that required $(n-1)$ flops to make).
+
+So to do step 2 is $(n-1)(n-2)$, and so forth until $n-1$ steps are done, which is:
+$$\sum_{i=1}^{n-1} i(i+1) = sum_{i=1}^{n-1}i^2 + \sum_{i=1}^{n-1}i$$
+Recalling calc 2 arithmetic series and special sums, $\sum_{i=1}^ni =
+n(n+1)/2$ and $\sum_{i=1}^ni^2 =n(n+1)(2n+1)/6$ , so the total sum is
+$\mathcal{O}n^3/3+(n^2+n)/2 = \mathcal{O}(2n^3/3)$
+\item \textbf{forward/backward substitution}: The first(last for back)
+  operation is 1 multiplication, the second equation requires 2
+  multiplication, and in the end it requires $n$
+  multiplication. Disregarding the additions, this is just
+  $\sum_{i=1}^n i = n(n+1)/2 = \mathcal{O}(n^2)$. This analysis holds
+  for both, so total $\mathcal{O}(2n^2)$ here.
+\end{enumerate}
+\noi
+So in total, we have $$\mathcal{O}(2n^3/3) + \mathcal{O}(2n^2) =
+\mathcal{O}(n^3)$$
+for large $n$.
 \end{document}

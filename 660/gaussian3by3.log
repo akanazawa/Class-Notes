@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.14)  7 OCT 2011 17:59
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.14)  7 OCT 2011 21:48
 entering extended mode
  %&-line parsing enabled.
 **\input gaussian3by3.tex
@@ -111,15 +111,15 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 30.
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 ) [1
 
-] [2] [3]
+] [2] [3] [4] [5]
 (./gaussian3by3.aux) ) 
 Here is how much of TeX's memory you used:
- 1144 strings out of 495062
- 12450 string characters out of 1182644
- 72931 words of memory out of 3000000
- 4358 multiletter control sequences out of 15000+50000
- 12012 words of font info for 45 fonts, out of 3000000 for 9000
+ 1151 strings out of 495062
+ 12525 string characters out of 1182644
+ 70931 words of memory out of 3000000
+ 4363 multiletter control sequences out of 15000+50000
+ 12964 words of font info for 49 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  27i,15n,24p,231b,251s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on gaussian3by3.dvi (3 pages, 10220 bytes).
+Output written on gaussian3by3.dvi (5 pages, 17308 bytes).
