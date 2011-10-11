@@ -4,6 +4,7 @@
 \newcommand{\ah}{\alpha}
 \newcommand{\lam}{\lambda}
 \newcommand{\gam}{\gamma}
+\newcommand{\kap}{\kappa}
 \newcommand{\rarr}{\rightarrow}
 \newcommand{\larr}{\leftarrow}
 \newcommand{\ol}{\overline}
@@ -1091,5 +1092,136 @@ Write this $Aa=y$. In general, there is no solution. Gvien any $\ah =
 
 Notice $r_i=y_i-[Aa]_i=y_i-(\ah_0+\ah_ix_i)$. We can restate the goal
 as to minimize $\sum_i^n r_i^2 = ||r||_2^2$
+
+\section{October 11th Class 10}
+\label{sec:class10}
+
+\subsection{Continue on Least Squares}
+\label{sec:leastsqares}
+Given $A\in \mathbf{R}^{m\times n}$, $m>n$, full-rank, $y\in
+\mathbf{R}^m$, we want to \textbf{find $a\in \mathbf{R}^n$ s.t. $||y-Aa||_2$
+is minimal.}
+
+\emph{Example}: Data $(x_1,y_1), \dots, (x_m, y_m)$, we want to find a
+polynomial $p_1(x) = a_0+a_1x$ s.t. $p(x_i)\approx p(y_i)$.
+$$
+\begin{pmatrix}
+  1 & x_1\\
+1 &x_2 \\
+\vdots & \vdots \\
+1 & x_m
+\end{pmatrix}
+\begin{pmatrix}
+  a_0 \\ a_1
+\end{pmatrix}
+=
+\begin{pmatrix}
+  y_1\\ y_2 \\ \vdots \\ y_m
+\end{pmatrix}
+$$
+
+Geometric Interpretation (m=3): $(x_1, y_1), (x_2, y_2), (x_3,
+y_3)$. see notebook. Projection of $\vec y$ on the plane spanned by
+$\vec 1$ and $\vec x$ is the solution $a_0\vec 1 + a_1\vec x = Aa$ that
+minimizes $||y-Aa||_2$. 
+
+From this geometric argument, we have $y-Aa \perp $ plane, which is
+the set of linear combination of columns of $A$. That is:
+$$y-Aa \perp range(A)$$ where $range(A)=\{Aw| w\in \mathbf{R}^n\}$
+So
+\begin{align*}
+<Aw, y-Aa> = 0\\
+<w, A^T(y-Aa)> = 0 \text{ } \forall w\in \mathbf{R}^n
+\end{align*}
+For any $\vec w$ we get range of $A$
+Take for example of $\vec w=A^T(y-Aa) \in \mathbf{R}^m$ That is, 
+\begin{align*}
+<A^T(y-Aa), A^T(y-Aa))> &=0\\
+|A^T(y-Aa)||^2_2 &= 0\\
+&\Rightarrow A^T(y-Aa) = 0 \text{ or }\\
+A^TAa = A^Ty
+\end{align*}
+$A^TAa = A^Ty$ is the normal equations. $A^TA$ (squre, $n\times n$) is
+non-singular (because $A$ is full-rank). We can solve this by gaussian elimination.
+We don't want to because of conditioning issues imposed by gaussian elimination.
+
+\subsection{QR Decomposition}
+\textbf{Definition:} A matrix $Q\in \mathbf{R}^{m\times m}$ is
+\emph{orthogonal} if $Q^TQ=I$
+
+\textbf{Theorem:} For any $A\in \mathbf{R}^{m\times n}$, $m>n$, $\exists$,
+an orthogonal matrix, $Q\in \mathbf{R}^{m\times m}$, and an upper
+triangular matrix $R\in \mathbf{R}^{m\times n}$ s.t. $A=QR$
+
+To minimize $||y-Aa||^2_2$, we want
+\begin{align*}
+  <y-Aa, y-Aa> &= <y-QRa, y-QRa>\\
+&=<QQ^Ty-QRa, QQ^Ty-QRa> \text{ since } QQ^T=I\\
+&=<Q(Q^Ty-Ra), Q(Q^Ty-Ra)>\\
+&=<Q^Ty-Ra), (Q^Ty-QRa)> \text{ left mult} Q^T\\
+&=||\hat y - Ra||^2_2
+\end{align*}
+Where $\hat y = Q^Ty$. To minimize $||\hat y - Ra||_2$, 
+$$||
+\begin{pmatrix}
+\hat y_{1:N}\\ \hat y_{n+1:m}  
+\end{pmatrix} - 
+\begin{pmatrix}
+R_1a \\ 0
+\end{pmatrix}||
+$$
+Where $R_1$ is the upper $n\times n$ subblock of $R$.
+Solve $R_1a = \hat y_{1:n}$. We can't do anything about $\hat
+y_{n+1:m}$.
+$R_1$ is an upper triangular, it's non-singular because $A$ is
+full-rank (this is a \emph{claim:} if $A$ if full-rank then $R_1$ is non-singular). We can
+do back-substitution!
+
+\textbf{Pf} of claim 1:
+\begin{align*}
+  Q&=QQ^TQ= QI\\
+&=(QQ^T)Q \text{ mult right by }Q^{-1}\\
+QQ^{-1}&= (QQ^T)QQ^{-1}\\
+I &= QQ^T
+\end{align*}
+
+So to solve least squares, do the $QR$ decomposition, then solve
+$R_aa=\hat y_{1:n}$. So to get $a$, we need $R_1$ and the first $n$ entries
+of $\hat y$.
+
+So lets write $Q$ as $[Q_1 | Q_2]$, where $Q_1$ is $m\times n$, $Q_2$
+is $m \times (m-(n+1))$. Then, $Q^Ty =
+\begin{pmatrix}
+  Q_1^Ty\\
+Q^T_2y
+\end{pmatrix}$, where $Q_1^Ty$ is $\hat y_{1:n}$. So all we need is
+$Q_1R_1$. But if we want to know the minimum values of least squares,
+you need all of $\hat y$, this will only get us $\hat y_{1:n}$.
+
+\subsection{Why QR and not LU?: Roundoff effects}
+\label{sec:roundoff}
+Given $Q$ ($Q_1$), $R$ ($R_1$), \textbf{Effects of Roundoff}:
+With $LU$:
+\emph{Recall from last week}: for solving $Ax=b$ for $A$ $n\times n$ nonsingular, we
+showed that $\frac{||x-\hat x||}{||x||} \le \kap(A)\frac{||\del
+  A||}{||A||}/ 1-\xi$, $\xi$ very small and irrelevant ($\frac{||\del
+  A||}{||A||}$ is also small)and $\hat x$ solves
+$(A+\del A)\hat x) = b$.
+
+
+Consider the normal equation: $A^TAa = A^Ty$. Last week's analysis
+gives us $$\frac{||a-\hat a||}{||a||}\le \kap(A^TA)\frac{||\del
+  (A^TA)||}{||A^TA||}$$
+\emph{Claim:} if $A$ were square, then $\kap(A^TA)$ is $\kap(A)^2$.
+
+If we use $QR$ decomposition to solve the least squares problem, then
+the analogous bound will be
+$$\frac{||a-\hat a||}{||a||}\le [\kap(A^TA)\frac{||y-Aa||}{||Aa||} +
+\sqrt{\kap(A^TA)}]\frac{||\del A||}{||A||}$$
+So only if $||y-Aa||$ is small, effect of $\kap(A^TA)$ is negligible,
+only bad term is $\sqrt({\kap(A^TA)}$, but this is just
+$\kap(A)$. $\hat a$ is the least squares solution to minimize
+$||(A+\del A)\hat a - y||_2$.
+
 
 \end{document}

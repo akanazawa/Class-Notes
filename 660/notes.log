@@ -1,12 +1,8 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.9.4)  6 OCT 2011 15:16
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  11 OCT 2011 15:13
 entering extended mode
  %&-line parsing enabled.
-**notes.tex
-(./notes.tex
-LaTeX2e <2009/09/24>
-Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
-yphenation, loaded.
-(/usr/share/texmf-texlive/tex/latex/base/article.cls
+**\input notes.tex
+(./notes.tex (/usr/share/texmf-texlive/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/base/size10.clo
 File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
@@ -103,47 +99,47 @@ LaTeX Warning: Label `sec:importancesampling' multiply defined.
 )
 \openout1 = `notes.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Try loading font information for U+msa on input line 30.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Try loading font information for U+msa on input line 31.
  (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 30.
+LaTeX Font Info:    Try loading font information for U+msb on input line 31.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-Overfull \hbox (20.85034pt too wide) in paragraph at lines 34--36
+Overfull \hbox (20.85034pt too wide) in paragraph at lines 35--37
 \OT1/cmr/m/n/10 Prof. Howard El-man CSI 2120 TR 2pm-3:15pm class url:http://www
 .cs.umd.edu/ el-
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 37.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 38.
 (/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 37.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 38.
  [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 103--107
+]
+Underfull \hbox (badness 10000) in paragraph at lines 104--108
 
  []
 
 
-Overfull \hbox (17.5361pt too wide) in paragraph at lines 108--112
+Overfull \hbox (17.5361pt too wide) in paragraph at lines 109--113
 []\OT1/cmr/bx/n/10 Analysis of the New-ton's Method\OT1/cmr/m/n/10 : $\OMS/cmsy
 /m/n/10 j\OML/cmm/m/it/10 x[]\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 =\OMS/cmsy/m/n/
 10 j\OML/cmm/m/it/10 x \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 x[]\OMS/cmsy/m/n/1
@@ -154,7 +150,7 @@ y/m/n/10 j ^^Y
  []
 
 [2] [3] [4] [5] [6] [7]
-Overfull \hbox (5.72202pt too wide) in paragraph at lines 378--380
+Overfull \hbox (5.72202pt too wide) in paragraph at lines 379--381
 []\OT1/cmr/m/n/10 Roll two fair dice, out-comes: $
  = \OMS/cmsy/m/n/10 f\OT1/cmr/m/n/10 (1\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 1)\OM
 L/cmm/m/it/10 ; \OT1/cmr/m/n/10 (1\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 2)\OML/cmm
@@ -167,26 +163,26 @@ t/10 ; []  ; \OT1/cmr/m/n/10 (6\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 6)\OMS/cmsy/m
 
 Package amsmath Warning: Foreign command \atopwithdelims;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 417.
+(amsmath)                 on input line 418.
 
 [8] [9] [10] [11] [12] [13]
-Underfull \hbox (badness 10000) in paragraph at lines 670--680
+Underfull \hbox (badness 10000) in paragraph at lines 671--681
 
  []
 
 [14] [15] [16]
-Underfull \hbox (badness 10000) in paragraph at lines 799--803
+Underfull \hbox (badness 10000) in paragraph at lines 800--804
 
  []
 
 [17]
-Overfull \hbox (19.67337pt too wide) in paragraph at lines 881--884
+Overfull \hbox (19.67337pt too wide) in paragraph at lines 882--885
 []\OT1/cmr/m/n/10 Then $\OML/cmm/m/it/10 P\OT1/cmr/m/n/10 ([]) = \OML/cmm/m/it/
 10 P\OT1/cmr/m/n/10 ([] \OMS/cmsy/m/n/10 ^^T []\OT1/cmr/m/n/10 ) =
  []
 
 [18]
-Overfull \hbox (10.40837pt too wide) in paragraph at lines 914--917
+Overfull \hbox (10.40837pt too wide) in paragraph at lines 915--918
 []\OT1/cmr/m/n/10 For his-togram & den-sity es-ti-ma-tion: If we have a pdf $\O
 ML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )$, the $[][
 ] \OML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )\OML/cm
@@ -194,45 +190,23 @@ m/m/it/10 dx \OT1/cmr/m/n/10 =
  []
 
 [19] [20] [21]
-Overfull \hbox (18.35876pt too wide) in paragraph at lines 1049--1056
+Overfull \hbox (18.35876pt too wide) in paragraph at lines 1050--1057
 \OT1/cmr/m/n/10 The way to think bout hte denominator:$[]$ small means aroung $
 10[]$ $10[]$ $10[]$.
  []
 
-[22] (./notes.aux)
+[22] [23] [24] (./notes.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 1193 strings out of 495061
- 13079 string characters out of 1182622
- 66900 words of memory out of 3000000
- 4400 multiletter control sequences out of 15000+50000
+ 1196 strings out of 495062
+ 13116 string characters out of 1182645
+ 67903 words of memory out of 3000000
+ 4404 multiletter control sequences out of 15000+50000
  12636 words of font info for 49 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 27i,10n,24p,220b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
-re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-te
-xlive/fonts/type1/public/amsfonts/cm/cmbx5.pfb></usr/share/texmf-texlive/fonts/
-type1/public/amsfonts/cm/cmbx7.pfb></usr/share/texmf-texlive/fonts/type1/public
-/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/c
-mextra/cmex7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi1
-0.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/
-share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-
-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/font
-s/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/publ
-ic/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/
-cm/cmr5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb><
-/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/
-texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texliv
-e/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type
-1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/public/am
-sfonts/cm/cmtt10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/symb
-ols/msam10.pfb>
-Output written on notes.pdf (22 pages, 329650 bytes).
-PDF statistics:
- 153 PDF objects out of 1000 (max. 8388607)
- 0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 27i,10n,24p,227b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
 
+Output written on notes.dvi (24 pages, 78620 bytes).
