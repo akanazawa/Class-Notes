@@ -3,6 +3,8 @@
 \newcommand{\ah}{\alpha}
 \newcommand{\lam}{\lambda}
 \newcommand{\gam}{\gamma}
+\newcommand{\del}{\delta}
+\newcommand{\thet}{\theta}
 \newcommand{\rarr}{\rightarrow}
 \newcommand{\larr}{\leftarrow}
 \newcommand{\ol}{\overline}
@@ -802,7 +804,7 @@ We want both the loss and regularizaer to be convex.
 \subsection{Convexity}
 \label{sec:convexity}
 
-\textbf{Definition:}A set $S$ is convex if $\forall x,y\in S, \ahx + (1-\ah)y \in S$ where
+\textbf{Definition:}A set $S$ is convex if $\forall x,y\in S, \ah x + (1-\ah)y \in S$ where
 $\ah\in [0,1]$. THe line segment joining $x$ and $y$ is contained in
 $S$.
 $S=\{x:x^2 > 2\}$ is non-convex because $x\ge \pm\sqrt{2}$, inside
@@ -820,7 +822,7 @@ Operations that preserve convexity:
 
 \textbf{Definition:} $f$ defined on a \emph{convex} set is a
 \emph{convex} if 
-$$f(\ahx + (1-\ah)y) \le \ah f(x) + (1-\ah)f(y) \forall \ah \in
+$$f(\ah x + (1-\ah)y) \le \ah f(x) + (1-\ah)f(y) \forall \ah \in
 [0,1]$$
 The line is always above the function. Or equivalently, $f$ is convex if its \emph{epigraph} is a convex set:
 $$E=\{(x,\mu):\mu \in \mathbf{R}, f(x)\le \mu\}$$ (region(set of points) that lies
@@ -865,7 +867,7 @@ Hinge loss, exponential loss, and logistic loss
 \begin{itemize}
 \item Hinge loss: $L(y,\hat y) = max\{0, 1-y\hat y\}$
 \item Exponential loss: $L(y,\hat y) = exp(-y\hat y)$ 
-\item Logistic Loss:$L(y,\hat y) = log_2(1+exp(-y\hat y\)$ 
+\item Logistic Loss:$L(y,\hat y) = log_2(1+exp(-y\hat y)$ 
 \end{itemize}
 Even if margin  is good, won't get 0 for exponential and logistic.
 
@@ -883,14 +885,14 @@ w\eps$ will have a lot of influence if $||\vec w|| >>$.
 \end{itemize}
 
 \subsubsection{Norm based Regularizers}
-$l_p$ norm: $$||w||_p = (\sum_i|w_i|^p)^{1/p}, p\in[1,\intfy]$$
+$l_p$ norm: $$||w||_p = (\sum_i|w_i|^p)^{1/p}, p\in[1,\infty]$$
 if $p<1$, it won't satisfy triangle inequality and convexity.
 We use $l_1$,$l_2$ usually. 
 A unit ball in $l_p$ is a set $S=\{w:||w||_p \le 1\}$, so in $l_2$ it
 will be a unit circle, with $l_1$, it will be a unit square rotated 90
 degrees. As $p\rarr 0$, the sides approach the axis, $l_0$ ball looks
 like a plus sign. As $p\rarr \infty$ the circle approaches
-square. ($l_\infy(\vec w) = max \vec w$).
+square. ($l_\infty(\vec w) = max \vec w$).
 
 Properties:
 \begin{itemize}
@@ -944,5 +946,160 @@ Geometric interpretation:
   some initial guess $x^(0)$ with update rule:
 $$x^{(t)} = x^{(t-1)} -\eta^{(t)}\bigtriangledown f(x^{(t-1)})$$
 \end{itemize}
+\pagebreak
 
+\section{October 11th Class 10}
+\label{sec:class10}
+
+\subsection{Probabilistic Modeling}
+
+\textbf{Joint:}$p(x,y)$, \textbf{Conditional}: $p(y|x)$ (some ppl
+think this is the discriminative).
+
+\subsubsection{Joint Modeling Setup}
+\label{sec:joint}
+
+Assumption $\mathcal{D}~(x,y)$, $f(\hat x) = argmax_y \mathcal{D}(\hat
+x, y)$ (pick the most likely thing). If there's unique $y$ for every
+$x$ with probability 1 there will be no error.
+
+Training Data: $(x_n, y_n)_n ~ \mathcal{D}$, we want to estimate $\hat
+p(x,y)\approx \mathcal{D}$, where $f(\hat x) = argmax_y \hat p(\hat x,
+y)$
+
+Typical Distributions:
+\begin{itemize}
+\item For labels with $\{1, -1\}$ (coin flips), when $p(h)=\beta$,
+  $p(t) =1-\beta$, use \emph{Bernoulli} distribution.
+\item For labels in the reals, people use \emph{Gaussians}.
+\end{itemize}
+
+People approach joint modeling by factorizing $p(x,y)$ into
+$p(y)p(x|y)$ (chain rule). Backwards of what you think about
+classification. First decide if there's a bird or not, then draw the
+picture depending on if i decided if there's a bird or not.
+
+$x$s are usually feature vectors, so it's sometimes to come up with a
+good model over $p(\vec x| y)$.
+
+Example: label: play or not, features: wind, sunny, temp => many
+combinations. For each, given $Y$, assign probabilities to each
+combinations. where sum of all combinations is 1. But when the number
+of features grow, it's just a lot of combinations and there might be
+not enough data.
+
+\textbf{Naive Bayes Assumption}
+Make smaller tables, condition on play for each feature, so
+$p(W|P)=.6$, then $p(\not W|P)=.4$, and if $p(W|\not P)=.2$, then
+$p(\not W|\not P)=.8$
+Using $$p(x_1, \dots, x_n|y)=\prod_d p(x_d|x_1, \dots, x_{d-1}, y)
+\approx \prod p(x_d|y)$$
+i.e. \emph{Features are independent given the label.}
+
+Note: In the real world it's clear that $p(temperature | outlook)\neq p(temp)$. But naive
+bayes is not this bad, because $p(temp|outlook, play) = p(temp|play)$,
+we are conditioning on the label. Not the best assumption but not
+totally wrong.
+
+So we have, $p(x,y) = p(y)p(x|y)\approx p(y)\prod_d p(x_d|y)$
+
+Telling this fictional tale about where the data came from, the close
+the tale is the better my model will be.
+
+Probabilistic assumption = inductive bias.
+
+\subsection{Primary BUilding model in Naive Bayes}
+
+Short hand for if $x=1$, probability is $\theta$, else
+$1-\theta$: $$\theta^{(x=1)}(1-\theta)^{(x\neq 1)}$$
+
+\subsubsection{Parameter Estimation}: Goal is given data, estimate
+$\mathcal{D}$. Best way is \textbf{Maximum Likelihood}
+\begin{itemize}
+\item Pick parameters $\thet$ that maximize $P_\thet(D)$ where that's
+  the likelihood of $\thet$ (not likelihood of data, probability of data
+  given $\thet$ ($P(D|\thet)$)).
+\end{itemize}
+Goal: Maximize $P((x_1,y_1), \dots,(x_n, y_n)|\thet)$
+Make a first big assumption, that $x$s are i.i.d.
+Then we get $max_\thet \prod_n p(x_n, y_n|\thet)$. The data isn't really
+iid because yesterday it was raining so it probably affects your
+samples.
+
+Now using naive bayes, assume that we have 
+\begin{align*}
+&\approx max_\thet \prod_n p(y_n|\thet)\prod_d p(x_{n, d}|\thet, y_n)\\
+&\approx max_\thet \prod_n \thet_0^{(y_n=1)}(1-\theta_0)^{(y_n\neq 1)}\prod_d \thet_{+1,d}^{(y_n=1, x_{n,d}=1)}(1-\theta_{+1,
+  d})^{(y_n=1, x_{n,d}\neq 1)}\thet_{-1,d}^{(y_n\neq 1,
+  x_{n,d}=1)}(1-\thet_{-1,d})^{(y_n\neq 1, x_{n,d}\neq 1)}
+\end{align*}
+($\thet_0$ is how many days i play)
+Given Play=1, outlook=1 is $\thet_{+1,out}$, so  play=1, outlook=0 is
+$(1-\thet)_{+1,-out}$, and so forth for each feature and it's label
+combination.
+So $\thet_{+1,d}^{(y_n=1, x_{n,d}=1)}$ is $\thet_{+1, out}$.
+(with D many features, we
+get 2D+1 coins and $\thet_0$ is the guy who choses the label, then for
+each feature you'll get $2D$ possibilities) 
+
+\emph{examples:}
+Given 50+ve, 150 -ve examples, $\thet_0 = 50/(50+150) = 1/4 = p(y)$.
+Take 50+ve ex and look at the outlook feature. Say 30 have outlook=1
+and 20 have outlook=0. This is $\thet_{+1, outlook} = 30/50 = 3/5$. So
+training naive bayes is very easy, all you need to do is count. Very
+fast.
+
+\emph{Pf:}
+Just talking about labels so $\thet_0=\thet$
+Super easy case, get bunch of data
+$p(y_1, \dots, y_{200}) = \prod_n p(y_n) = \prod_n
+\thet^{(y_n=1)}(1-\thet)^{(y_n\neq 1)}$
+Now take the log so that it's easier to maximize. We can take the log
+because it's monotonically increasing.
+So:
+\begin{align*}
+ &= \prod_n\thet^{(y_n=1)}(1-\thet)^{(y_n\neq 1)}\\
+&= \sum_n([y_n=1]log(\thet) + [y_n\neq 1] log(1-\thet))\\
+\frac{\partial}{\partial \thet}&= \sum_n( \frac{y_n=1}{\thet} +
+\frac{-[y_n\neq 1]}{(1-\thet)}) = 0\\
+&= \frac{1}{\thet}\sum[y_n=1] &= \frac{1}{1-\thet}\sum [y_n\neq 1]\\
+(1-\thet)\sum[y_n=1] &=\theta \sum[y_n\neq 1]\\
+\sum_n[y_n=1]&= \theta(\sum[y_n \neq 1] + \sum [y_n=1])\\
+\theta &= \frac{\sum_n[y_n=1}{N}
+\end{align*}
+This is what we wanted!!!
+
+\subsubsection{a}
+Objective: 
+$$\max_\thet \prod_\thet \prod_k \thet_k^{[y_n=k]} \text{ subject to
+  }\sum_k \theta_k = 1$$
+Now rolling a die instead of the coin. Without the constraints,
+$\theta_k$ will go to infinity. Take the log of that and
+get $$g(\theta) = \sum_n\sum_k[y_n=k]log(\theta_k) \text{ subject to
+} \sum_k\theta_k-1 = 0$$
+This is concave, with the restriction, it's still concave around the
+line that sums ot one (y=-1), it's concave in the whole space and over
+my restriction, so if we maximize we'll get the the most.
+
+Now construct the lagurangian $\mathcal{L}(\thet, \lam)$
+For every constraint, add a $\lambda$, a lagurange multiplier. So here we only have
+one constraints and we get
+$$\mathcal{L}(\thet, \lam) = g(\thet) + \lam(\sum_k\theta_k - 1)$$
+Then, 
+$$\max_\thet \min_\lam \mathcal{L}(\thet, \lam) = \max_\theta
+g(\thet) \text{ subject to constraints}$$
+(What ever i'm trying to do $\lam$ tries to do the opposite.)
+Now we can do $g(\theta)$ without the constraints by solving
+$\min_\lam \max_\thet \mathcal{L}(\thet, \lam)$.
+
+Idea: All i care is making $g(\thet)$ big. But then there's $\lam$
+who's trying to make $\mathcal{L}$ small. Say I find $\sum_n \thet_n =
+2$, and makes $g(\thet)$ happy. But then $\lam$ will be set to
+$-\infty$, because $\sum_n\thet_n - 1 = 1$, so now $\lam$ has full
+control on making $\mathcal{L}$ small.
+If $\sum_n \thet_n = 0.5$, then $\sum_n \thet_n -1 = -0.5$, so $\lam$
+will go to $\infty$. The only thing I can do is to actually satisfy my
+constraints $\sum_n  \thet_n -1 = 0$. i.e. if we get $-\infty$, that
+means we didn't satisfy the constraints, if we do get something other
+than that we know we've satisfied it.
 \end{document}
