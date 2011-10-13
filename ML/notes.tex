@@ -1102,4 +1102,167 @@ will go to $\infty$. The only thing I can do is to actually satisfy my
 constraints $\sum_n  \thet_n -1 = 0$. i.e. if we get $-\infty$, that
 means we didn't satisfy the constraints, if we do get something other
 than that we know we've satisfied it.
+\pagebreak
+
+\section{Class 11 October 13th}
+\label{sec:class11}
+
+HW
+\begin{enumerate}
+\item $$\max_\theta \prod_d \theta_d^{x_d} s.t. \sum_d \theta_d^2 = 1,
+  (\theta_d\le 0)$$ $\theta_d^2 \le 0$ will always happen but
+  technically need to include it. Since we're maximizing, we want to
+  insure that the function is concave, and log is concave (second
+  derivative should be non-positive). Make sure to check this! The
+  overall goal is to $\max_\thet$ and $\lam$ plays the other role. Take the log:
+  \begin{align*}
+    &=\max_\thet \sum_d x_d log(\theta_d) s.t. \sum_d \theta_d^2 = 1\\
+\mathcal{L}(\thet, \lam)&=\sum_d x_d log(\theta_d)+ \lam(\thet_d^2
+-1)\\
+&=\max_\thet \min_\lam \mathcal{L}(\thet, \lam)
+  \end{align*}
+The order of $\max_\thet \min_\lam$: I pick $\thet$ then $\lam$ picks,
+if I pick $\thet$ that doesn't satisfy the constraint, $\lam$ will
+pick $-\infty$. If we had $\min_\lam \max_\thet$, $\lam$ picks $\le 0$, then
+$\theta$ will be $\infty$, if $\lam > 0$, I will still pick bad
+$\theta$... You need to chose $\thet$ first, $\min_\lam
+\mathcal{L}(\thet, \lam)$ is a function of $\theta$, to figure out
+what $\lam$ is, need to choose $\thet$ first. That's why the order
+matters..? (unresolved) Whatever, pick $\theta$ first!
+Now differentiate with respect to $\thet_d$
+\begin{align*}
+  \partial \mathcal{L}/\partial \thet_d &= x_d/\thet_d + 2\lam
+  \thet_d\\
+-x_d/\thet_d &= 2\lam \thet_d\\
+2\lam \thet_d^2 &= - x_d\\
+\thet_D &= \sqrt{\frac{-x_d}{2\lam}}
+\end{align*}
+Now solve for $\lam$. Substitute the constraint $\sum_d\thet_d^2 = 1$
+\begin{align*}
+  \sum_d \frac{x_d}{2\lam}&= \frac{-1}{2\lam}\sum_{d}x_d = 1\\
+\lam &= -1/2 \sum_d x_d
+\end{align*}
+This means, $\thet_d = \sqrt(\frac{x_d}{\sum_d x_d})$. Need to make
+sure that the positive solution is the right solution (unless there's
+a constraint that $\thet_d \le 0$.
+\end{enumerate}
+
+\subsection{Maximum Likelihood}
+\label{sec:maxli}
+
+Just to remind ourselves, we were trying to maximize the joint
+probability $p(x,y)$ i.e. $f(x) = \arg\max_y p(x,y)$.
+The generative story is:
+\begin{enumerate}
+\item For each example $n=1\dots N$
+  \begin{enumerate}
+  \item choose $y_n\sim Ber(\beta)$
+  \item for each $d=1\dots D$, choose $x_{n,d} \sim N(\mu_{y_n,d},
+    \sig_{y_n,d}^2)$ or $Ber(\thet_{y_n,d})$ any reasonable
+    distribution. For each class and each feature there is a
+    distribution.
+  \item 
+  \end{enumerate}
+\end{enumerate}
+This says if I know my model and the parameters, $\mu$s and $\sig$, we can, so the idea
+is to reverse engineer these parameters.
+Example in matlab:
+\begin{verbatim}
+y = rand < 0.6
+mu = zeros(2); mu(1,1) = 8; % where 1 is pos, 2 is neg, give random number
+mu(1,2) = 11; mu(2, 1) = -4;  mu(2,2) = 10;
+mu(y+1, :) % ans = 8 11 
+X = repmat(mu(y+1, :), 100, 1) + randn(100,2))
+X2 = repmat(mu(2, :), 100, 1) + randn(100,2))
+plot(X(:,1), X(:,2), 'b.') hold on;
+plot(X2(:,1), X2(:,2), 'r*')
+mean(X) % solution/estimate, gaussian with these two mean 
+mean(X2) % => pretty close to the actual mean 
+\end{verbatim}
+
+Turns out that if we want the decision boundary, it just becomes the
+linear classification. 
+\textbf{LLR}: 
+Re-write as $\log \frac{p(y=+1|x}{p(y=-1|x} = \vec x \cdot \vec w +
+b$. The decision boundary is just linear. This is assuming bernoulli
+model on the features. If we did the gaussian case, it works out
+too. But not with any distribution. Point is that this is a linear
+model. The parameters of the model $\thet_{\pm 1, d}$ you can  compute
+by counting. (If gaussian model, find the $\mu,\sig$ of data for each
+feature and each label). Constrasting with perceptron or other iterative
+classifiers, this we get the closed form.\\
+We have a linear model and closed form solution, but there's no
+guarantee about seperability or large margins.
+
+\subsection{Generative vs Conditional}
+Generative is trying to model $p(x,y)$, but all we care about is
+$p(y|x)$ looks like. This is the conditional model.
+The big question in the generative was what probability distribution
+do we chose, then estimate the parameters. Same in conditional model,
+choose a distribution for $p(y|x)$, then estimate the parameters.
+
+We like linear models, so maybe we want $\vec w \cdot \vec x + b$,
+wehre $\vec w$ is the parameters of the model. Since this is in the
+$\mathbf{R}$, we need to squish it down to interval $[0,1]$
+$$\text{sigmoid: } \sig(z) = \frac{1}{1+e^{-z}}$$
+If $wx+b>>$, $\sig = 1$, if $wx+b = 0$, $\sig = 0.5$, if $xw+b << $,
+$\sig = 0$. 
+So we have $$p(y=+1|x) = \sig(\vec w \cdot \vec x + b)$$
+$$p(y=-1|x) = 1-\sig(\vec w \cdot \vec x + b) = \sig(-(\vec w \cdot \vec x + b))$$ Since $1-\sig(z) =
+\sig(-z)$ (symetric property on sig)
+So $$p(y|x) = \sig(y(\vec w \cdot \vec x + b))$$
+We're saying the distribution over the label is a function of the
+margin, which makes sense. Any function that maps $[-\infty, \infty]$
+to $[0,1]$ is good.
+
+What we really care about is $\log(p(y|x)) = \log \sig(y(wx+b))$
+Since $\log(\sig(z)) = -log(1+e^{-z})$, 
+$$\log p(y|x) = -\log (1+e^{-y(wx+b)}$$ The \emph{logistic loss
+  function}!!
+
+So if you optimize a linear classifier under logistic loss function,
+it's the same as optimizing $p(y|x)$.
+
+\subsection{Discriminative Models:SVM}
+Generative and Conditional models are always probabilistic, for
+Discriminative there's no probability. We're explicitly optimizing the
+decision boundry for discriminative.
+Conditional models optimizes the probability of label given data.
+Generative models optimizes predicting both the label and the data.
+
+If you care about probabilities, you should do generative, conditional
+models. When to prefer either or? 
+
+\subsubsection{Current State of Generative vs Conditional}
+\begin{enumerate}
+\item Assume the generative model is ``correct''. (Tell the story
+  about how the data got generated and it's actually true, always
+  false but have it for now). Then,
+  \begin{enumerate}
+  \item as $N\rarr \infty$, $\eps^{gen} \rarr \eps^{Bayes}$,
+    $\eps^{cond} \rarr \eps^{Bayes}$ Asymptotic
+
+  \item fininte $N$, $\eps^{gen} \rarr \eps^{Bayes}$ faster than  $\eps^{cond}
+    \rarr \eps^{Bayes}$ 
+  \end{enumerate}
+\item Assume model not correct
+  \begin{enumerate}
+  \item as $N\rarr \infty$, $\eps^{gen} > \eps^{cond}$, Conditional is
+    better because if the model is even slightly wrong, if we have
+    infinite amount of data, it blows up.
+  \item $N$ finite, $\eps^{gen} \rarr $ it's optimum faster than
+    $\eps^{cond}\rarr$ it's optimum. We'll never get to
+    $\eps^{Bayes}$. It's no longer asymptote at the Bayes line, and
+    they asymptote at different places, and conditonal's optimum might
+    be better, but generative goes to its optimum faster.
+  \end{enumerate}
+\end{enumerate}
+Hall's heuristic is that if $N>2D$, use conditional, $N<D$ use generative.
+Generative adds more information, where data comes from, to
+the model. So when $N$ is small, it's very good. But when $N$ is
+large, it relies too much on your inductive bias about the data.
+
+Conditional and Discrimnative only makes sense for supervised.
+
+
 \end{document}
