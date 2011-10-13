@@ -1,8 +1,12 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  13 OCT 2011 12:14
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.9.4)  13 OCT 2011 13:27
 entering extended mode
  %&-line parsing enabled.
-**\input notes.tex
-(./notes.tex (/usr/share/texmf-texlive/tex/latex/base/article.cls
+**notes.tex
+(./notes.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, loaded.
+(/usr/share/texmf-texlive/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/base/size10.clo
 File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
@@ -116,7 +120,7 @@ to-tal, af-ter 48hrs 50% down, teams. (Python
 
 [1
 
-] [2]
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
 Overfull \hbox (2.00693pt too wide) in paragraph at lines 125--127
 []\OT1/cmr/bx/n/10 Calc/Linear Al-ge-bra\OT1/cmr/m/n/10 : find-ing max-ima/mini
 ma of func-tions, al-lows high-
@@ -238,12 +242,32 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 925 strings out of 495062
- 10218 string characters out of 1182645
- 65376 words of memory out of 3000000
+ 926 strings out of 495061
+ 10228 string characters out of 1182622
+ 66376 words of memory out of 3000000
  4146 multiletter control sequences out of 15000+50000
  11986 words of font info for 43 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 27i,15n,20p,224b,246s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 27i,15n,20p,217b,246s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-te
+xlive/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/share/texmf-texlive/fonts/
+type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/type1/publi
+c/amsfonts/cmextra/cmex7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
+nts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi
+5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
+share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texm
+f-texlive/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/share/texmf-texl
+ive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/ty
+pe1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public/a
+msfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
+mr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></u
+sr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/tex
+mf-texlive/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-texlive/
+fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on notes.pdf (25 pages, 318292 bytes).
+PDF statistics:
+ 155 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
-Output written on notes.dvi (25 pages, 77692 bytes).
