@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  11 OCT 2011 15:13
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  13 OCT 2011 15:15
 entering extended mode
  %&-line parsing enabled.
 **\input notes.tex
@@ -86,7 +86,24 @@ Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
-)) (./notes.aux
+))
+(/usr/share/texmf-texlive/tex/latex/algorithms/algorithmic.sty
+Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
+
+(/usr/share/texmf-texlive/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks19
+)
+\c@ALC@unique=\count99
+\c@ALC@line=\count100
+\c@ALC@rem=\count101
+\c@ALC@depth=\count102
+\ALC@tlm=\skip46
+\algorithmicindent=\skip47
+) (./notes.aux
 
 LaTeX Warning: Label `sec:probability' multiply defined.
 
@@ -99,47 +116,47 @@ LaTeX Warning: Label `sec:importancesampling' multiply defined.
 )
 \openout1 = `notes.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Try loading font information for U+msa on input line 31.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Try loading font information for U+msa on input line 34.
  (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 31.
+LaTeX Font Info:    Try loading font information for U+msb on input line 34.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-Overfull \hbox (20.85034pt too wide) in paragraph at lines 35--37
+Overfull \hbox (20.85034pt too wide) in paragraph at lines 38--40
 \OT1/cmr/m/n/10 Prof. Howard El-man CSI 2120 TR 2pm-3:15pm class url:http://www
 .cs.umd.edu/ el-
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 38.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 41.
 (/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 38.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 41.
  [1
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 104--108
+Underfull \hbox (badness 10000) in paragraph at lines 107--111
 
  []
 
 
-Overfull \hbox (17.5361pt too wide) in paragraph at lines 109--113
+Overfull \hbox (17.5361pt too wide) in paragraph at lines 112--116
 []\OT1/cmr/bx/n/10 Analysis of the New-ton's Method\OT1/cmr/m/n/10 : $\OMS/cmsy
 /m/n/10 j\OML/cmm/m/it/10 x[]\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 =\OMS/cmsy/m/n/
 10 j\OML/cmm/m/it/10 x \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 x[]\OMS/cmsy/m/n/1
@@ -150,7 +167,7 @@ y/m/n/10 j ^^Y
  []
 
 [2] [3] [4] [5] [6] [7]
-Overfull \hbox (5.72202pt too wide) in paragraph at lines 379--381
+Overfull \hbox (5.72202pt too wide) in paragraph at lines 382--384
 []\OT1/cmr/m/n/10 Roll two fair dice, out-comes: $
  = \OMS/cmsy/m/n/10 f\OT1/cmr/m/n/10 (1\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 1)\OM
 L/cmm/m/it/10 ; \OT1/cmr/m/n/10 (1\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 2)\OML/cmm
@@ -163,26 +180,26 @@ t/10 ; []  ; \OT1/cmr/m/n/10 (6\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 6)\OMS/cmsy/m
 
 Package amsmath Warning: Foreign command \atopwithdelims;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 418.
+(amsmath)                 on input line 421.
 
 [8] [9] [10] [11] [12] [13]
-Underfull \hbox (badness 10000) in paragraph at lines 671--681
+Underfull \hbox (badness 10000) in paragraph at lines 674--684
 
  []
 
 [14] [15] [16]
-Underfull \hbox (badness 10000) in paragraph at lines 800--804
+Underfull \hbox (badness 10000) in paragraph at lines 803--807
 
  []
 
 [17]
-Overfull \hbox (19.67337pt too wide) in paragraph at lines 882--885
+Overfull \hbox (19.67337pt too wide) in paragraph at lines 885--888
 []\OT1/cmr/m/n/10 Then $\OML/cmm/m/it/10 P\OT1/cmr/m/n/10 ([]) = \OML/cmm/m/it/
 10 P\OT1/cmr/m/n/10 ([] \OMS/cmsy/m/n/10 ^^T []\OT1/cmr/m/n/10 ) =
  []
 
 [18]
-Overfull \hbox (10.40837pt too wide) in paragraph at lines 915--918
+Overfull \hbox (10.40837pt too wide) in paragraph at lines 918--921
 []\OT1/cmr/m/n/10 For his-togram & den-sity es-ti-ma-tion: If we have a pdf $\O
 ML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )$, the $[][
 ] \OML/cmm/m/it/10 p\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )\OML/cm
@@ -190,23 +207,23 @@ m/m/it/10 dx \OT1/cmr/m/n/10 =
  []
 
 [19] [20] [21]
-Overfull \hbox (18.35876pt too wide) in paragraph at lines 1050--1057
+Overfull \hbox (18.35876pt too wide) in paragraph at lines 1053--1060
 \OT1/cmr/m/n/10 The way to think bout hte denominator:$[]$ small means aroung $
 10[]$ $10[]$ $10[]$.
  []
 
-[22] [23] [24] (./notes.aux)
+[22] [23] [24] [25] [26] (./notes.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 1196 strings out of 495062
- 13116 string characters out of 1182645
- 67903 words of memory out of 3000000
- 4404 multiletter control sequences out of 15000+50000
+ 1406 strings out of 495062
+ 15569 string characters out of 1182645
+ 74028 words of memory out of 3000000
+ 4603 multiletter control sequences out of 15000+50000
  12636 words of font info for 49 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 27i,10n,24p,227b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 27i,15n,24p,227b,371s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on notes.dvi (24 pages, 78620 bytes).
+Output written on notes.dvi (26 pages, 87456 bytes).
