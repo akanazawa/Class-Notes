@@ -1344,4 +1344,251 @@ We've shown that given $\vec x$ we can find a $\vec v$ that does this.
 Big picture, do this to every column of $A$, then we get bunch of $P$
 which will be our $Q$! then the remainder gives us upper triangular
 matrix $R$. 
+
+\pagebreak
+
+\section{Class 11 October 18th 2011}
+\label{sec:class11}
+
+\subsection{Eigenvalue Problems}
+\label{sec:eigenvalue}
+
+$A\in \mathbf{R}^{n\times n}$, find $\vec v\in \mathbf{R}^n$ (or
+$\mathbf{C}^n$) and a scalar $\lam$ (possibly complex) s.t. $$A\vec v =
+\lam v$$
+
+Example of source: consider systems of ordinary differntial equations
+of order $n$, $\frac{dx}{dt} = Ax$, $x = [x_1(t), x_2(t), \cdots,
+x_n(t)]^T$, where $A$ is $n$ by $n$ matrix. $\frac{dx}{dt}$ is a
+vector whos first entry is the first row of $A$ times
+$x_1(t)$. $\frac{dx_1}{dt} = a_{11}x_1 + \cdots + a_{1n}x_n$,
+$\frac{dx_2}{dt} = a_{21}x_2 + \cdots + a_{2n}x_n$ and so forth.
+
+If $A$ has $n$ linearly independent eigenvectors, $v_1, v_2, \dots,
+v_n$, with associated eigenvalues $\lam_1, \lam_2, \dots,
+\lam_n$.($Av_i = \lam_iv_i$. Then $x(t)$ can be written as linear combination of these
+eigenvectors (because they form the basis of
+$\mathbf{R}^n$. i.e. $x(t) = g_1(t)v_1 + g_2(t)v_2 + \cdots+
+g_n(t)v_n$.
+
+The left hand side of $\frac{dx}{dt} = Ax$ is now:
+$$\frac{dx}{dt} = \frac{dg_1}{dt}v_1 + \frac{dg_2}{dt}v_2 + \cdots +
+\frac{dg_n}{dt}v_n$$
+The right hand side is:
+\begin{align*}
+Ax&=g_1(t)Av_1 + g_2(t)Av_2 + \cdots + g_n(t)Av_n\\
+&= g_1(t)\lam_1v_1 + g_2(t)\lam_2v_2 + \cdots + g_n(t)\lam_nv_n
+\end{align*}
+Now setting them equal to each other,
+we have $\frac{dg_i}{dt}=g_i(t)\lam_i$.
+so $g_i = c_1e^{\lam_it}$, where $c_i$ some constant. (because the der
+of $\frac{d(c_1e^{\lam_it})}{dt} = c_1e^{\lam_it}\lam_1 = g_1\lam_1$)
+So the solution is $$x(t) = c_1e^{\lam_1t}v_1+ c_2e^{\lam_1t}v_2
++\cdots + c_ne^{\lam_1t}v_n$$
+
+\subsection{How to compute eigenvalues?}
+\label{sec:computeeig}
+Solve the characteristic polynomial: if $Av=\lam v$, then $(A-\lam I)v
+= 0$. Which means $(A-\lam I)v = 0v$, i.e. $(A-\lam I)$ has a $0$
+eigen value i.e is singular. Therefore, $det(A-\lam I)$ is
+0. $det(A-\lam I)$ is a polynomial of degree n, the
+\emph{characteristic polynomial}.
+
+There is no finite form algorithm to compute the eigenvalues if $n\ge
+5$, from Galois theory. (can't find roots of polynomial order bigger
+than 5).
+
+\subsubsection{Power method} assume $A$ has $n$ linearly independent
+eigenvectors ($v_1,v_2,\cdots,v_n$, $\lam_1,\cdots,\lam_n$). Also assume $|\lam_1|>|lam_2|\ge \cdots \ge |\lam_n|$,
+and we call $\lam_1$ the \emph{dominant} eigenvalue.
+
+Any $w\in \mathbf{R}^n$ can be written as a linear combination of
+these eigen vectors. $w=\ah_1v_1 + \ah_2v_2 + \cdots + \ah_nv_n$.
+So 
+\begin{align*}
+Aw &= \ah_1Av_1 + \cdots + \ah_nAv_n  \\
+&=\ah_1\lam_1v_1 + \ah_2\lam_2v_2 +\cdots + \ah_n\lam_nv_n  \\
+&=\lam_1(\ah_1v_1 + \ah_2\frac{\lam_2}{\lam_1}v_2+ \cdots + \ah_n\frac{\lam_n}{\lam_1}v_n)  \\
+\end{align*}
+We know $(|\frac{\lam_i}{\lam_1}|)^2 <|\frac{\lam_i}{\lam_1}| < 1$ $\forall i>1$ and
+Then 
+\begin{align*}
+   A^2w = A(Aw) &= \lam_1^2(\ah_1v_1 +
+   \ah_2(\frac{\lam_2}{\lam_1})^2v_2+\cdots +
+   \ah_n(\frac{\lam_n}{\lam_1})^2v_n)  \\
+  A^kw &= \lam_1^k(\ah_1v_1 +
+  \ah_2(\frac{\lam_2}{\lam_1})^kv_2+\cdots +
+  \ah_n(\frac{\lam_n}{\lam_1})^kv_n)  \\
+\end{align*}
+Eventually, $(|\frac{\lam_i}{\lam_1}|)^k$ will go to 0. So for $k$
+large enough, $A^kw \approx \lam_1^k\ah_1v_1$.
+
+Pseudocode for this:
+\begin{algorithmic}
+\STATE $w_0= \to w$, $||w||=1$
+  \FOR{ $i=1 \to \dots$}
+     \STATE $\hat w_{i+1} = Aw_i$
+     \STATE $p_{n+1} = \sqrt{\lc \hat w_{i+1}, \hat w_{i+1}\rc }$ just
+     normalization
+     \STATE $w_{i+1} = \frac{\hat w_{i+1}}{p_{i+1}}$
+     \STATE $\mu_{i+1} = \lc Aw_{i+1}, w_{i+1}\rc$
+  \ENDFOR
+\end{algorithmic}
+Because 
+\begin{align*}
+Av&=\lam v\\
+\lc Av, v \rc &= \lc \lam v, v\rc\\
+\lc Av, v \rc &= \lam\lc v, v\rc\\
+\lam &= \frac{\lc Av, v \rc }{\lc v, v\rc}
+\end{align*}
+
+and $\mu$ is the estimate of $\lam$, and $w$ is the estimate of
+eigenvector.
+
+\subsubsection{Direct Method}\label{sec:directmethod}
+Using QR algorithm:
+\begin{algorithmic}
+\STATE $A_0= \to A$
+\FOR{ $i=1 \to \dots$}
+   \STATE factor $A_k=Q_kR_k$
+   \STATE $A_{k+1} \to R_kQ_k$
+\ENDFOR
+\end{algorithmic}
+
+First assume all the eigenvalues of $A$ are real.
+\emph{Claim:} as $k\rarr \infty$, $A_k$ converges  to an upper
+triangular matrix. The eigenvalues of this upper triangular matrix is
+the diagonals.
+
+We stop iteratin when everything below the diagonals of $A_k$ is $\eps$, machine
+precision. 
+
+\emph{Claim:} $A$ and $A_k$ have the same eigen values.
+Pf: $A_0=A$ trivial.
+At first iteration, $A_0 = Q_0R_0$, $A_1 = R_0Q_0$. $R_0$ is
+$Q_0^{-1}A_0$, since $Q_0$ is an orthogonal matrix, $R_0=Q_0^TA_0$
+So $A_1 = (Q_0^TA_0)Q_0 = Q_0^TAQ_0$. So $A_1=Q_0^{-1}AQ_0$, this is
+the \emph{similarity transformation}. $A_1$ and $A$ are similar, and
+therfore they have the same eigenvalues. (if $B=P^{-1}AP$< then $A,B$,
+are similar and they have the same eigenvalues.)
+
+Second iteration: $A_1 = Q_1R_1$, $A_2=R_1Q_1$. Again $R_1 =
+Q_1^TA_1$, so
+\begin{align*}
+A_2 &= Q_1^TA_1Q_1 \\ &= Q_1^T(Q_0^TAQ_0)Q_1\\  
+&=(Q_0Q_1)^TA(Q_0Q_1)
+\end{align*}
+Call $Q = (Q_0Q_1)$. So $A_2 = Q^TAQ=Q^{-1}AQ$, so $A$ and $A_2$ are
+similar as well. 
+
+To do $A_k=Q_kR_k$ is $O(n^3)$, and we need to iterate at least $n$ times, so
+the total cost is $O(n^4)$
+
+How to make this into $O(n^3)$.
+
+\begin{enumerate}
+\item 
+
+First reduce $A$ to upper hesenberg form:\\
+\textbf{Definition:} $$
+\begin{pmatrix}
+  y & x & x & x & x & x\\
+  x & y & x & x & x & x\\
+  0 & x & y & x & x & x\\
+  0 & 0 & x & y & x & x\\
+  0 & 0 & 0 & x & y & x\\
+  0 & 0 & 0 & 0 & x & y\\
+\end{pmatrix}$$
+A matrix where entries below the subdiagonal (x) is all 0. (y is the
+diagonal).
+
+Any real matrix can be transformed into an upper Hessenberg form using
+Householder transformations ($I-vv^T$). With cost $O(n^3)$. This is an exercise.
+
+Let $H=P^TAP$ be the upper Hessenberg matrix, where $P$ is the product
+of householder transformations. Since $P$ orthogonal, $H$ and $A$
+have the same eigenvalues.
+\item apply $QR$ algorithms to $H$. The advantage is that to do $QR$
+  on hessenberg matrix takes $O(n^2)$ instead of $O(n^3)$. 
+\end{enumerate}
+So the total cost is $O(n^3) + O(n^3)= O(n^3)$\\
+
+How to make a hessemberg matrix:
+\textbf{Givens Rotation}:
+$P = 
+\begin{pmatrix}
+  c&s\\-s & c
+\end{pmatrix}
+$, where $c^2+s^2=1$, so $\begin{pmatrix}
+  c&s\\-s & c
+\end{pmatrix}
+\begin{pmatrix}
+  a\\b
+\end{pmatrix}=
+\begin{pmatrix}
+  ca+sb \\-sa+cb
+\end{pmatrix}
+$. Our goal is to make the second component 0.
+so $c$ and $s$ satisfy $-sa+cb = 0$ and $c^2+s^2=1$, which gives us
+$s=\frac{b}{\sqrt{a^2+b^2}}$
+and $c=\frac{a}{\sqrt{a^2+b^2}}$
+The rotation matrix $P$ is orthogonal. $$P^TP = \begin{pmatrix}
+  c&-s\\s & c
+\end{pmatrix}\begin{pmatrix}
+  c&s\\-s & c
+\end{pmatrix}=
+\begin{pmatrix}
+  c^2+s^2& cs-sc\\ sc-cs & s^2+c^2
+\end{pmatrix} = I$$
+
+Assume we have the following upper hessenberg matrix:
+$$\begin{pmatrix}
+  h_{11} & h_{12} & h_{13}\\
+  h{21} & h_{22} & h_{23}\\
+ 0 & h_{32} & h_{33}
+\end{pmatrix}$$
+We want to make this into an upper triangular, so we need to get rid
+of $h_{21}, h_{32}$.
+
+Let $G_1 =
+\begin{pmatrix}
+  c&s&0\\-s&c 0 \\ 0 & 0 & 1
+\end{pmatrix}$, then 
+$$G_1H = \begin{pmatrix}
+  c&s&0\\-s&c 0 \\ 0 & 0 & 1
+\end{pmatrix}\begin{pmatrix}
+  h_{11} & h_{12} & h_{13}\\
+  h{21} & h_{22} & h_{23}\\
+ 0 & h_{32} & h_{33}
+\end{pmatrix}
+=
+\begin{pmatrix}
+  \xi & \xi & \xi \\
+-sh_{11}+ch_{21} & \xi & \xi\\
+0 & h_{32} & h_{33}
+\end{pmatrix}
+$$
+Solve $-sh_{11}+ch_{21}=0$ constrained to $s^2+c^2=1$, then
+$s=\frac{h_{21}}{\sqrt{h_{21}^2+h_{11}^2}}$, and
+$c=\frac{h_{11}}{\sqrt{h_{11}^2+h_{21}^2}}$
+
+This cost us $O(n)$.
+
+Now $G_1H = 
+  \begin{pmatrix}
+  \xi & \xi & \xi \\
+0 & \xi & \xi\\
+0 & h_{32} & h_{33}
+\end{pmatrix}$. 
+
+Using $G_2=
+\begin{pmatrix}
+  1 &0 &0\\
+0 & c & s\\
+0 & -s & c
+\end{pmatrix}
+$, do $G_2G_1H$ to get R
+$  G_2G_1H = R$, where $H=(G_2G_1)^TR_0$, and $G_2G_1$ is $Q_0$.
+SO $H_1 = R_1Q_1 = G_2G_1 H G_1^TG_2^T$, multiplication is order n.
+
 \end{document}
