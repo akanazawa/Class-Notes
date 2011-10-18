@@ -9,6 +9,7 @@
 \newcommand{\larr}{\leftarrow}
 \newcommand{\ol}{\overline}
 \newcommand{\mbb}{\mathbb}
+\newcommand{\wand}{\wedge}
 \newcommand{\contra}{\Rightarrow\Leftarrow}
 
 %other shortcuts
@@ -1263,6 +1264,114 @@ the model. So when $N$ is small, it's very good. But when $N$ is
 large, it relies too much on your inductive bias about the data.
 
 Conditional and Discrimnative only makes sense for supervised.
+
+\pagebreak
+
+\section{Class 11 October 18th 2011}
+
+\subsection{Lagrangian}
+\emph{Goal:} $P(y|x)$, given examples $(x_i, y_i), i=1,\dots,N$ One
+thing to do is want my feature's distribution to match the data. My
+model has some $E_{(x,y)\tilde p}[y=1 \wedge sunny] =
+\frac{1}{N}\sum_{(x_n,y_n)}[y=1 \wand sunny]$ 
+i.e. want $E_P[f_i(x,y)]$ to match the empirical data. So:
+$E_P[f_i(x,y)] = E_D[f_i(x,y)]$ $P$ what i'm going to
+learn, $D$ is the training data.
+
+if we store the training data and say $p(y|x) =
+\begin{cases}
+  1/N & \text{ if }(x,y)\in D\\
+0 & \text{ otherwise}
+\end{cases}$ it wil work, but this is overfitting.
+
+Extreme case of underfitting is uniform distribution. Want something
+in between, so want to match the data, but we also want $p(y|x)$ to be
+uniform as possible.
+
+\textbf{Entropy:} $H(q) = -\sum_z q(z)log(q(z))$
+
+So we want to maximize of the entropy of $p$. so 
+$$\max_{p(y|x)}-\sum_yp(y|x)\log(p(y|x)) s.t. E_P[f_i(x,y)] =
+E_D[f_i(x,y)]\forall i$$
+This is maximizing over a function, which is scary. But from ``Calculus of
+variations'' that study functions over functions, the magic is that
+everything we know holds.
+
+Now remove the - to change max to min, and add lagrange multipliers
+and get:
+$$\min_{p(y|x)}\max_\lambda\sum_{x\in D}\sum_yp(y|x)\log p(y|x) + \sum_i \lambda_i[E_p(f_i) -
+E_D(f_i)]$$
+$E_p[f_i]$ is $\sum_{x\in D}\sum_y p(y|x)f_i(x,y)$, $E_D[f_i]$ is some
+number.
+
+Now take the derivative with respect to $p(y|x)$:
+\begin{align*}
+\frac{\partial}{\partial p(y|x)}&= \sum_{x\in D}\sum_{y}[\log p(y|x)
++ 1] + \sum_i\lambda_i\sum_{x\in D}\sum_yf_i(x,y) = 0\\  
+\sum_{x\in D}\sum_{y}[\log p(y|x)
++ 1] &= - \sum_i\lambda_i\sum_{x\in D}\sum_yf_i(x,y)\\
+\sum_{x\in D}\sum_{y}[\log p(y|x)
++ 1] &= - \sum_{x\in D}\sum_y\sum_i\lambda_if_i(x,y)\\
+\end{align*}
+Then we need to show $\log p(y|x) = -\sum_i \lam_if_i(x,y) - 1 \forall
+x,y$
+Now take the exponential:
+\begin{align*}
+  p(y|x) &= \exp[-\sum_i \lam_if_i(x,y) - 1 ] = \exp[-\sum_i
+  \lam_if_i(x,y)]/e
+\end{align*}
+This is like $\sig(w\cdot x) = 1/z \exp(w\cdot x)$, the sigmoid linear
+regression! it's linear model
+again, where $\lam$s are the $\vec w$, even though we didn't start off
+with a linearity expectation.
+
+\subsection{Neural Networks}
+\label{sec:neuralnetworks}
+Dealing with non-linearlity..
+
+Each of the feature of $x$ will be an input, and the goal is to get
+$y\in \mathbf{R}$ from this. A linear model has weight on each edge
+from the input to the last node, where the value of the last node is
+the sum of $w_ix_i$. This can't solve XOR, so we introduce
+\emph{hidden units}.
+
+Connect each input to each hidden units, a fully connected graph,
+where each edge will have a weight $w_{d,i}$, where it goes from input
+$x_d$ to hidden node $i$, and hidden nodes will have weights $u_i$ on
+edges that connect to the output unit.
+$y=\sum_iu_i(\sum_dw_{d,i}x_d)$, but this is still linear! To
+introduce non-linearity, we'll introduce a link function, $f$, usually
+sigmoid, $f(z) = \tanh(z)$
+
+Let's do XOR:
+OR: $y=x_1 \vee x_2$, where $(1,1),(-1,1),(1,-1)\rarr  y=1$, and
+$y=-1$ for $(-1,-1)$. Here you want the bias to be positive so that the
+only way you can get -1 is if both are negative. Let $b=1000$, then if
+$w_1=w_2=1000$, then we'll get the OR behavior.
+Construct AND, then using OR and AND (with a bias), we can do XOR.
+
+Three parts involved training, architecture selection, and selection
+of link functions.
+
+\subsubsection{Forward and Back propagation}
+\label{sec:forwardback}
+Forward: given $\vec x$, get $y$. 
+Backward: $\partial L/\partial u $ is how much the error on my final prediction
+changes as $u$ changes and so forth.
+
+\subsubsection{Architecture}
+
+\emph{Terminology:}
+\begin{itemize}
+\item  no hidden units $\rarr$ one layer network, the linear model, no xor
+\item 1 set of hidden units $\rarr$ 2 layer network, the universal
+  function approxmiator (essentially infinite representation power),
+  but exponentially many hidden units.
+\item ``deep'' ($\ge 3$), also a universal function approximator, the hope
+  is fewer hidden units.
+\end{itemize}
+
+
 
 
 \end{document}
