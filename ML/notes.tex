@@ -1373,5 +1373,64 @@ changes as $u$ changes and so forth.
 
 
 
+\pagebreak
 
+\section{Class 12 October 20th 2011}
+\label{sec:class12}
+
+\subsection{more on backpropagation}
+\label{sec:backprop}
+First calculate the error: the derivative of squared loss is the difference at
+the output: $e = y-\hat y$.
+Then calculate the gradient for the last edge $-eh_i$. Gradient
+descent subtracts, so we add all the gradeitns, then subtract it from
+the weight later.
+
+Then compute the errors as $h_i$ nodes. Need to look at all edges
+connected to $h_u$.
+$$e_u\leftarrow e_u+ e_vw_{u,v}(1-\tanh^2(a_u))$$
+
+For square loss, we're trying to minimize $L=\frac{1}{2}(y-g(x))^2$, where $g(x)$ is the
+output of ANN. We want $\frac{\partial L}{\partial w_{u,y}} =
+(y-(g(x))-g'(x) = -e_y\frac{\partial g(x)}{\partial w_{u,y}}$
+here $g(x) = w_{u,y}\cdot f(a_u)$, so $\frac{\partial g(x)}{\partial
+  w_{u,y}} = f(a_u)$
+
+Now, we need $\frac{\partial L}{\partial w_{v,u}} =\frac{\partial
+  L}{\partial g(x)} \frac{\partial g(x)}{\partial w_{v,u}}$
+\begin{align*}
+\frac{\partial g(x)}{\partial w_{v,u}} &= w_{u,y}\frac{\partial
+  f}{\partial w_{v,u}}f(\sum_{z\rarr u}w_{z,u})\\
+&=  w_{u,y}f'(a_u)\frac{\partial}{\partial w_{v,u}}w_{z,u}\cdot h_z\\
+&\cdots\\
+&= (\prod_{c\rarr d \text{ is in path to }y}w_{c,d}f'(a_c))\cdot \vec
+h_{\text{ last thing in path}}
+\end{align*}
+
+So for the hw, using logistic,,
+\begin{align*}
+  \frac{\partial}{\partial w_j}log(1+e^{-yg}&=
+  \frac{1}{1+e^{-yg}}\frac{\partial}{\partial w_j}e^{-yg}\\
+&=\sig(yg)e^{-yg}\frac{\partial}{\partial w_j}(-yg)\\
+&=\sig(yg)e^{-yg}(-y)\frac{\partial}{\partial w_j}g\\
+\end{align*}
+and now the first error $e_y$ is not $y-g$ but $\sig(yg)e^{-yg}(-y)$.
+
+\subsection{Architecture Selection}
+In a 2 layer network, there are 3 layers, fully connected. $D$-dimentional inputs, $X$
+number of input, than 1 output.
+Question is how many hidden units? 
+
+If there are only 1 hidden units, underfitting, because it's linear.
+
+If you go from $D/2$ to $D/2+1$ units, do I get more expressive power?
+Yes! It's like adding another bit in binary. (another
+combination/expression)
+
+$W=\mathbf{R}^{D\times K}$, if $D=1000$, you don't want $K$ to be more
+than 100 because it's just a lot of computation and requires a lot of
+examples (2 times the number of parameters $DK$). $K>100$ is rare.
+
+$N$-layer network, $D$ inputs, usually number of hidden nodes decrease
+$D>=|K_1|>=|K_2|>=\cdots >=1=|K_N|$. Very slow to train.
 \end{document}
