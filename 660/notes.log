@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  18 OCT 2011 15:22
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  20 OCT 2011 15:15
 entering extended mode
  %&-line parsing enabled.
 **\input notes.tex
@@ -220,18 +220,30 @@ Underfull \hbox (badness 10000) in paragraph at lines 1514--1515
 
  []
 
-[30] [31] (./notes.aux)
+[30] [31] [32]
+Overfull \hbox (13.08997pt too wide) in paragraph at lines 1711--1725
+[]\OT1/cmr/m/n/10 With A, ap-ply house-holder trans-for-ma-tion on the left: $\
+OML/cmm/m/it/10 Q[]A \OT1/cmr/m/n/10 = []$
+ []
+
+[33]
+Overfull \hbox (24.07573pt too wide) in paragraph at lines 1731--1733
+[]\OT1/cmr/m/n/10 Now step1: start the $\OML/cmm/m/it/10 QR$ \OT1/cmr/m/n/10 it
+-er-a-tion:                                                      
+ []
+
+[34] (./notes.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 1409 strings out of 495062
- 15619 string characters out of 1182645
+ 1415 strings out of 495062
+ 15688 string characters out of 1182645
  76028 words of memory out of 3000000
- 4606 multiletter control sequences out of 15000+50000
- 12636 words of font info for 49 fonts, out of 3000000 for 9000
+ 4610 multiletter control sequences out of 15000+50000
+ 13257 words of font info for 51 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  27i,15n,24p,227b,371s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on notes.dvi (31 pages, 103120 bytes).
+Output written on notes.dvi (34 pages, 114184 bytes).

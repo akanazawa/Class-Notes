@@ -1544,7 +1544,7 @@ The rotation matrix $P$ is orthogonal. $$P^TP = \begin{pmatrix}
 Assume we have the following upper hessenberg matrix:
 $$\begin{pmatrix}
   h_{11} & h_{12} & h_{13}\\
-  h{21} & h_{22} & h_{23}\\
+  h_{21} & h_{22} & h_{23}\\
  0 & h_{32} & h_{33}
 \end{pmatrix}$$
 We want to make this into an upper triangular, so we need to get rid
@@ -1552,10 +1552,10 @@ of $h_{21}, h_{32}$.
 
 Let $G_1 =
 \begin{pmatrix}
-  c&s&0\\-s&c 0 \\ 0 & 0 & 1
+  c&s&0\\-s&c& 0 \\ 0 & 0 & 1
 \end{pmatrix}$, then 
 $$G_1H = \begin{pmatrix}
-  c&s&0\\-s&c 0 \\ 0 & 0 & 1
+  c&s&0\\-s&c &0 \\ 0 & 0 & 1
 \end{pmatrix}\begin{pmatrix}
   h_{11} & h_{12} & h_{13}\\
   h{21} & h_{22} & h_{23}\\
@@ -1590,5 +1590,188 @@ Using $G_2=
 $, do $G_2G_1H$ to get R
 $  G_2G_1H = R$, where $H=(G_2G_1)^TR_0$, and $G_2G_1$ is $Q_0$.
 SO $H_1 = R_1Q_1 = G_2G_1 H G_1^TG_2^T$, multiplication is order n.
+\pagebreak
+
+\section{Class 12 October 20th 2011}
+\label{sec:class12}
+Midterm 27th (next thursday). Maybe some operation counts, analysis,
+semi-rigorous on round-off effects (first 3-4 lectures).
+HW will be out before the exam, no expectation to do it.
+Cover materials all the way up to this class.
+
+\subsection{Why we want $Q_2$}
+$A=QR=Q_1R_1$ Only need $Q_1$,$R_1$ to solve least squares
+problem. $Q=[Q_1|Q_2]$, $R=[R_1; 0]$. $A^T=[R_1^T 0][Q_1^T; Q_2^T]$,
+  vector $v=Q_2\ah \in range(Q_2)$.
+
+Then 
+\begin{align*}
+A^Tv &= [R_1^T 0][Q_1^TQ_2\ah; Q_2^TQ_2\ah]   \\
+&=[R_1^T 0][0; \ah] = 0\\
+\end{align*}
+Because $$I=Q^TQ = [Q_1^T; Q_2^T][Q_1 Q_2] =
+\begin{pmatrix}
+  Q_1^TQ_1 & Q_1^TQ_2\\\
+  Q_2^TQ_1 & Q_2^TQ_2\\\
+\end{pmatrix} =
+\begin{pmatrix}
+I&0\\0& I  
+\end{pmatrix}
+$$
+
+Now the \emph{claim}: if $A^Tv = 0$, then $v\in range(Q_2)$. 
+
+This means the
+colums of $Q_2$ span the null space of $A^T$ -> this is the reason why
+we want to know the entire $Q$ and not $Q_1$
+(not on the exam)
+
+Proof of claim: Given $v$ s.t. $A^Tv = 0$, $v$ is an $m$-vector, (the
+larger dimension). So $v= Qa$ ($Q$ is a matrix of $m$ linearly
+independent columns). then $v=Qa = [Q_1Q_2][a_1;a_2] = Q_1a_1 +
+Q_2a_2$.
+Then 
+\begin{align*}
+A^Tv &=[R_1^T 0][Q_1^T; Q_2^T][Q_1Q_2][a_1;a_2]\\  
+&=[R_1^T 0]I[a_1;a_2] = 0\\  
+\end{align*}
+If $A$ is of full-rank, then $R_1$ is also full-rank, which means
+$a_1=0$ (because $R_1$ is non-singular, the only way we can get
+$R_1^Ta_1=0$ is if $a_1=0$), and $v=Q_2a_2\in range(Q_2)$.
+
+\subsection{Eigenvalue problem}
+Given $A$, an $n$ by $n$ matrix (in $ \mathbf{R}$ or $
+\mathbf{C}$). We want to find $\lam, v$ s.t. $Av - \lam v = 0$. Maybe we
+want $n$ of these (if they exist) linearly independent.
+
+\subsubsection{Power method}
+Start with arbitrary $x^{(0)}$. If $A$ has $n$ eigenvectors, then
+$x^{(0)} = \ah_1v_1 + \ah_2v_2 + \cdots + \ah_nv_n$, a linear
+combination of $v$.
+
+\begin{align*}
+Ax^{(0)}&= \ah_1\lam_1 v_1 + \ah_2\lam_2 v_2 + \cdots + \ah_n\lam_n
+v_n\\
+A^2x^{(0)}&= \ah_1\lam_1^2 v_1 + \ah_2\lam_2^2 v_2 + \cdots +
+\ah_n\lam_n^2 v_n\\
+&\vdots\\
+A^kx^{(0)}&= \ah_1\lam_1^k v_1 + \ah_2\lam_2^k v_2 + \cdots +
+\ah_n\lam_n^k v_n\\
+&= \lam_1^k (\ah_1v_1 + \ah_2(\lam_2/\lam_1)^k v_2 + \cdots + \ah_n(\lam_n/\lam_1)^k v_n\\
+\end{align*}
+Suppose $|\lam_1| > |\lam_i|$, for all $i\neq 1$. Then, all of
+$\frac{\lam_i}{\lam_1}^k \rarr 0$ as $k\rarr \infty$.
+
+Now, we only need to consider $A^kx^{(0)} \sim $ direction of $v_1$.
+Even if $\ah_1=0$ , unless all of the data is a power of 2, I'll get
+the answer, because there will be a rounding error. so even if
+$\ah_1$ starts out to be 0, it won't.
+(Try it with a 3 by 3 example).
+
+Say $A^kx^{(0)}$ normalized. We're only getting $v_1$, how do I get
+$\lam_1$?
+Notice: $Av_1=\lam_1v_1$, look at $v_1^TAv_1 = v_1^T\lam_1v_1 =
+\lam_1v_1^Tv_1$
+so $\lam_1 = \frac{v_1^TAv_1}{v_1^Tv_1}$. 
+
+Now look at $x^{(k)}$ k-th iterate obtained by the power method. Now
+look at $$\frac{x^{(k)'}TAx^{(k)}}{x^{(k)'}x^{(k)}}$$ and this is the
+estimate for $\lam_1^{(k)}$.
+
+To check for convergence, look
+at $$\frac{||Ax^{(k)}-\lam_1^{(k)}||}{||x^{(k)}||}\rarr_? 0$$
+Stop when this is less than some tolerance $\eps$.
+
+To look for the smallest $\lam$, look for the largest
+$\frac{1}{\lam_i}$ because 
+\begin{align*}
+Av&=\lam v\\
+v &= \lam A^{-1}v
+\frac{1}{\lam}v = A^{-1}v
+\end{align*}
+To do this, factor $A=LU$, then in the power method when multiplying
+$A$ (to perform the operation $x^{(k+1)} = A^{-1}x^{(k)}$), instead
+solve the system:
+$Ax^{(k+1} = x^{(k)}$ using $A=LU$. because you never want to compute
+inverse of $A$ directly!!!
+
+Two reasons:
+\begin{itemize}
+\item More stable numerically to use gaussian elimination
+\item This is just cheaper.
+\end{itemize}
+
+
+\subsubsection{Compute all the eigenvalues}
+of $A$,
+Step 0 is to find an orthogonal $Q$ s.t. $Q^TAQ = $Hessenberg
+  form. Nonzero above the subdiagonal.
+How to do this? The givens rotation, or householder matrix!
+
+With A, apply householder transformation on the left: $Q_1A =
+\begin{pmatrix}
+ \xi & \xi &\cdots & \xi\\
+ \xi &\xi &\cdots & \xi\\
+ 0 &\xi &\cdots & \xi\\
+\vdots & \xi &\cdots & \xi\\
+0 &\xi&\cdots & \xi\\
+ \end{pmatrix}
+$
+Then, apply $Q_1$ on the right. this will give me $Q_1AQ_1^T$ (can
+write it like that because householder transformations are symmetric).
+\emph{Claim}: the result is still 0 in the first column below the
+second entry. (WHY?? follows from the definition of the householder
+matrix (how $v$ is made).
+
+Next step is apply it again to the second column, do it $n-1$ times
+and get the hessenberg-form.
+
+(that's the \emph{preliminary} step --\_\_--)
+
+Now step1: start the $QR$ iteration:
+\begin{algorithmic}
+\STATE$H_0=H$
+\FOR {$k=0,1,2,\dots$}
+\STATE $H_k=Q_kR_k$
+\STATE $H_{k+1}\to R_kQ_k$ 
+\ENDFOR  
+\end{algorithmic}
+
+Notice: $H_{k+1}= Q^TH_kQ$ similarity matrix
+
+Shifted version:
+\begin{algorithmic}
+\STATE$H_0=H$
+\FOR {$k=0,1,2,\dots$}
+\STATE $\hat H_k=H_k - \rho I$ subtract $\rho$ from the diagonal
+\STATE $\hat H_k=Q_kR_k$ then do the factorization
+\STATE $ H_{k+1}\to R_kQ_k + \rho I$ 
+\ENDFOR  
+\end{algorithmic}
+ Now 
+ \begin{align*}
+H_{k+1} &= Q_k^T\hat H_k Q_k + \rho I\\   
+&= Q_k^T(H_k -\rho I)Q_k + \rho I\\   
+&=Q_k^T(H_kQ_k) - Q_k^T\rho I Q_k + \rho I\\
+&=Q_k^T(H_kQ_k) - \rho I + \rho I = Q_k^TH_kQ_k\\
+ \end{align*}
+Similarity again!
+When the subdiagonals go to zero, they go down to $\eps$ and consider
+them as 0. THen we're left with an upper triangular matrix. But the
+eigen values of the uppter triangular matrix is the values in on the
+diagonal! So we have all of them. (From Galois, we can't do this, but
+we ``can'' with machine precision).
+
+Why do tehy go to zero? Claim: given
+$(
+\begin{smallmatrix}
+  \ah & \gam \\ \beta & \del
+\end{smallmatrix})
+$, if $\beta$ is small, $\beta\approx \eps$, then after 1 $QR$ step,
+$\beta \rarr O(\eps^2)$
+
+The last 2 by 2 matrix in $Q^TAQ$, the (2,1)  of the bottom 2 by 2
+matrix goes to $\eps^2$, so once we do that, move up to the next 2 by
+2 matrix on the diagonal.
 
 \end{document}
