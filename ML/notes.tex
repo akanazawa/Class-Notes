@@ -25,7 +25,7 @@
 \renewcommand{\vec}[1]{\boldsymbol{#1}}
 
 \documentclass[a4paper]{article}
-\usepackage{amsmath}
+\usepackage{amsmath,algorithmic}
 \begin{document}
 \title{Machine Learning CS726 Fall
  '11}
@@ -1495,16 +1495,110 @@ $\phi$ terms.
 \subsection{Kernelized Perceptron}
 \label{sec:kernelpercep}
 \begin{algorithmic}
-\FOR for each $(x,y)$
-   $a$ \TO $\vec w \cdot \phi(x)$
-   \IF $y_na \le 0$:
-             $\vec w $\to $\vec w + y_n\phi(x_n)$
+\FOR{each $(x,y)$}
+   \STATE $a \gets \vec w \cdot \phi(x)$
+   \IF{ $y_na \le 0$}
+            \STATE $\vec w \gets \vec w + y_n\phi(x_n)$
    \ENDIF
 \ENDFOR
+\STATE return $\vec w$
 \end{algorithmic}
 
 \textbf{Representer Theorem:} (Any algorithm you have should have a
 corresponding representer theorem) I can write my vector, somehow, so
-that it only depends on the feature vector of the training points $\phi(x)$
+that it only depends on the feature vector of the training points
+$\phi(x)$
 
+Want to say that optimal weight vector also lies in $\phi$ space.
+If $w$ points in the direction of data, but if $w$ moves to the
+nullspace of data, there's a component of $w$ that's entirely ignored,
+which won't help my margin (i'd paying a margin penalty and getting
+nothing in return). So if $w$ points in the direction of data, we'll
+have large margin.
+
+\emph{Fromal representer theorem for perceptron}: At any point we can
+write $\vec w$ as $$\sum_m \ah_m\phi(x_m)$$ for some $\ah_m\in
+\mathbf{R}$
+
+Any time I do an update, $\vec w$ changes by a constant times feature
+vector of a single point.
+
+Now, our objective is to learn $\ah$.
+
+How many components does $w$s have? Say $\phi(x)$ is quadratic, then
+$w$ have $d^2$ compoenents. How many $\ah$s? $N$, one for each
+data. So we win $N$ is smaller than $D^2$, otherwise don't do it!!
+
+Now:
+\begin{algorithmic}
+\STATE $\ah \gets 0$
+\FOR{each $(x,y)$}
+   \STATE $a \gets \sum_m^N\ah_m\phi(x_m) \cdot \phi(x)$
+   \IF{ $y_na \le 0$}
+            \STATE $\ah_n \gets \ah_n + y_n$
+   \ENDIF
+\ENDFOR
+\STATE return $\vec \ah$
+\end{algorithmic}
+
+It's not always good to go to higher dimension, because if your data
+was already seperable in lower dimension, the result might be that
+your margin get smaller. Usually the time it takes to train is
+proportional to the size of the margin, so it'll take longer and make
+the margin smaller. So in practice ppl only do cubic and quadratic.
+
+\subsection{Why is it called a kernel?}
+\label{sec:kernel}
+We've re-written the algorithm so that it'll depend on $\phi(x)\cdot
+\phi(z) = (1+\vec x \cdot \vec z)^d$
+White this as $K(\vec x,\vec z) = (1+\vec x \cdot \vec z)^d$, the polynomial kernel.
+Now make up a crazy kernel function, and does it maintian the property
+we care about..? (like converge for sure if it exists, converge in the
+bounded time ($1/\gam^2$)) and this is NO, not any function works.
+
+$K(x,z)$ is okay if $\exists \phi s.t. K(x,z) = \phi(x)\cdot \phi(z)$.
+Functions that are okay to use are the ones that actually do
+correspond to the dot product after some mapping.
+This space where dot product is defined is \emph{Hilbert space}.
+
+How do you do this? You provide the mapping, or come up with
+equivalent property. In this case, $K(x,z)$ is okay is $K$ is
+\emph{symmetric positive
+semi-definite.}
+
+\textbf{Definition:} $a \in \mathbf{R}$ is non-negative if $\forall x\in
+\mathbf{R}$, $xax \le 0$. i.e. $ax^2 \le 0$
+\textbf{Generalization:} $A \in \mathbf{R}^{D\times D}$ is positive semi-definite if
+$\forall \vec x \in
+\mathbf{R}^D$, $x^TAx \le 0$. ($x^TAx$ is (1xD)(DxD)(Dx1)$\in \mathbf{R}$)
+
+\textbf{Symmetry:}
+Say $x_1, x_2, \dots, x_n$, we have $N$ by $N$ matrix $A$, where
+position $K(x_3,x_2) = K(x_2,x_3)$, called the Gram matrix.
+
+Equivalent of saying $K$ is a symmetric positive semi-definite
+function is,  $\forall$ datasets $D$, the matrix $A$ defined by $K$ on
+$D$ is symmetric positive semi-definite.
+
+\textbf{the real definition}:$K:\mathcal{X}\times \mathcal{X} \rarr
+\mathbf{R}$ is symmetric positive semi-definite if $\forall f$, $$\int \int 
+f(x)K(x,z)f(z) dx dz \ge 0$$
+
+This definition is useful because it gives us a way to combine
+multiple kernels to get new kernels.
+
+Example: Suppose $K$ is a kernel (symmetric, positive
+semi-definite). Then $L(x,z) = aK(x,z)\forall a\in \mathbf{R} > 0$ is
+also a valid kernel. If $K$ is symmetric, $L$ is also symmetric. $a$
+is just a constant, so we're good.
+
+\subsubsection{This is called the kernel method because:}
+$\phi: \mathcal{X} \rarr \mathcal{H}$, $\mathcal{H}$, hilbert space $
+= \{ f: \mathbf{R}^D \rarr \mathbf{R} | \int f(x)^2 dx < \infty \}$
+Points in this space are functions. aka $\mathcal{L}_2$
+The natural definition of dot product in this space is $f\cdot g =
+\int f(x)g(x) dx$.
+
+So our kernel $K$ now takes 2 points $x,z$, $K(x,z) = \phi(x)\cdot
+\phi(z)$.. next time!
 \end{document}

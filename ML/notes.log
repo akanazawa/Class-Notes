@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  25 OCT 2011 11:30
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  25 OCT 2011 12:15
 entering extended mode
  %&-line parsing enabled.
 **\input notes.tex
@@ -80,6 +80,29 @@ Package amsmath Warning: Unable to redefine math accent \vec.
 \mathdisplay@stack=\toks18
 LaTeX Info: Redefining \[ on input line 2666.
 LaTeX Info: Redefining \] on input line 2667.
+) (./algorithmic.sty
+Package: algorithmic 
+
+Document Style `algorithmic' - environment
+(/usr/share/texmf-texlive/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(/usr/share/texmf-texlive/tex/latex/tools/calc.sty
+Package: calc 2007/08/22 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count99
+\calc@Bcount=\count100
+\calc@Adimen=\dimen112
+\calc@Bdimen=\dimen113
+\calc@Askip=\skip46
+\calc@Bskip=\skip47
+LaTeX Info: Redefining \setlength on input line 76.
+LaTeX Info: Redefining \addtolength on input line 77.
+\calc@Ccount=\count101
+\calc@Cskip=\skip48
+)
+\c@ALC@line=\count102
+\c@ALC@rem=\count103
+\ALC@tlm=\skip49
 ) (./notes.aux
 
 LaTeX Warning: Label `sec:multiclass' multiply defined.
@@ -239,146 +262,18 @@ cmm/m/it/10 ^^^\OT1/cmr/m/n/10 ([]) = (\OML/cmm/m/it/10 x[]; x[]; [] ; x[]; x[]
 ; x[]x[] [] ; x[]x[]; [] ; x[]x[]; [] ; x[]\OT1/cmr/m/n/10 )$
  []
 
-
-! LaTeX Error: Environment algorithmic undefined.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1497 \begin{algorithmic}
-                          
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Undefined control sequence.
-l.1498 \FOR
-            for each $(x,y)$
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.1499    $a$ \TO
-                  $\vec w \cdot \phi(x)$
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.1500    \IF
-              $y_na \le 0$:
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1501              $\vec w $\to
-                                 $\vec w + y_n\phi(x_n)$
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1501              $\vec w $\to $\vec w
-                                         + y_n\phi(x_n)$
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-! Extra }, or forgotten $.
-\math@atom #1#2->\binrel@ {#1}\binrel@@ {#2}
-                                            
-l.1501              $\vec w $\to $\vec w
-                                         + y_n\phi(x_n)$
-I've deleted a group-closing symbol because it seems to be
-spurious, as in `$x}$'. But perhaps the } is legitimate and
-you forgot something else, as in `\hbox{$x}'. In such cases
-the way to recover is to insert both the forgotten and the
-deleted material, e.g., by typing `I$}'.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1501              $\vec w $\to $\vec w
-                                         + y_n\phi(x_n)$
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-! Missing } inserted.
-<inserted text> 
-                }
-l.1501              $\vec w $\to $\vec w
-                                         + y_n\phi(x_n)$
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1501              $\vec w $\to $\vec w + y_
-                                             n\phi(x_n)$
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-! Undefined control sequence.
-l.1502    \ENDIF
-                
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.1503 \ENDFOR
-              
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-! LaTeX Error: \begin{document} ended by \end{algorithmic}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1504 \end{algorithmic}
-                        
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-[29] (./notes.aux)
+[29] [30] [31] (./notes.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 934 strings out of 495062
- 10342 string characters out of 1182645
- 65379 words of memory out of 3000000
- 4155 multiletter control sequences out of 15000+50000
+ 1137 strings out of 495062
+ 12739 string characters out of 1182645
+ 70465 words of memory out of 3000000
+ 4348 multiletter control sequences out of 15000+50000
  11986 words of font info for 43 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 27i,15n,20p,224b,246s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 27i,15n,20p,224b,365s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on notes.dvi (29 pages, 92448 bytes).
+Output written on notes.dvi (31 pages, 98192 bytes).
