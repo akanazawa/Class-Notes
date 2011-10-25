@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  20 OCT 2011 12:03
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  25 OCT 2011 11:30
 entering extended mode
  %&-line parsing enabled.
 **\input notes.tex
@@ -232,18 +232,153 @@ Overfull \hbox (43.49661pt too wide) in paragraph at lines 1182--1182
  random number[] 
  []
 
-[24] [25] [26] [27] [28] (./notes.aux)
+[24] [25] [26] [27] [28]
+Overfull \hbox (146.35019pt too wide) in paragraph at lines 1461--1466
+[]\OT1/cmr/m/n/10 Problem is that with P1 code, this will take for-ever. $\OML/
+cmm/m/it/10 ^^^\OT1/cmr/m/n/10 ([]) = (\OML/cmm/m/it/10 x[]; x[]; [] ; x[]; x[]
+; x[]x[] [] ; x[]x[]; [] ; x[]x[]; [] ; x[]\OT1/cmr/m/n/10 )$
+ []
+
+
+! LaTeX Error: Environment algorithmic undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1497 \begin{algorithmic}
+                          
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Undefined control sequence.
+l.1498 \FOR
+            for each $(x,y)$
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.1499    $a$ \TO
+                  $\vec w \cdot \phi(x)$
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.1500    \IF
+              $y_na \le 0$:
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1501              $\vec w $\to
+                                 $\vec w + y_n\phi(x_n)$
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1501              $\vec w $\to $\vec w
+                                         + y_n\phi(x_n)$
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Extra }, or forgotten $.
+\math@atom #1#2->\binrel@ {#1}\binrel@@ {#2}
+                                            
+l.1501              $\vec w $\to $\vec w
+                                         + y_n\phi(x_n)$
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1501              $\vec w $\to $\vec w
+                                         + y_n\phi(x_n)$
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.1501              $\vec w $\to $\vec w
+                                         + y_n\phi(x_n)$
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1501              $\vec w $\to $\vec w + y_
+                                             n\phi(x_n)$
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Undefined control sequence.
+l.1502    \ENDIF
+                
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.1503 \ENDFOR
+              
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+! LaTeX Error: \begin{document} ended by \end{algorithmic}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1504 \end{algorithmic}
+                        
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+[29] (./notes.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 930 strings out of 495062
- 10286 string characters out of 1182645
+ 934 strings out of 495062
+ 10342 string characters out of 1182645
  65379 words of memory out of 3000000
- 4151 multiletter control sequences out of 15000+50000
+ 4155 multiletter control sequences out of 15000+50000
  11986 words of font info for 43 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  27i,15n,20p,224b,246s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on notes.dvi (28 pages, 87752 bytes).
+Output written on notes.dvi (29 pages, 92448 bytes).

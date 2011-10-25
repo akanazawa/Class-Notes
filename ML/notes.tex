@@ -1433,4 +1433,78 @@ examples (2 times the number of parameters $DK$). $K>100$ is rare.
 
 $N$-layer network, $D$ inputs, usually number of hidden nodes decrease
 $D>=|K_1|>=|K_2|>=\cdots >=1=|K_N|$. Very slow to train.
+
+\pagebreak
+
+\section{Class 13 Oct 25th}
+\label{sec:class13}
+History
+\begin{itemize}
+\item Tikhonov regularization minimize loss (linear) + regularizer
+\item Kernelization of linear models (how can i take a linear model
+  and make it non-linear for free)
+\end{itemize}
+Neither works really well, but add them together was SVM which worked
+well. SVM is just another kernelized model.
+
+\subsection{Kernel Methods}
+Linear model $w\cdot x$ want to map this to higher dimension
+$w_{big}\cdot\phi(x)$.
+
+In 1D linearly seperable data, a linear seperator is just a dot, a
+threshold.
+If it's not linearly seperable, map $x$ to $(x,x^2)$. Now we have 2D
+data. Under this feature mapping, $\phi(x) = (x,x^2)$, this is
+linearly seperable.
+In 1D, this seperation is not linear.
+
+Problem is that with P1 code, this will take forever. 
+$\phi(\vec x) = (x_1, x_2, \dots, x_d, x_1^2, x_1x_2 \dots, x_1x_d,
+\dots, x_dx_1, \dots, x_d^2)$
+Roughly $d^2$ more points. (++--++ -> requires cubic map, ++--++-- ->
+quadratic map)
+
+For all of these mappings, $\phi(x)\cdot \phi(z)$ can be computed
+sublinearly in the expanded mapping. A purely computational trick.
+With quadratic feature mapping, 
+\begin{align*}
+\phi(x)\cdot \phi(z) &= (1+x\cdot z)^2  \\
+&=(1+x\cdot z)(1+x\cdot z)\\
+&=1+x\cdot z + (x \cdot z)^2
+\end{align*}
+gives you same thing with some constants.
+
+1D case: $(1+xz)(1+xz) = 1+2xz+x^2z^2$.
+Compare this to $(x,x^2)\cdot(z,z^2) = xz + x^2z^2$.
+We have our linear term, quadratic, and a constant
+
+\textbf{Why does this constant not matter?}
+1 will just affect the bias. the 2 is just the weight on $xz$, so the
+representation is not exactly the same. But this will affect my
+regularizer, my weights won't be small anymore, may not have the best
+margin anymore. But we're happy with
+these constants.
+
+Problem is, all of my algorithm depends on $\vec w_{big}\cdot \phi(x)$. But
+$\vec w$ is not in $\phi$. $\vec w$ is in the big space, also $\vec w
+\neq \phi(\text{something})$, most likely.
+
+How can we take our current algorithms so that it only depends on
+$\phi$ terms.
+
+\subsection{Kernelized Perceptron}
+\label{sec:kernelpercep}
+\begin{algorithmic}
+\FOR for each $(x,y)$
+   $a$ \TO $\vec w \cdot \phi(x)$
+   \IF $y_na \le 0$:
+             $\vec w $\to $\vec w + y_n\phi(x_n)$
+   \ENDIF
+\ENDFOR
+\end{algorithmic}
+
+\textbf{Representer Theorem:} (Any algorithm you have should have a
+corresponding representer theorem) I can write my vector, somehow, so
+that it only depends on the feature vector of the training points $\phi(x)$
+
 \end{document}
