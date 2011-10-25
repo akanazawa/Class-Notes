@@ -32,14 +32,16 @@
 \section{Gaussian Elimination and LU Factorization}
 Gaussian Elimination is a way of solving systems of linear
 equations. When you apply the algorithm in a matrix form, it lets us
-write a matrix as the product of a unit lower-triangular matrix and an upper-triangular matrix. \textbf{TODO: check if it's unit or not}
+write a matrix as the product of a unit lower-triangular matrix and an
+upper-triangular matrix.
+
+\noi
 \textbf{Problem Statement:} Solve $Ax=b$, where $A$ is a $N$ by $M$
 non-singular matrix. 
 
 \noi
 \textbf{Goal:} Compute $L$, a unit lower-triangular matrix and $U$ an
-upper-triangular matrix s.t. with a $P$ permutation matrix, $A$ is
-defined by $A=LU$. Then, we can solve $Ax=b$ by 
+upper-triangular matrix (with a $P$ permutation matrix) s.t. $A=LU$. Then, we can solve $Ax=b$ by 
 \begin{align*}
   Ax&=b\\
   LUx&=b\\
@@ -62,14 +64,14 @@ Doing the $LU$ factorization costs $\mathcal{O}(\frac{2}{3}n^3) =
   column. i.e. Multpily $A$ with $L_1$ to get $A^{(1)}$ ($A^{(i)}$ is
   our $A$ after $i$th many steps).
 \item Repeat, then we will get our upper triangular matrix 
-  $U=A^{(n-1)}=L_{n-1}\cdots L_1A$, and our $L=L_{1}^{-1}\cdots
+  $U=L_{n-1}\cdots L_1A$, and our $L=L_{1}^{-1}\cdots
   L_{n-1}^{-1}$.
 
-(Why?) because $A=L_1^{-1}L_1A=L_1^{-1}A^{(1)}$ where
-$A^{(1)}=L_1A=U_1$ we get: 
+(Why?) because $A=L_1^{-1}L_1A=L_1^{-1}U_1$ where
+$U_1=L_1A$ we get: 
   \begin{align*}
 A&= (L_{1}^{-1}\cdots L_{n-1}^{-1})(L_{n-1}\cdots L_1A) \\
-&=(L_{1}^{-1}\cdots L_{n-1}^{-1})A^{(n-1)}= LU    
+&= LU    
   \end{align*}
 \end{enumerate}
 
@@ -167,7 +169,7 @@ $$ Or just all of the nonzero elements of $-L_i$'s.
 triangular matrix)
 
 \noi
-phew... Finally we have:
+Finally we have:
 \begin{align*}
 A &= LU  \\
 &=\begin{pmatrix}
@@ -265,8 +267,8 @@ $P=P_1P_2\cdots P_{k}$ where $k\le n-1$ and get $PA=LU$. Note that there is no
 mutliplication/divsion in doing $PA$.
 
 \section{Cost Analysis/Complexity}
-$P$ is costless in terms of $flop$s (in the context of number of multiplication and divisions). Three components that contribute
-are the cost of:
+$P$ is costless in terms of $flop$s (in the context of number of
+multiplication and divisions). Components that contribute to the cost are:
 \begin{enumerate}
 \item \textbf{LU decomposition}: to make $L_1$ requires $n-1$ divisions, and
   doing  $L_1A$ requires $(n-1)(n-1)$ multiplications. So total of $(n-1)^2 + n-1
