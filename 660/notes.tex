@@ -161,7 +161,7 @@ ratio). Our goal is to find what $p$ is for a specific problem.
        \item Additional error: from the computation of $\tilde{u}$,
          will get something else $\hat{\tilde{u}}\neq \tilde{u}$\\
         \textbf{we can show}: $$\frac{||\hat{\tilde{u}} -
-           \tilde{u}||}{\hat{\tilde{u}}||} \le K(A)\mu$$ That is if we
+           \tilde{u}||}{||\hat{\tilde{u}}||} \le K(A)\mu$$ That is if we
          solve the problem appropriately (like being careful about
          pivoting etc).
          
@@ -1042,8 +1042,8 @@ A\hat x&= b-(\delta A)\hat x\\
 &= x -  A^{-1}(\delta A)\hat x\\
 ||\hat x|| &\le ||x|| + ||A^{-1}(\delta A)\hat x|| \text{ take the
   norm}\\ 
-&le  ||x|| + ||A^{-1}|| ||(\delta A)||||\hat x|| 
-(1-||A^{-1}||||(\delta A)|| )||\hat x|| &\le ||x||\\
+&\le  ||x|| + ||A^{-1}|| ||(\delta A)||||\hat x|| \\
+||\hat x|| - ||A^{-1}|| ||(\delta A)\hat x|| &\le ||x ||
 1-\kappa(A)\frac{||\delta A||}{||A||}||\hat x|| &\le ||x||
 \end{align*}
 $\kappa(A)$ is a property of our matrix A. In numerical computing, we
@@ -1137,7 +1137,7 @@ So
 <w, A^T(y-Aa)> = 0 \text{ } \forall w\in \mathbf{R}^n
 \end{align*}
 For any $\vec w$ we get range of $A$
-Take for example of $\vec w=A^T(y-Aa) \in \mathbf{R}^m$ That is, 
+Take for example of $\vec w=A^T(y-Aa) \in \mathbf{R}^n$ That is, 
 \begin{align*}
 <A^T(y-Aa), A^T(y-Aa))> &=0\\
 |A^T(y-Aa)||^2_2 &= 0\\
@@ -1161,7 +1161,7 @@ To minimize $||y-Aa||^2_2$, we want
   <y-Aa, y-Aa> &= <y-QRa, y-QRa>\\
 &=<QQ^Ty-QRa, QQ^Ty-QRa> \text{ since } QQ^T=I\\
 &=<Q(Q^Ty-Ra), Q(Q^Ty-Ra)>\\
-&=<Q^Ty-Ra), (Q^Ty-QRa)> \text{ left mult} Q^T\\
+&=<Q^Ty-Ra), (Q^Ty-Ra)> \text{ left mult} Q^T\\
 &=||\hat y - Ra||^2_2
 \end{align*}
 Where $\hat y = Q^Ty$. To minimize $||\hat y - Ra||_2$, 
@@ -1280,7 +1280,7 @@ with $\hat q_3$, then solve for $q_3$ using the definition of $\hat q_3$.
   \STATE $\hat q_k \gets a_k$
   \FOR{ $i=1 \to k-1$}
      \STATE $r_{i,k} = \langle q_i, a_k \rangle$
-     \STATE $q_k \gets \hat q_k - q_i r_{ik}$
+     \STATE $\hat q_k \gets \hat q_k - q_i r_{ik}$
   \ENDFOR
   \STATE $r_{kk} = ||\hat q_k||$
   \STATE $q_k \gets \hat q_k/r_{kk}$
