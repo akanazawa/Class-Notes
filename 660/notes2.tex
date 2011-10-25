@@ -1,0 +1,114 @@
+\newcommand{\sig}{\sigma}
+\newcommand{\eps}{\epsilon}
+\newcommand{\del}{\delta}
+\newcommand{\ah}{\alpha}
+\newcommand{\lam}{\lambda}
+\newcommand{\gam}{\gamma}
+\newcommand{\kap}{\kappa}
+\newcommand{\rarr}{\rightarrow}
+\newcommand{\larr}{\leftarrow}
+\newcommand{\ol}{\overline}
+\newcommand{\mbb}{\mathbb}
+\newcommand{\contra}{\Rightarrow\Leftarrow}
+% for cross product
+\newcommand{\lc}{\langle} %<
+\newcommand{\rc}{\rangle} %>
+
+%other shortcuts
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\beq}{\begin{quote}}
+\newcommand{\enq}{\end{quote}}
+\newcommand{\hsone}{\hspace*{1cm}}
+\newcommand{\hstwo}{\hspace*{2cm}}
+
+\newcommand{\noi}{\noindent}
+\parskip 5pt
+\parindent 0pt
+
+\documentclass[a4paper]{article}
+\usepackage{amsmath,amssymb,algorithmic}
+\begin{document}
+\title{Scientific Computing CS660 Fall '11\\Notes after the midterm}
+\author{Angjoo Kanazawa}
+\maketitle
+\section{Class 13 October 25th 2011}
+\label{sec:class13}
+\subsection{HW2 answers}
+\textbf{Problem 1b}: to compute many $N$, compute $S_N = \phi(x_1) + \cdots +
+\phi(x_n)$, take $N$ samples, divide by $N$ will give us $I_N$. THe
+error is $E_N = I-I_N$. TO generate $I_{N+1}$, take $S_{N+1} = S_N +
+\phi(x_{N+1})$ to compute $I_{N+1}$. But this way $E_{N+1}$ is not
+independent from $E_N$. (Left top figure on the answers).
+
+(Doing it entirely independently (how i did it) is the lower figure)
+Plotted $\log_N$ vs $\log(\frac{\sig}{\sqrt{N}}$
+The observation was that it somewhat follows the bound. 
+
+Our bound, $\frac{\sig}{\sqrt{N}}$, comes from chebychev
+$P(|\frac{S_N}{N} - \mu| \ge c) \le \frac{\sig^2}{Nc^2}$.
+So if we want this $P$ to be 95\%, then $c\le
+\frac{\sig}{\sqrt{0.5N}}$. So loosely speaking, the error $E_N = I-I_N
+\approx \frac{\sig}{\sqrt{0.5N}}$. The point of the question was that
+it's not exact.
+
+On Page 3 of the solution, there's the definition of histogram for
+question 1c.
+
+\textbf{Problem 2}: 
+In P1, the error was $E_N = \frac{\sig^2}{\sqrt{N}}$
+If the variance is $\sig^2$, std $\sig$, then log of $E_N$ is $\log
+\sig - \frac{\log(0.5N)}{2}$. 
+
+In here, we expected the error to be $\frac{\sig^2}{\sqrt{N}}$. If
+that were to happen, same derivation would give $\log(E_N)\approx
+2\log(\sig) - \frac{\log(0.5N)}{2}$.
+The blue line (boundary) would've been $2\log(\sig) -
+\frac{\log(N)}{2}$ and $E_N$ will hover around there. But it didn't
+work!! Because $sin(\pi X) = sin(\pi(1-X))$, nothing changed. Function
+had to be monotone.
+
+\textbf{midterm:}
+Equally distributed, 3 topics: floating pt/round off errors, mc,
+matrix factorization (big picture). (no newton's method, no machine
+representation of numbers)
+
+\subsection{Eigenvalue Hessemberg}
+Why do we want to reduce the matrix to Hessemberg form: Because doing
+$QR$ on Hessenberg is $\mathcal{O}(n^2)$ instead of
+$\mathcal{O}(n^3)$.
+
+How to make a hessemberg matrix:
+$A$ is a big full matrix. Now $QA$ will make everything below the
+second entry of first column to 0. You can do that with Householder
+transformation, or givens rotation. 
+
+However we do this, $QAQ^T$ will not mess up the 0s.
+\begin{align*}
+ QAQ^T &= [Q(QA)^T]^T\\
+\end{align*}
+Applying to $Q$ to $(QA)^T$ will leave the first row alone, so
+$[Q(QA)^T]^T$ still keeps the first column's entry below 2 to 0.
+
+Exercise, go back, do: can we perform $QAQ^T$ where $Q$ is a
+householder transformation s.t. $QAQ^T$ is a first step hessemberg
+matrix. The reason why this works is because householder is in the
+$n-1$ subblock, so it doesn't do anything row 1. (It's like the 2nd
+household transformation in the QR reduction)
+
+
+$QR$ iteration for the eigenvalue problem:
+\begin{enumerate}
+\item[0] Reduce $A$ to hessenberg form, formally, $PAP^T = H$, where $P$
+  orthogonal. (do $n-1$ householder transformation $P_2$).$A_0 = H$
+\item[1-k] Iterate, $A_K = Q_KR_K$, $A_{K+1} = R_KQ_K$
+\end{enumerate}
+Doing this $A=QR$ is $\mathcal{O}(n^3)$, but to do this until
+conversion (see $\eps$ in below diagonal, is $n$, so total
+$\mathcal{O}(n^4)$ (without making $A$ into upper hessenberg).
+If $A$ wer hessenberg, doing $QR$ is $\mathcal{O}(n^2)$ instead of
+$\mathcal{O}(n^3)$, so the total cost is $\mathcal{O}(n^3) +
+\mathcal{O}(nn^2) = \mathcal{O}(n^3)$ with hessemberg.
+
+
+\end{document}
