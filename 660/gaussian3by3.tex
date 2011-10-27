@@ -272,7 +272,7 @@ multiplication and divisions). Components that contribute to the cost are:
 \begin{enumerate}
 \item \textbf{LU decomposition}: to make $L_1$ requires $n-1$ divisions, and
   doing  $L_1A$ requires $(n-1)(n-1)$ multiplications. So total of $(n-1)^2 + n-1
-  = n^2-n+1$ or $n(n-1)$ operations for step 1 ($n$ diagonal elements
+  = n^2-n$ or $n(n-1)$ operations for step 1 ($n$ diagonal elements
   to multpily with elements that required $(n-1)$ flops to make).
 
 So to do step 2 is $(n-1)(n-2)$, and so forth until $n-1$ steps are done, which is:
