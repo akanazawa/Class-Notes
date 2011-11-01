@@ -1601,4 +1601,151 @@ The natural definition of dot product in this space is $f\cdot g =
 
 So our kernel $K$ now takes 2 points $x,z$, $K(x,z) = \phi(x)\cdot
 \phi(z)$.. next time!
+
+\pagebreak
+\section{Class 14 on paper..}
+\label{sec:class14}
+\pagebreak
+\section{Class 15 November 1st 2011}
+\label{sec:class15}
+Take-home midterm handed out this thursday. Up to end of kernel
+methods.
+
+\subsection{Ensemble Methods}
+
+\begin{enumerate}
+\item Independent ensembles: build multiple classifiers
+  independently. Bagging, random forests
+\item Dependent ensembles: typically greedy, build one classifier, and
+  using that as a basis build a second one, i.e. boosting
+\end{enumerate}
+Notion of independent/dependent has to do with training time, not test
+time.
+
+Pro: for independent ensembles: can train them in parallel.
+Con: learning a bunch of stuff, and hoping that it does well together,
+where dependent ensembles actually makes a weak learner
+stronger. Dependent usually requires smaller number of ensembles by its
+construction.
+
+\subsubsection{Bagging}
+\label{sec:bagging}
+
+
+Dataset $ \mathcal{\tilde D} : \{(x_1, y_1), (x_2,y_2), \dots, (x_n,y_n)\}$, a finite distribution over
+  these examples. $\mathcal{\tilde D}$ will put probability in each of
+  these examples i.e. $$\mathcal{\tilde  D} =
+  \sum_{n=1}^N\frac{1}{N}\delta_{x_n}$$
+
+We have bunch of examples on $\mathcal{X\times Y}$, each of
+$\delta_{x_n, y_n}$ is
+the probability point mass centered at $(x_n,y_n)$, that has
+probability $\frac{1}{N}$ but 0 everywhere else. Our empirical
+probability distribution over the training data.
+
+It's easy to sample from this distribution, just pick. 
+
+\textbf{Bootstrap resampling:} Assume $\mathcal{D}$, the true distribution, where these
+examples come from. $D$ is our training
+data, drawn from $\mathcal{D}$. We would like to draw from $\mathcal{D}$ a lot, but
+that's expensive (to get labeled training data).  Using $\mathcal{D}$
+and $D$, define $\mathcal{\tilde D}$, and draw $D_1, D_2, \dots, D_M
+\sim \mathcal{\tilde D}$. Magic: each $D_M$ is a draw from
+$\mathcal{D}$.
+
+How to draw $D_m\sim \mathcal{\tilde D}$:
+\begin{algorithmic}
+   \FOR{$n=1,\dots,N$}
+     \STATE choose $I$ uniformly at random from $[1,\dots, N]$
+     \STATE add $(x_i, y_i)$ to $D_m$
+\ENDFOR
+\end{algorithmic}
+
+We're sampling with replacement so it's not the exact same
+set. Ensemble is only interesting if $D_i$'s are all different.
+Look at $D_i$ and $(x_1,y_1)$. Probability of picking $(x_1, y_1)$ in
+$D_i$ is $\frac{1}{N}$, so the probabily of NOT picking that is
+$(1-\frac{1}{N})$. The probability that $D_5$ does not contain $(x_1,
+y_1)$ at ALL is $$(1-\frac{1}{N})^N\approx \frac{1}{e} \approx 60\%$$
+
+In general, only a 60\% chance that the data will be in the
+dataset. So $D_i$s will be pretty diverse (not so much overlap).
+
+Now train classifiers on these $D_i$s and get $f_1,\dots, f_n$,
+predict and get $\hat y_1, \dots, \hat y_n$, then we take the majority
+vote as our answer.
+
+\textbf{When is bagging a good idea?}
+If you're worried about overfiting, it's a good idea to use bagging. If each $f_i$ is
+very different from other classifiers, and each ones is massively
+overfitting, so predictions are very different, $\hat y_i$'s have very
+high variance, so the final majority vote has low variance. Bagging and
+regularization like two sides on a same coin. So if you have a
+classifiers that's hard to regularize (like perceptron), you can do bagging.
+
+\subsubsection{Boosting}
+\label{sec:boosting}
+
+What kind of classifiers are good? If it gets low test error on \emph{most} datasets
+$\rarr$ \textbf{strong learning}.
+We could ask for 0 error, which is impossible. So best I can hope for
+is low error. But if I ask for all datasets, that's also
+impossible. Formally, we want $$P(\text{test error }< \eps) \ge
+1-\delta$$
+If $\eps = 0.1, \delta = 0.01$, we want $P(\text{test error }< 10\%)
+\ge 99\%$. This is called \textbf{PAC-learning} (kind of dead, unless
+you're in theory). Strong learning is hard. 
+
+\textbf{Weak learning}: low error ($< 50\%$) on at least $\frac{2}{3}$
+or $51\%$
+of the dataset. Something that does just slightly better than
+chance. Can we convert this into a strong learner? yes by boosting (a
+dependent ensemble).
+
+The first boosting algorithm in polynomial time was \emph{AdaBoost},
+the first practical algorithm.
+
+\subsubsection{AdaBoost}
+$D$, our dataset, an empirical distribution over the training data
+$\mathcal{X\times Y}$.  Say $N=5$
+\begin{enumerate}
+\item[Step 1] study each question (data points) the same amount
+\item[Step 2] evaluate yourself. (must at least more than 50\% of the
+  weighted importance). Say we
+  get 1,3,5 correct
+\item[Step 3] Make 4 and 2 (the errors) more important
+\item[Step 4] go to step 1 
+\end{enumerate}
+Train:
+\begin{algorithmic}
+  \STATE $d_n = \frac{1}{N}$
+  \FOR{$k=1,\dots,K$}
+    \STATE train $f^{(k)}$ on $(D, d)$
+    \STATE $\eps^{(k)} \gets $ weighted error of $f^{(k)}$ on $d <
+    0.5$ (by assumption of weak learner) i.e $\sum_n[f^{(k)}(x_n)\neq y_n]$
+    \STATE $\ah^{(k)} = \log(\frac{1-\eps^{(k)}}{\eps^{(k)}}) > 0$ (if
+    the weak learner is perfect, this will be $\infty$)
+    \STATE update weights $d_n \gets d_n
+    \exp(-\ah^{(k)}y_nf^{(k)}(x_n))$ ($y_nf^{(k)}(x_n)$ is +1 if
+    correct, -1 if wrong). So if we get correct, we'll decrease the
+    weight, if we don't we'll increase the weight. Also because
+    exponential, if we routinely get certain examples correct it'll go
+    down very quicly.
+    \STATE renormalize so $\sum_nd_n = 1$
+  \ENDFOR
+\end{algorithmic}
+
+Test time, predict $$\mathbf{1}[\sum_{k=1}^K\ah^{(n)}f^{(k)}(x)]$$
+So if we get 0 error with $f^{(k)}$, that $\ah^{(k)}=\infty$, so all
+the decision is made by $f^{(k)}$ at test time, which is fine because
+that's the best. (Question of overfitting aside).
+
+Maybe the weak learner just memorizes couple (to satisfy the
+requirement) and maybe this is overfitting.
+But boosting doesn't overfit as much as you might expect. We don't
+understand why really.
+Works really well!
+
+Con: we can't parallelize training time. But we can at test time.
+
 \end{document}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  25 OCT 2011 12:15
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  1 NOV 2011 12:16
 entering extended mode
  %&-line parsing enabled.
 **\input notes.tex
@@ -262,18 +262,25 @@ cmm/m/it/10 ^^^\OT1/cmr/m/n/10 ([]) = (\OML/cmm/m/it/10 x[]; x[]; [] ; x[]; x[]
 ; x[]x[] [] ; x[]x[]; [] ; x[]x[]; [] ; x[]\OT1/cmr/m/n/10 )$
  []
 
-[29] [30] [31] (./notes.aux)
+[29] [30] [31] [32]
+Overfull \hbox (5.53693pt too wide) in paragraph at lines 1674--1677
+[]\OT1/cmr/m/n/10 Now train clas-si-fiers on these $\OML/cmm/m/it/10 D[]$\OT1/c
+mr/m/n/10 s and get $\OML/cmm/m/it/10 f[]; [] ; f[]$\OT1/cmr/m/n/10 , pre-dict 
+and get $[]\OML/cmm/m/it/10 ; [] ; []$\OT1/cmr/m/n/10 ,
+ []
+
+[33] [34] [35] (./notes.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 1137 strings out of 495062
- 12739 string characters out of 1182645
+ 1141 strings out of 495062
+ 12792 string characters out of 1182645
  70465 words of memory out of 3000000
- 4348 multiletter control sequences out of 15000+50000
+ 4352 multiletter control sequences out of 15000+50000
  11986 words of font info for 43 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  27i,15n,20p,224b,365s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on notes.dvi (31 pages, 98192 bytes).
+Output written on notes.dvi (35 pages, 107248 bytes).
