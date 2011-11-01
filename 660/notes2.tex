@@ -1,4 +1,5 @@
 \newcommand{\sig}{\sigma}
+\newcommand{\Sig}{\Sigma}
 \newcommand{\eps}{\epsilon}
 \newcommand{\del}{\delta}
 \newcommand{\ah}{\alpha}
@@ -8,6 +9,7 @@
 \newcommand{\rarr}{\rightarrow}
 \newcommand{\larr}{\leftarrow}
 \newcommand{\ol}{\overline}
+\newcommand{\dag}{\dagger}
 \newcommand{\mbb}{\mathbb}
 \newcommand{\contra}{\Rightarrow\Leftarrow}
 % for cross product
@@ -110,5 +112,126 @@ If $A$ wer hessenberg, doing $QR$ is $\mathcal{O}(n^2)$ instead of
 $\mathcal{O}(n^3)$, so the total cost is $\mathcal{O}(n^3) +
 \mathcal{O}(nn^2) = \mathcal{O}(n^3)$ with hessemberg.
 
+\pagebreak
+
+\section{Class 14 November 1st}
+\label{sec:class14}
+Midterm: median 22, mean 20.8, max:29
+
+\subsection{Midterm}
+
+\textbf{Problem 1}:
+Given $Ax=b$, $A\hat x = b + \delta b$: $A(x-\hat x) = b -b \delta b$
+so 
+\begin{align*}
+x-\hat x &= A^{-1}(\delta b)\\
+||x-\hat x|| &\le ||A^{-1}||||\delta b||\\
+\end{align*}
+And
+\begin{align*}
+  b&=Ax\\
+||b|| &\le ||A|| ||x||\\
+\frac{1}{||x||} &\le \frac{||A||}{||b||}\\
+\end{align*}
+So
+$$
+\frac{||x-\hat x||}{||x||} \le ||A|| ||A^{-1}|| \frac{||\delta b||}{||b||}
+$$
+\noi
+\textbf{Problem 2}: 
+\begin{enumerate}
+\item[a] QR factorization by gram-schimid
+\item[b] Making $r_{ik} = <\hat q_k, q_i>$ from $r_{ik} =<a_k, q_i>$,
+  doesn't change anything. Because
+  \begin{align*}
+    r_{23} = \lc\hat q_3, q_2\rc \\
+&= \lc a_3 - r_{13}, q_2\rc\\
+&= \lc a_3, q_2 \rc - r_{13}\lc q_1, q_2 \rc
+\end{align*}
+\item[c] Real question is: Will $q_3$ be orthogonal to $q_2$ and
+  $q_1$? Look at $\hat q_3$ after $i$th loop is done. $\hat q_3 = \lc
+  a_3 - r_{13}q_1 - r_{23}q_2, q2 \rc = \lc a_3, q_2\rc - r_{13}\lc
+  q_1, q_2\rc = -r_{23}\lc q_2, q_2 \rc$
+Problem is $\lc q_1, q_2\rc$ could be non-zero because of round-off
+error.
+But if we did the second way, $\lc \hat q_3, q_2 \rc = \lc a_3 - r_{13}q_1, q_2 \rc -
+r_{23}\lc q_3, q_2 \rc$, is a little bit less-sensitive to round-off
+errors. Called the modified-Gram Schmid. (This can't be run parallel)
+\end{enumerate}
+
+\subsection{Singular Value Decomposition}
+\label{sec:SVD}
+
+Let $A\in \mathbf{R}^{m\times n}$. $A$ can be factored as $$A=U\Sigma
+V^T$$, $U$ is $m$ by $m$, sigma is $m$ by $n$, a diagonal matrix, where
+the entries are $sig_1, \dots, sig_n$, everywhere else 0. $sig_i$'s
+are called the singular values, and $\sig_1 \le sig_2 \le \cdots \le
+\sig_n \le 0$.
+$V^T$ is $n$ by $n$. Where $U^TU = I_m$ and $V^TV = I_n$.
+
+How to use:
+\textbf{Least Squares}: minimize $||b-Ax||_2$, find $x$. 
+  \begin{align*}
+    ||b-Ax||_2^2 &= \lc b-Ax, b-Ax \rc \\
+&= \lc b-U\Sigma V^Tx, b-U\Sigma V^Tx \rc \\
+&\text{ let $\hat x = V^Tx$}\\
+&= \lc U(U^Tb-\Sigma\hat x), U(U^Tb-\Sigma\hat x) \rc \\
+&= \lc U^TU(U^Tb-\Sigma\hat x), U^TU(U^Tb-\Sigma\hat x) \rc \\
+&= \lc U^Tb-\Sigma\hat x, U^Tb-\Sigma\hat x \rc \\
+&\text{ let $\hat b = U^Tb$}\\
+&= \lc \hat b-\Sigma\hat x,  \hat b-\Sigma\hat x \rc \\
+&= || \hat b - \Sigma \hat x ||^2_2
+  \end{align*}
+This is $$
+\begin{pmatrix}
+ \hat b_1 \\ \hat b_2 \\ \vdots \\ \hat b_m
+\end{pmatrix}
+-
+\begin{pmatrix}
+ \sig_1 \hat x_1 \\ \vdots \\ \sig_n\hat x_n \\ 0 \\ \vdots 0
+\end{pmatrix}
+$$
+So to minimize, set $\sig_k\hat x_k = \hat b_k$, or $$\hat x_k =
+\frac{\hat b_k}{\sig_k}$$
+
+The norm of minimum norm solution is $\sqrt{\hat b^2_{n+1} + \cdots +
+  \hat b_m^2}$, provided $\sig_n > 0$. If all $\sig_j > 0$, then $\hat
+x, x$ are unique. aka $A$ is of full rank. If some of them are zero,
+then $\exists$ multiple solutions $\hat x$ and $x$. Rank of $A$ is the
+index of smallest nonzero $\sig_j$s.
+
+To solve this problem, compute $U, V$ and $\Sigma$, fing $\hat b$,
+find $\hat x$, find $x=V\hat x$.
+
+\textbf{Remember}: least squares solution can be found from $A^TAx =
+A^Tb$:
+\begin{align*}
+  A^TAx &=A^Tb\\
+V\Sigma^TU^T U\Sigma V^T x &= V \Sigma^T U^Tb\\
+V[\Sig_1 0][\Sig_1; 0]V^T x&= V \Sigma^T U^Tb\\
+V\Sig_1^2 V^T x &= V[Sig_1 0][U^Tb]\\
+\Sig_1^2 V^Tx &=\Sig_1[U^Tb]\\
+\end{align*}
+This is just like the one before where $V^Tx = \hat x$,
+$\hat b = U^Tb$.
+
+\subsection{Pseudo-inverse}
+Of a rectangular matrix $A$, is written:
+$$A^\dagger = (A^TA)^{-1}A^T$$
+$(A^TA)^{-1}$ is square times wide rectangle, so a wide rectangle. 
+Property: $A^\dag A = (A^TA)^{-1}A^A = I$.
+
+Given $A = U\Sig V^T$, 
+\begin{align*}
+  A &= U\Sig V^T\\
+A^TA &= V\Sig_1^2 V^T\\
+(A^TA)^{-1} &= (V\Sig_1^2 V^T)^{-1} = (V^T)^{-1}(\Sig_1^2)^{-1}V^{-1}\\
+&=V\Sig_1^{-2}V^T\\
+\end{align*}
+So 
+\begin{align*}
+A^\dagger = (A^TA)^{-1}A^T &= V\Sig_1^2 V^T V([\Sig_1 0] V^T\\  
+&=V([\Sig_1^{-1} 0])U^T
+\end{align*}
 
 \end{document}

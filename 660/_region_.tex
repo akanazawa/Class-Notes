@@ -1,150 +1,158 @@
-\message{ !name(notes.tex)}\documentclass[a4paper]{article}
-\usepackage{amsmath}
+\message{ !name(notes2.tex)}\newcommand{\sig}{\sigma}
+\newcommand{\eps}{\epsilon}
+\newcommand{\del}{\delta}
+\newcommand{\ah}{\alpha}
+\newcommand{\lam}{\lambda}
+\newcommand{\gam}{\gamma}
+\newcommand{\kap}{\kappa}
+\newcommand{\rarr}{\rightarrow}
+\newcommand{\larr}{\leftarrow}
+\newcommand{\ol}{\overline}
+\newcommand{\mbb}{\mathbb}
+\newcommand{\contra}{\Rightarrow\Leftarrow}
+% for cross product
+\newcommand{\lc}{\langle} %<
+\newcommand{\rc}{\rangle} %>
+
+%other shortcuts
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\beq}{\begin{quote}}
+\newcommand{\enq}{\end{quote}}
+\newcommand{\hsone}{\hspace*{1cm}}
+\newcommand{\hstwo}{\hspace*{2cm}}
+
+\newcommand{\noi}{\noindent}
+\parskip 5pt
+\parindent 0pt
+
+\documentclass[a4paper]{article}
+\usepackage{amsmath,amssymb,algorithmic}
 \begin{document}
 
-\message{ !name(notes.tex) !offset(-3) }
+\message{ !name(notes2.tex) !offset(-3) }
 
-\title{Scientific Computing CS660 Fall '11}
+\title{Scientific Computing CS660 Fall '11\\Notes after the midterm}
 \author{Angjoo Kanazawa}
 \maketitle
-\section{September 1st Class one}
-\subsection{Logistics}
-\label{sec:logistics}
-Prof. Howard Elman CSI 2120 TR 2pm-3:15pm
-class url:http://www.cs.umd.edu/~elman/660.11/syl.html
-\begin{itemize}
-\item Scientific Computing puts heavier emphasis on computing, Numerical
-  Analysis is more about proofs/theories.
+\section{Class 13 October 25th 2011}
+\label{sec:class13}
+\subsection{HW2 answers}
+\textbf{Problem 1b}: to compute many $N$, compute $S_N = \phi(x_1) + \cdots +
+\phi(x_n)$, take $N$ samples, divide by $N$ will give us $I_N$. THe
+error is $E_N = I-I_N$. TO generate $I_{N+1}$, take $S_{N+1} = S_N +
+\phi(x_{N+1})$ to compute $I_{N+1}$. But this way $E_{N+1}$ is not
+independent from $E_N$. (Left top figure on the answers).
 
-\item 4-6 hw asg: \textbf{35\%} Penalty on late assignments (-15\%
-  after 24 hrs, -30\% after 48 hrs. 
-\item in-class midterm: \textbf{25\%}
-\item final project: \textbf{40\%}
-\end{itemize}
+(Doing it entirely independently (how i did it) is the lower figure)
+Plotted $\log_N$ vs $\log(\frac{\sig}{\sqrt{N}}$
+The observation was that it somewhat follows the bound. 
 
-\subsection{Content} 
-\label{sec:content}
-\textbf{Newton's Method}: Root finding. 
-Objective: Fine $x$ s.t. $f(x) = 0$, where $f$ is a scalar,
-$f:\mathbf{R}\Rightarrow \mathbf{R}$
-function. Where does the function cross 0 (x-axis)?
+Our bound, $\frac{\sig}{\sqrt{N}}$, comes from chebychev
+$P(|\frac{S_N}{N} - \mu| \ge c) \le \frac{\sig^2}{Nc^2}$.
+So if we want this $P$ to be 95\%, then $c\le
+\frac{\sig}{\sqrt{0.5N}}$. So loosely speaking, the error $E_N = I-I_N
+\approx \frac{\sig}{\sqrt{0.5N}}$. The point of the question was that
+it's not exact.
 
-Given $x_n$, some guess, find where the line through $(x_n, f(x_n))$
-tangent to the solution curve intersects the $x$-axis. Call that
-pt of intersection $x_{n+1}$
+On Page 3 of the solution, there's the definition of histogram for
+question 1c.
 
-The equation of the tangent line: $$\frac{y-f(x_n)}{x-x_n} = f'(x_n)$$
-Set $y=0$: then
-\begin{align*}  \frac{0-f(x_n)}{x_{n+1}-x_n} &= f'(x_n)\\
-  \frac{x_{n+1}-x_n}{-f(x_n)} &= 1/f'(x_n)\\
-  x_{n+1} &= x_n - f(x_n)/f'(x_n)\\
-\end{align*}
+\textbf{Problem 2}: 
+In P1, the error was $E_N = \frac{\sig^2}{\sqrt{N}}$
+If the variance is $\sig^2$, std $\sig$, then log of $E_N$ is $\log
+\sig - \frac{\log(0.5N)}{2}$. 
 
-\textbf{Another Derivation}
-Consider the taylor series $f(x_n+(x-x_n)) = f(x_n) + f'(x_n)(x-x_n) +
-1/2f''(x_n)(x-x_n)^2 + \text{ etc}$. This is a function of some
-variable $x$. Approximate it just by using the first two terms (linear
-approximation).
-So above becomes a new function $f(x_n+(x-x_n))~= f(x_n) +
-f'(x_n)(x-x_n) = l(x)$.
-Find where $l(x) = 0$. That is: $x_{n+1} = x_n - f(x_n)/f'(x_n)$
+In here, we expected the error to be $\frac{\sig^2}{\sqrt{N}}$. If
+that were to happen, same derivation would give $\log(E_N)\approx
+2\log(\sig) - \frac{\log(0.5N)}{2}$.
+The blue line (boundary) would've been $2\log(\sig) -
+\frac{\log(N)}{2}$ and $E_N$ will hover around there. But it didn't
+work!! Because $sin(\pi X) = sin(\pi(1-X))$, nothing changed. Function
+had to be monotone.
 
-This is not guaranteed to work, i.e. when the tangent doesn't cross
-the $x$-axis.
+\textbf{midterm:}
+Equally distributed, 3 topics: floating pt/round off errors, mc,
+matrix factorization (big picture). (no newton's method, no machine
+representation of numbers)
 
+\subsection{Eigenvalue Hessemberg}
+Why do we want to reduce the matrix to Hessemberg form: Because doing
+$QR$ on Hessenberg is $\mathcal{O}(n^2)$ instead of
+$\mathcal{O}(n^3)$.
 
-\textbf{Problem}: given $\alpha \in \mathbf{R} > 0$ Find $1/\alpha$ without
-doing any division.
-First thing you need to do if identify (concoct) a $f(x)$ whose root
-is $1/\alpha$.
-Naive: try $f(x) = x - 1/\alpha$. But this won't work, because this
-requires division.
-Howabout: $f(x) = \alpha x - 1$. $f'(x) = \alpha$, so in the newton
-iteration.. 
+How to make a hessemberg matrix:
+$A$ is a big full matrix. Now $QA$ will make everything below the
+second entry of first column to 0. You can do that with Householder
+transformation, or givens rotation. 
+
+However we do this, $QAQ^T$ will not mess up the 0s.
 \begin{align*}
-x_{n+1} &= x_n - \frac{\alpha x - 1}{\alpha}\\
-&= x_n - x_n + 1/\alpha \\
-&= 1/\alpha
+ QAQ^T &= [Q(QA)^T]^T\\
 \end{align*}
-No! because you need to divide.
+Applying to $Q$ to $(QA)^T$ will leave the first row alone, so
+$[Q(QA)^T]^T$ still keeps the first column's entry below 2 to 0.
 
-Answer: $f(x) = \alpha - 1/x$. Not transparent, because intuitively it
-looks like there's a divide into it.
-$f'(x) = - -1/x^2 = 1/x^2$. Then, $f/f' = \alpha x^2 - x$. So given $x_n$,
-the iteration goes $x_{n+1} = x_n - (\alpha x_n^2 - x_n) = 2x_n -
-\alpha x_n^2 = x_n(2-\alpha x_n)$.
+Exercise, go back, do: can we perform $QAQ^T$ where $Q$ is a
+householder transformation s.t. $QAQ^T$ is a first step hessemberg
+matrix. The reason why this works is because householder is in the
+$n-1$ subblock, so it doesn't do anything row 1. (It's like the 2nd
+household transformation in the QR reduction)
 
-Numerical example in matlab: let $\alpha = 2$, solve with this method. Use $x_0
-= 0.1$. Notice that $err(i)/err(i-1)^2$ is constant and \emph{is} $\alpha$.
-Notice the $err(i)$ decreases faster as iteration moves on, this is
-the super linear convergence property of Newton's method.
-With $\alpha = 0.25$, same thing.\\
 
-\textbf{Analysis of the Newton's Method}:
-$|x_{x_{n+1}}|/|x-x_n|^2 \approx 1/2 | f''(x_n)/f'(x_n)| \approx 1/x$
-So @ $x = 1/\alpha$, this turns out to be $\alpha$, just for this
-example.
+$QR$ iteration for the eigenvalue problem:
+\begin{enumerate}
+\item[0] Reduce $A$ to hessenberg form, formally, $PAP^T = H$, where $P$
+  orthogonal. (do $n-1$ householder transformation $P_2$).$A_0 = H$
+\item[1-k] Iterate, $A_K = Q_KR_K$, $A_{K+1} = R_KQ_K$
+\end{enumerate}
+Doing this $A=QR$ is $\mathcal{O}(n^3)$, but to do this until
+conversion (see $\eps$ in below diagonal, is $n$, so total
+$\mathcal{O}(n^4)$ (without making $A$ into upper hessenberg).
+If $A$ wer hessenberg, doing $QR$ is $\mathcal{O}(n^2)$ instead of
+$\mathcal{O}(n^3)$, so the total cost is $\mathcal{O}(n^3) +
+\mathcal{O}(nn^2) = \mathcal{O}(n^3)$ with hessemberg.
 
-The ratio was derived from the idea to find a patter in the errors
-s.t. $e_{n+1} ~ c e_n^2$, for some $c\in \mathbf{R}$
+\pagebreak
 
-The question is to find trends in data, and this relationship $e_{n+1}
-~ ce_n^p$ is useful to tell us the rate of convergence as the solution
-approches the optimal one. (I think $p$ goes down to the golden
-ratio). Our goal is to find what $p$ is for a specific problem.
+\section{Class 14 November 1st}
+\label{sec:class14}
+Midterm: median 22, mean 20.8, max:29
 
-\section{September 6th class 2}
-\label{sec:class2}
+\subsection{Midterm}
 
-\subsection{Process of Scientific Computing}
+\textbf{Problem 1}:
+Given $Ax=b$, $A\hat x = b + \delta b$: $A(x-\hat x) = b -b \delta b$
+so 
+\begin{align*}
+x-\hat x &= A^{-1}(\delta b)\\
+||x-\hat x|| &\le ||A^{-1}||||\delta b||\\
+\end{align*}
+And
+\begin{align*}
+  b&=Ax\\
+||b|| &\le ||A|| ||x||\\
+\frac{1}{||x||} &\le \frac{||A||}{||b||}\\
+\end{align*}
+So
+$$
+\frac{||x-\hat x||}{||x||} \le ||A|| ||A^{-1}|| \frac{||\delta b||}{||b||}
+$$
 
-\begin{itemize}
-\item Start with a mathematical model. (In general we don't have an analytic solution, so we get
-  insight from numerical computation)
-\item Example with heat conduction in a bar:
-  \begin{itemize}
-  \item A 1-D object $\in [0, 1]$, $u(x)=$temperature in the bar, with
-  $u(0)=0, u(1) = 0$. $q$=heat flow induced by a heater of intensity $f$.
-  \item We want what the temperature will be given $q$.
-  \item get some models: \emph{Fourrier's Law}: $q= -ku'$, $k$=conductivity
-    coefficient, transfer of heat in direction of decreasing
-    temperature (hence the -). \emph{Conservation of energy}: $q' = f$.
-  \item \textbf{Goal}: find $u$. \textbf{Equation of interest}: $-(ku')' = f$, the 1D diffusion
-    equation.
-  \item Typical strategy: lay down a grid $x_o=0, x_1, \dots, x_n,
-    x_n+1=1$. Compute a discrete solution, $\bar{u}$, vector of size $n$. $\bar{u} = [u_1, \cdot, u_n]^T$, where $u_i \approx u(x_i)$
-  \item \textbf{Claim}: we can find the discrete sol, $\bar{u}$ by
-    solving an algebraic system of equations. For this example, this
-    system is a matrix equation $$A\bar{u} = \bar{b}$$
+\textbf{Problem 2}: 
+\begin{enumerate}
+\item QR factorization by gram-schimid
+\item Making $r_{ik} = <\hat q_k, q_i>$ from $r_{ik} =<a_k, q_i>$,
+  doesn't change anything. Because
+  \begin{align*}
+    r_{23} = \lc\hat q_3, q_2\rc \\
+&= \lc a_3 - r_{13}, q_2\rc\\
+&= \lc a_3, q_2 \rc - r_{13}\lc q_1, q_2 \rc
+\end{align*}
 
-  \end{itemize}
-  \item No matter how hard I try, we're never going to get the exact
-    solution. This process $A\bar{u}=\bar{b}$ leads to errors
-  \item \textbf{Sources of error}:
-    \begin{enumerate}
-       \item Modeling error: we may not know $k$ exactly.
-       \item Discretization error/Truncation error: difference between the discrete and
-         the continuous values (from the approximation on a discrete
-         set of points)
-       \item Representation error: we don't have the entire
-         $\mathbf{R}$, we only have a finite set, in floating point
-         format. ($A$ and $b$ may have error)
-       \item Additional error: from the computation of $\tilde{u}$,
-         will get something else $\hat{\tilde{u}}\neq \tilde{u}$
-
-         
-    \end{enumerate}
-  \item We're really trying to solve $\tilde{A}\tilde{u} =
-    \tilde{b}$., where $\tilde{A}\approx A$, $\tilde{u} =
-    \bar{u}$. Typically $\approx$ is machine precision, $10^{-16}$
-
-  \item In the end, we want $u(x)$, and would be happy with $u(x_j)$,
-    $j=1,\dots, n$. That will get $\tilde{u_j}$
-
-\end{itemize}
-
+\end{enumerate}
 
 
 \end{document}
 
-\message{ !name(notes.tex) !offset(-150) }
+\message{ !name(notes2.tex) !offset(-158) }
