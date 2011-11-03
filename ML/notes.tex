@@ -25,7 +25,7 @@
 \renewcommand{\vec}[1]{\boldsymbol{#1}}
 
 \documentclass[a4paper]{article}
-\usepackage{amsmath,algorithmic}
+\usepackage{amsmath,algorithmic,haldefs}
 \begin{document}
 \title{Machine Learning CS726 Fall
  '11}
@@ -1748,4 +1748,113 @@ Works really well!
 
 Con: we can't parallelize training time. But we can at test time.
 
+\section{Class 16 Nov 3rd 2011}
+\label{sec:class16}
+
+\subsection{Stochastic GD}
+\label{sec:stochasticgd}
+
+\begin{align*}
+\mathcal{F}(w) &= \sum_n l(y_n, f(x_n) + \lambda R(f)\\
+&=sum_n[l(y_n, f(x_n) + \frac{\lambda}{n}R(f))]
+\end{align*}
+Then $\grad F sum_n[\grad_fl + \frac{\lambda}{N}\grad_fR]$
+
+in GD: the update is $f \gets f - \eta \sum_n[\grad_f l_n +
+\frac{\lam}{N}\grad_f R]$
+
+in SGD: for $n=1,\dots,N$, $f^k \gets f^{k-1} - \eta [ \grad_f l_n|_{f^k} +
+\frac{\lam}{N}\grad_f R|_{f^k}]$
+
+So hw, with hinge loss:
+$l(y_n, w\cdot x_n) =
+\begin{cases}
+  0 & \text{if } y_nw\cdot x_n \le \\
+  1-y_nw\cdot x_n & \text{ otherwise}
+\end{cases}
+$
+and $R(w) = \frac{1}{2}||w||^2$.
+So $$\grad_wl(y_n, w\cdot x_n) =
+\begin{cases}
+  0 & \text{if } y_nw\cdot x_n \le 1\\
+  y_nx_n & \text{ otherwise}
+\end{cases}
+$$
+and $\grad_w R = w$.
+
+so
+\begin{algorithmic}
+ \FOR{$n=1,\dots,N$}
+     \IF{$y_nw^k\cdot x_N < 1$}
+       \STATE $w^{k+1} \gets w^{k} + \eta y_n x_n$
+     \ENDIF
+   \STATE  $w^{k+1} \gets w^{k+1} - \eta \frac{\lambda}{N}w^{k}$
+   \STATE $k \gets k+1$
+\ENDFOR
+\end{algorithmic}
+This is just like perceptron! to make it into a perceptron, set
+$\lam=0$ (no regularizer), $\eta = 1$ (no learning rate), and shift
+hinge loss to $-y\hat y$ rather than $1-y\hat y$.
+So in othewords, perceptron is doing stochastic GD with shifted hinge
+loss, no regularizer, and with no learning rate.
+
+$\eta \frac{\lambda}{N}w^{k}$ is called the \emph{weight decay}. Most
+of your effort is used here... In practice we really need to do
+this. very important. makes a huge difference. Otherwise the algorithm
+is impractical
+
+
+Hinging at 1 forces you to have a margin of 1, but hinging at 0 just
+forces you to have a decision boundary. THis is why perceptron does
+not give us margin. It's not regularized so perceptron might over fit,
+and since the learning rate is constant, the last example it process
+could potentially have a large effect, and it's bad when it's an
+arbitrary data. i.e. particularily sensitive to ordering of data. So
+we want the learning rate to decrease over time.
+
+Why is it called ``stochastic''?
+
+In normal optimization, we say $\min_x F(x)$, assuming we can compute
+$\grad F|_x$ (at any x).
+In stochastic optimization, we're trying to $\min_x \mathbb{E}[F(x)]$,
+and we can't compute this expectation nor the $\grad \mathbb{E}[F]$
+(randomness is the choice of example you're looking at at a single
+point). 
+
+\subsection{Convergence}
+We're trying to $\min_x f(x)$, say the true minimum is $x^*$, $f(x^*)
+= f^*$. The function we learn at iteration $k$:
+$$f^{(k)}_{best} \le f^{*} + \frac{|| x^{(0)}-x*  ||^2 + G^2
+  \sum_k\eta_k^2}{2\sum_k \eta_k}$$
+$G$ is something that says that $f$ isn't too steep. It measures the
+magnitude of $f$.
+Ideally, we want the right hand side (of the rhs, the fraction) to go
+to 0. To do that, the denominator needs to go to $\infty$. So we want
+$\sum_k \eta_k \rarr k$ as $k\rarr \infty$. But if $\eta$s diverge too
+quickly, tne numerator will also go to $\infty$. So we also want
+$\sum_k \eta_k^2 < \infty$. Choose $\eta_k = \frac{a}{b+k}$, for some
+constant $a,b$. In pracice, everyone uses $\eta_k =
+\frac{1}{\sqrt{k}}$.
+
+\subsection{Feature Hashing}
+\label{sec:featurehashing}
+Say we have $x\in \mathbf{R}^{10^9}$. So big. So we want have a hash
+ function $h: \mathbf{R}^10^9 \rarr \mathbf{R}^{11}$. to make $x$ into $\phi(x)$.
+ like $h(x) = az+b\%11$.
+When you compute $\phi(x)\cdot \phi(z)$, you get $x\cdot z +$
+quadratic ``stuff''. The difference bewteen $\phi(x)\cdot \phi(z)$ and
+$x\cdot z$ is precisely the quadratic terms. it's not that bad! We
+need pair wise independence. (Stemming in NLP does not satisfy)
+
+\subsection{Final Project}
+\label{sec:finalproject}
+\begin{itemize}
+\item Arbitrary sized groups (more the ppl higher expectation)
+\item Reserach project is fine, double countint is fine.
+\end{itemize}
+You should demonstrate that you learned something in this
+class. Anything is fair game as long as you do this. Just turn-in
+write up. (he won't look at the code) In hw format, ~ 4pg (not more
+than 7 or 8). Aim for 4.
+Need a short presentation (5min-ish, 3 slides). (depends on how many groups total)
 \end{document}
