@@ -8,13 +8,24 @@
 \newcommand{\kap}{\kappa}
 \newcommand{\rarr}{\rightarrow}
 \newcommand{\larr}{\leftarrow}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\Larr}{\Leftarrow}
+
 \newcommand{\ol}{\overline}
-\newcommand{\dag}{\dagger}
+\newcommand{\dagg}{\dagger}
 \newcommand{\mbb}{\mathbb}
 \newcommand{\contra}{\Rightarrow\Leftarrow}
 % for cross product
 \newcommand{\lc}{\langle} %<
 \newcommand{\rc}{\rangle} %>
+% linear alg
+\newcommand{\inv}{^{-1}}
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+% order 
+\newcommand{\cO}{\mathcal{O}}
+% gradient
+\newcommand{\grad}{\nabla}
+\newcommand{\ddx}{\frac \partial {\partial x}}
 
 %other shortcuts
 \newcommand{\ben}{\begin{enumerate}}
@@ -230,8 +241,167 @@ A^TA &= V\Sig_1^2 V^T\\
 \end{align*}
 So 
 \begin{align*}
-A^\dagger = (A^TA)^{-1}A^T &= V\Sig_1^2 V^T V([\Sig_1 0] V^T\\  
+A^\dagger = (A^TA)^{-1}A^T &= V\Sig_1^2 V^T V([\Sig_1 0]) V^T\\  
 &=V([\Sig_1^{-1} 0])U^T
 \end{align*}
 
+\section{Class 16 November 3rd 2011}
+\label{sec:class16}
+
+\subsection{Continue on SVD}
+\label{sec:svd2}
+
+Given $A\in \mathbf{R}^{m\times n}$, $m>n$, $A=U\Sig V^T$, $A$ full
+rank.
+$A = [U_1 U_2][\Sig_1 ; 0] V^T$ wher $U_1$ is m by n, $U_2$ is m by
+$m-n$.
+And
+\begin{align*}
+  U^TU &= [U_1^T; U_2^T][U_1 U_2]\\
+&=
+\begin{pmatrix}
+U_1TU_1  & U_1^TU_2\\
+U_2^TU_1 & U_2^TU_2
+\end{pmatrix}
+&=I =
+\begin{pmatrix}
+  I & 0 \\ 0 & I
+\end{pmatrix}
+\end{align*}
+Because $U_1^TU_1 = I_n, U_2^TU_2 = I_{m-n}$, and $U_1^TU_2=0$
+
+$A^T = V[\Sig_1 0][U_1^T; U_2^T] = V\Sig_1U_1^T$.
+Consider $w\in \mathbf{R}^m$, look at $A^Tw = V\Sig_1U_1^Tw$. If $w\in
+range(U_2)$, $w = U_2z$ for some $z$, so
+$$A^Tw = V\Sig_1U_1^TU_2z = 0$$
+i.e. $range(U_2) \subseteq null(A^T)$, $\supseteq$ is also true.
+So $$null(A^T) = range(U_2).$$
+
+\textbf{Pf}[$range(U_2) \supseteq null(A^T)$]
+Suppose $w \in null(A^T)$, i.e. $A^Tw = 0$. 
+$w = U_z$, for some $z$
+\begin{align*}
+  w &= U_z\\
+&= U_1z_1 + U_2z_2
+A^Tw &= V\Sig_1 U_1^T (U_1z_1+U_2z_2)
+&=V\Sig_1 z_1 + 0
+\end{align*}
+If $z_1 \neq 0 \Rarr \Sig_1z_1 \neq 0$ $\contra$ because the
+assumption $range(U_2)\subseteq null(A^T)$, $A^Tw$ should be 0. So it
+has to be that $z_1 = 0$.  $\therefore w \in range(U_2)$
+
+Another point:
+COlumns of $U_1$ span the range of $A$. Range of $A:=\{Av | v\in
+\mathbf{R}^n\}$.
+Given $Av = U_1(\Sig_1 V^Tv)\subseteq range(U_1)$
+
+We can see that $range(A)$ and $null(A^T)$ are orthogonal to each
+other. (This is a known fact in linear algebra, but SVD makes it intuitive)
+
+end of matrix factorization!
+\section{New topic:Optimization}
+Given $f: \mathbf{R}^n \rarr \mathbf{R}$, we want to find $x\in
+\mathbf{R}^n s.t. f(x)$ is minimal (i.e. $-f(x)$ is maximal).
+We may want to find:
+\begin{itemize}
+\item Global minimum $\hat x s.t. f(\hat x) le f(x) \forall x$
+\item Local  minimum $\hat x s.t. f(\hat x) le f(x) \forall x$ near $\hat x$
+  (rigorously: near means in some radius $r$.).
+\end{itemize}
+In this class we're looking for a local minimum.
+
+If $x$ is a local minimum value, consider $\phi(\ah) = f(x+\ah d) $, where $d\in
+\mathbf{R}^n$, some other vector, $\ah \in \mathbf{R}$.
+Now look $\phi(\ah)$'s taylor series: $  \phi(0) + \phi'(0)\ah + \cO(\ah^2)$
+\begin{align*}
+\phi'(\ah) &= [\grad f(x+\ah d)]^Td\\
+\phi'(0) &= [\grad f(x+\ah d)]^Td\\
+\end{align*}
+(Where $\grad f =
+\begin{pmatrix}
+  \frac{\partial f}{\partial x_1} &\vdots &  \frac{\partial f}{\partial x_n}
+\end{pmatrix}$)
+
+Suppose $\grad f(x) \neq 0$. \emph{Claim}: $\exists d s.t. [\grad
+f]^Td < 0$.
+Does such $d$ exist? yes, take $d = -\grad f(x)$. There's at least
+one.
+
+For any such $d$, $\phi(x+\ah d) = \phi(x) + [(\grad f(x))^Td]\ah + \cO(\ah^2)$
+$\phi(x)$ is $f(x)$, and $(\grad f(x))^Td < 0$
+
+When $\ah \ll$, positive, $\cO(\ah^2)$ is negligible incomparison to
+$[(\grad f(x))^Td]\ah$. So $\phi(x+\ah d) < f(x) \forall$ small
+positive $\ah$. 
+$\contra$ because we started off with a local minimum! $\Rarr \grad
+f(x) = 0$.
+
+Summary: A necessary condition for $x$ to be a minimizer is that
+$\grad f(x) = 0$. (not sufficient): called the 1st order necessary condition.
+This can be solved by doing newton's method on $F=\grad f(x)$.
+
+Check the second derivative, if concave (second derivative positive), then we have a local minima.
+
+Look at 3-term taylor series.
+$\phi''(\ah) = d^T\grad^2f(x+\ah d)d$, where $\grad^2f(x+\ah
+d)$ is a matrix with $(i,j)$ entry given by $H = \frac{\partial^2
+  f}{\partial x_i \partial x_j}(x+\ah d)$. This is the
+\textbf{Hessian} matrix.
+So $\phi''(0) = d^T\grad^2 f(x) d = d^THd$
+So:
+\begin{align*}
+\phi(\ah) &= f(x+\ah d) = \phi(0) + \phi'(0)\ah + \frac{1}{2}\phi''(0)\ah^2 +
+\cO(\ah^3)\\
+&= f(x) + [\grad f(x)]^Td]\ah + \frac{1}{2}d^THd \ah^2 + \cO(\ah^3)
+(\text{ because $x$ is a local minimum, } \grad f(x)]^Td == 0, \text{
+  and } d^THd < 0 \forall d)\\  
+\end{align*}
+
+(if $d^THd < 0$, then $f(x+\ah d) < f(x)\forall \ah \ll$ ( $\contra$ just
+like the other reasoning)).
+
+So another necessary conditions is $H = \grad^2f(x)$ has to be positive
+semidefinite, this is calloed the 2nd order necessary condition.
+
+Note that these together are not sufficient.
+
+\emph{Example:} $n=2$, $f(x) = \frac{1}{2}x_1^2 + x_1 + x_2^3$
+then $\grad f =
+\begin{smallmatrix}
+x_1+1 & 3x_2^2  
+\end{smallmatrix} = \begin{smallmatrix}
+0 & 0
+\end{smallmatrix}$ set $x_1 = -1, x_2 = 0$.
+So $\grad^2 f =
+\begin{smallmatrix}
+  1 & 0 \\ 0 & 6x_2
+\end{smallmatrix} =
+\begin{smallmatrix}
+  1 & 0 \\ 0 & 0
+\end{smallmatrix}$ at $x=(-1,0)$
+
+Condition for a matrix to be positive definite is that all its
+eigenvalues are strictly positive. Semi-definite is all its
+eigenvalues are $le 0$. So this is $H$ that satisfies the condition
+and we have two necessary conditions satisfied at $x=(-1, 0)$.
+But it's not because we can find a point $\tilde x=(-1, x_2)$
+$f(\tilde x) = \frac{1}{2} + x_2^3 < f(x) = -\frac{1}{2} \forall x_2
+le 0$.
+
+\textbf{Sufficient conditions}:
+\begin{enumerate}
+\item $\grad f(x) = 0$
+\item $\grad^2 f(x) = H$ is positive-definite. (i.e. in 2-D function
+  is concave at this point)
+\end{enumerate}
+
+If we have some $x$ not a minimizer, algorithm will chose a $d$
+s.t. $f(x+\ah d) < f(x)$. One condition for $d = -\grad f(x)$.
+
+Another approach: try to find a root of the equation $F(x) = \grad
+f(x) = 0$.
+
+Recall \emph{Newton's method}: In 1-D, $x_{n+1} = x_{n} +
+\frac{-f(x_n)}{f'(x_n)}$.
+In N-D, it's $J_F(x_n)d = -F(x_n)$ (not the same $d$)
 \end{document}
