@@ -568,7 +568,7 @@ The big assumption is that we can achieve $\eps$ error.
 
 \textbf{Weighted binary classification}: Weight the negative sample less and
 positive samples more, so that the classifier has to put more effort
-to classify positive examples correctly. Now the goal is different it
+to classify positive examples correctly. Now the goal is different: it
 is to minimize (arbitrarly assuming that possitive error costs more here):
 $$\mathbf{E}_{(x,y)~D}
 \begin{cases}
@@ -649,7 +649,6 @@ from oversampling, generally.}
 
 \subsection{HW 4}
 \label{sec:hw4}
-
 \begin{enumerate}
 \item Task for squared error regression: Given: input space $\mathcal{X}$
   and an unknown distribution $\mathcal{D}$ over $\mathcal{X}\times\mathbf{R}$, Compute $f:X\rarr
@@ -657,7 +656,7 @@ from oversampling, generally.}
 \item \emph{To what types of error do these theorems apply?} All error
   in respect to data taken from the same distribution $\mathcal{D}$.
 \item OVA vs AVA. If training for each classifier is $O(N)$, OVA:
-  $O(NK)$, AVA:$O(K^2N/K) = O(K)$, if training for each classifier is
+  $O(NK)$, AVA:$O(K^2N/K) = O(NK)$, if training for each classifier is
   $O(N^2)$, OVA: $O(N^2K)$, AVA: $O(K^2(N/K)^2)=O(N^2)$, so AVA is
   better! so the worst it is to train, the better and better AVA gets.
 \item A ranking preference function $\omega$ that penalizes
@@ -943,7 +942,7 @@ Geometric interpretation:
 \begin{itemize}
 \item Move in the negative direction of gradient to minimize a
   function.
-\item Steepest radient descent: To minimize a function $f$, start wiht
+\item Steepest radient descent: To minimize a function $f$, start with
   some initial guess $x^(0)$ with update rule:
 $$x^{(t)} = x^{(t-1)} -\eta^{(t)}\bigtriangledown f(x^{(t-1)})$$
 \end{itemize}

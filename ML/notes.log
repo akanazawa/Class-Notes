@@ -1,8 +1,12 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  3 NOV 2011 12:20
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.9.4)  5 NOV 2011 20:37
 entering extended mode
  %&-line parsing enabled.
-**\input notes.tex
-(./notes.tex (/usr/share/texmf-texlive/tex/latex/base/article.cls
+**notes.tex
+(./notes.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, loaded.
+(/usr/share/texmf-texlive/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/base/size10.clo
 File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
@@ -199,7 +203,7 @@ to-tal, af-ter 48hrs 50% down, teams. (Python
 
 [1
 
-] [2]
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
 Overfull \hbox (2.00693pt too wide) in paragraph at lines 126--128
 []\OT1/cmr/bx/n/10 Calc/Linear Al-ge-bra\OT1/cmr/m/n/10 : find-ing max-ima/mini
 ma of func-tions, al-lows high-
@@ -277,58 +281,49 @@ Package amsmath Warning: Foreign command \atopwithdelims;
 (amsmath)                 on input line 641.
 
 [13]
-Overfull \hbox (50.61858pt too wide) in paragraph at lines 659--663
+Overfull \hbox (50.61858pt too wide) in paragraph at lines 658--662
 []\OT1/cmr/m/n/10 OVA vs AVA. If train-ing for each clas-si-fier is $\OML/cmm/m
 /it/10 O\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 N\OT1/cmr/m/n/10 )$, OVA: $\OML/cmm/m
 /it/10 O\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 NK\OT1/cmr/m/n/10 )$, AVA:$\OML/cmm/m
 /it/10 O\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 K[]N=K\OT1/cmr/m/n/10 ) =
  []
 
-
-Overfull \hbox (43.02528pt too wide) in paragraph at lines 659--663
-\OML/cmm/m/it/10 O\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 K\OT1/cmr/m/n/10 )$, if tra
-in-ing for each clas-si-fier is $\OML/cmm/m/it/10 O\OT1/cmr/m/n/10 (\OML/cmm/m/
-it/10 N[]\OT1/cmr/m/n/10 )$, OVA: $\OML/cmm/m/it/10 O\OT1/cmr/m/n/10 (\OML/cmm/
-m/it/10 N[]K\OT1/cmr/m/n/10 )$, AVA: $\OML/cmm/m/it/10 O\OT1/cmr/m/n/10 (\OML/c
-mm/m/it/10 K[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 N=K\OT1/cmr/m/n/10 )[]) =
- []
-
 [14]
-Underfull \hbox (badness 10000) in paragraph at lines 714--718
+Underfull \hbox (badness 10000) in paragraph at lines 713--717
 
  []
 
 [15]
-Overfull \hbox (13.50417pt too wide) in paragraph at lines 793--799
+Overfull \hbox (13.50417pt too wide) in paragraph at lines 792--798
 \OT1/cmr/m/n/10 ing er-ror will over-fit. So Reg-u-lar-ized Learn-ing (Tikhonov
 ($\OML/cmm/m/it/10 ^^UR\OT1/cmr/m/n/10 ([])$), Ivanov(minimize
  []
 
 [16] [17] [18] [19] [20]
-Overfull \hbox (134.50766pt too wide) in paragraph at lines 1036--1036
+Overfull \hbox (134.50766pt too wide) in paragraph at lines 1035--1035
 [] 
  []
 
 
-Overfull \hbox (16.09647pt too wide) in paragraph at lines 1070--1070
+Overfull \hbox (16.09647pt too wide) in paragraph at lines 1069--1069
 [] 
  []
 
 [21] [22] [23]
-Overfull \hbox (43.49661pt too wide) in paragraph at lines 1182--1182
+Overfull \hbox (43.49661pt too wide) in paragraph at lines 1181--1181
 []\OT1/cmtt/m/n/10 mu = zeros(2); mu(1,1) = 8; % where 1 is pos, 2 is neg, give
  random number[] 
  []
 
 [24] [25] [26] [27] [28]
-Overfull \hbox (146.35019pt too wide) in paragraph at lines 1461--1466
+Overfull \hbox (146.35019pt too wide) in paragraph at lines 1460--1465
 []\OT1/cmr/m/n/10 Problem is that with P1 code, this will take for-ever. $\OML/
 cmm/m/it/10 ^^^\OT1/cmr/m/n/10 ([]) = (\OML/cmm/m/it/10 x[]; x[]; [] ; x[]; x[]
 ; x[]x[] [] ; x[]x[]; [] ; x[]x[]; [] ; x[]\OT1/cmr/m/n/10 )$
  []
 
 [29] [30] [31] [32]
-Overfull \hbox (5.53693pt too wide) in paragraph at lines 1674--1677
+Overfull \hbox (5.53693pt too wide) in paragraph at lines 1673--1676
 []\OT1/cmr/m/n/10 Now train clas-si-fiers on these $\OML/cmm/m/it/10 D[]$\OT1/c
 mr/m/n/10 s and get $\OML/cmm/m/it/10 f[]; [] ; f[]$\OT1/cmr/m/n/10 , pre-dict 
 and get $[]\OML/cmm/m/it/10 ; [] ; []$\OT1/cmr/m/n/10 ,
@@ -340,12 +335,34 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 1985 strings out of 495062
- 21447 string characters out of 1182645
+ 1986 strings out of 495061
+ 21457 string characters out of 1182622
  76726 words of memory out of 3000000
  5150 multiletter control sequences out of 15000+50000
  15208 words of font info for 62 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 27i,15n,24p,224b,365s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 27i,15n,24p,217b,365s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-te
+xlive/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/share/texmf-texlive/fonts/
+type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/type1/publi
+c/amsfonts/cmextra/cmex7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
+nts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi
+5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
+share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texm
+f-texlive/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/share/texmf-texl
+ive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/ty
+pe1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public/a
+msfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
+mr5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr
+/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texm
+f-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fo
+nts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/p
+ublic/amsfonts/cm/cmtt10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
+nts/symbols/msbm10.pfb>
+Output written on notes.pdf (36 pages, 376007 bytes).
+PDF statistics:
+ 197 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
-Output written on notes.dvi (36 pages, 113936 bytes).
