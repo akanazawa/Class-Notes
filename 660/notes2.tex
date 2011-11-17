@@ -404,4 +404,159 @@ f(x) = 0$.
 Recall \emph{Newton's method}: In 1-D, $x_{n+1} = x_{n} +
 \frac{-f(x_n)}{f'(x_n)}$.
 In N-D, it's $J_F(x_n)d = -F(x_n)$ (not the same $d$)
+
+\pagebreak
+\section{Class 17,18 November 15th 2011} Missed for grace hopper 
+\section{Class 19 November 15th 2011}
+\label{sec:class19}
+
+\subsection{Optimization}
+$f:\mathbf{R}^n \rarr \mathbf{R}$ Iteration $x_{k+1} \larr x_k +\ah_k
+d_k$, where $d_k$ is the descent direction $d_k^Tg_k < 0$, and $\ah_k$
+is the step length obtained from line search.
+
+From last time: Choose $\ah_k$ s.t. $$f(x_k+\ah_kd_k) \le f(x_k) + \mu
+\ah_kd_k^Tg_k$$ where $\mu$ is a fixed parameter. Called the \emph{Armijo condition}.
+Refer to the graph on the notebook, but $\phi(\ah) = f(x_k+\ah d_k)$,
+$\phi(0) = f(x_k)$, $\phi'(0) = \grad f (x_k)^Td_k = d_k^Tg_k$, and
+$\phi_\mu(\ah) = f(x_k) + \mu\ah d_k^Tg_k$.
+
+Another way to do line search: try to find $\ah$ near the value that
+minimizes $\phi(\ah)$.
+Where $\phi'(\ah) = [\grad f (x_k+\ah d_k)]^Td_k$, such minimizer of $\phi$ (if it
+exists) satisfies $\phi'(\ah) = 0$.
+
+Strategy: Choose $\ah_k$s.t. $\phi'(\ah)$ is not too large. That is,
+require $$|\phi'(\ah)| \le \eta |\phi'(0)|$$ for some fixed constant
+$\eta$ (example $\eta = .9$).
+
+Guess $\ah$ by evaluating $|\grad f (x_k+\ah d_k)]^Td_k|$ compare it
+to $|g_k^Td_k|$. Called the \emph{Wolfe Condition}.
+This way is more expenisve, because we need to compute the $\grad f$,
+which involves $n$ computations, as opposed to computing $f$ is just
+single real value. 
+But this is prefered because: we are requiring the derivative to be
+smaller, it force us to chose a bigger step sizes and move closer to
+the minimum sooner. (Because say we have a candidate $a$ very close to
+$0$, the slope of $\phi'(a)$ will be very close to $\phi(0)$, so it
+will prevent us from chosing $\ah$ that's too close to 0.
+
+So far we've seen
+\begin{itemize}
+\item steepest descent $d_k = -g_k$ (slow but cheaper)
+\item Newton's method $d_k$ solves $H_kd_k = -g_k$, called the
+  Hessian. $\grad^2 f(x_k)$ is the descent direction iff $H_k$ is
+  positive-definite. ($d_k^Tg_k < 0 \rarr -g_k^TH_kg_k$ is guaranteed to be $< 0$ if $H_K$
+positive-definite, but may happen by luck so we want the condition
+example: $g_k=[1,0], H_k=(\begin{smallmatrix}  1 & 0 \\ 0 & -1 \end{smallmatrix})$).
+
+Evaluating the hessian and solving system is very expensive.
+\end{itemize}
+
+\subsection{Quasi-Newton Methosd}
+\label{sec:quasi-newton}
+
+This method will construct $B_K$, an approximation to $H_k$ somehow.
+Algorithm:
+\begin{algorithmic}
+  \STATE{ Start with an arbitrary $x_0$, $B_0$ ($=I$, for example), $g_0 = \grad f(x_0)$}
+  \FOR{ $k=0,1,2,\dots$ until convergence}
+    \STATE{solve $B_kd_k = -g_k$}
+    \STATE{update $x_{k+1} = x_k + \ah_kd_k$}
+    \STATE{compute $g_{k+1} = \grad f(x_{k+1})$}
+    \STATE{update $B_{k+1} = B_k - $ (some update)}
+  \ENDFOR
+\end{algorithmic}
+Q: How to choose $B_{k+1}$??
+
+One approach: Consider $H(x_k)$ when $f$ is a quadratic
+function. $$f(x) = \frac{1}{2}x^TQx + b^Tx + c$$, a typical quadratic
+function.
+$\grad f(x) = Qx+b$ (exercise)
+$\grad f(x+d) = Qx + Qd + b$, and $\grad f(x+d) - \grad f(x) = Qd$.
+ALso, $\grad^2 f = Q$. This implies that $$Hd = \grad^2f d = Qd = g(x+d) - g(x)$$ We
+will try to mimic this relationship for general $f$. 
+
+Try to eforce this conversation as follows:
+Choose $B_{k+1}$ to satisfy $B_{k+1}d_k = g_{k+1} - g_k$. But this is
+not enough to get a good estimate so in addition,
+$B_{k+1}v = B_kv$ $\forall v$ orthogonal to $d_k$ (because the first
+condition is just 1-D, this make sure that we don't do anything to
+whatever that's not in the same direction).
+
+Consider
+$$B_{k+1} = B_k - \frac{(B_kd_k - (g_{k+1} - g_k))d_k^T}{d_k^Td_k}$$
+Check: 
+\begin{align*}
+B_{k+1}d_k &= B_kd_k - \frac{(B_kd_k - (g_{k+1} -
+  g_k))d_k^Td_k}{d_k^Td_k}\\  
+&= B_kd_k - (B_kd_k - (g_{k+1} - g_k))\\  
+&= g_{k+1} - g_k
+\end{align*}
+Also 
+\begin{align*}
+  B_{k+1}v &= B_kv - \frac{(B_kd_k - (g_{k+1} -
+    g_k))d_k^Tv}{d_k^Tv}\\  
+&= B_kv - 0 \text{ for $v \perp d_k$}
+\end{align*}
+This is called the \emph{Broyden's method}, a rank-1 update. Way
+cheaper than evaluating the hessian.
+
+If $H$ is a hessian, it would be a symmetrix matrix (it's a second
+derivative $\frac{\partial^2 f}{\partial x_i\partial x_j}$). But $B_k$
+by Broyden's method is not symmetric.
+
+So \emph{Symmetric variant:}
+Let $y_k = g_{k+1} - g_k$, $$B_{k+1} = B_K +
+\frac{(y_k-B_kd_k)(y_k-B_kd_k)^T}{(y_k-B_kd_k)^Td_k}$$
+This works satisfies the two requirements.
+\pagebreak
+
+\section{Class 20 November 17th 2011}
+\label{sec:class20}
+Review of the HW3 \#2:
+$\hat A_c = A_c + E$, we want $A$. THere is a linear relation between
+$A$ and $A_c$. Unravel $A,A_c,\hat A_c$ column wise to get $a,a_c,\hat
+a_c$.
+The naive computation was to solve $Ka = \hat a_c$ but this runs out
+of memory, or takes way too long.
+
+$K$ has the form $B \otimes C$. Question was how do you take advantage
+of this and solve $Ka = \hat a_c$.  Supposed we wanted to solve $(B
+\otimes C)x = y$
+$B \otimes C =
+\begin{pmatrix}
+  b_{11}C & b_{12}C & \cdots & b_{1n}C\\
+  \vdots &  & \cdots & \vdots \\
+  b_{11}C & b_{12}C & \cdots & b_{1n}C\\
+\end{pmatrix}
+$
+Change $x$ s.t. it's $m$ by $n$.
+THen, the first block is
+\begin{align*}
+C(b_{11}x_1 + b_{12}x_2 + \cdots + b_{1n}x_m)  &=C[x_1 , x_2, \cdots, x_m]
+\begin{pmatrix}
+  b_{11} \\ b_{12} \\ \vdots \\ b_{1n}
+\end{pmatrix}
+&= \text{ transpose of 1st row of $B$ is 1st col of $B^T$}
+\end{align*}
+So
+$$CXB^T=Y$$ where $X$ and $Y$ are reshaped versions of $x$ and $y$ in
+blocks.
+So the solution is $X=C\inv Y B^{-T}$. Let $C= U_c\Sig_cV_c^T$ and
+$B=U_b\Sig_bV_b^T$, then $X$ is $V_c\Sig_c\inv U_c^TY(U_b\Sig_b\inv V_b^T)$
+
+\subsection{Quasi-Newton Methods}
+\label{sec:quasi-newton}
+\begin{algorithmic}
+  \STATE{ Start with $x_0$, $B_0$ ($=I$, for example), $g_0 = \grad f(x_0)$}
+  \FOR{ $k=0,1,2,\dots$ until convergence}
+    \STATE{solve $B_kd_k = -g_k$}
+    \STATE{update $x_{k+1} = x_k + \ah_kd_k$}
+    \STATE{compute $g_{k+1} = \grad f(x_{k+1})$}
+    \STATE{update $B_{k+1} = B_k - $ (some update)}
+  \ENDFOR
+\end{algorithmic}
+
+
 \end{document}

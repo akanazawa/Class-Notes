@@ -1855,5 +1855,53 @@ You should demonstrate that you learned something in this
 class. Anything is fair game as long as you do this. Just turn-in
 write up. (he won't look at the code) In hw format, ~ 4pg (not more
 than 7 or 8). Aim for 4.
-Need a short presentation (5min-ish, 3 slides). (depends on how many groups total)
+Need a short presentation (5min-ish, 3 slides). (depends on how many
+groups total)
+
+\section{Class 17 November 8th}
+\label{sec:class17}
+Went over midterm..
+
+\subsection{Unsupervised Learning: K-means}
+Does it converge? Yes. How fast? In theory, very bad (long), in
+practice, very fast. How good is the solution? We don't know.
+
+The K-means problem: $$\min_\mu \sum_n \min_k || x_n - \mu_k ||^2$$
+It's highly convex, easy to get stuck. it uses a squared distance. The optimum is the solution to this
+problem. This is what we want. Floyd's algorithm.
+Furthest first heuristic (pick one, then choose the furthest one) to do the
+first initialization.
+If we have outlies, the first heurisitic will likely to chose them as
+the initial points which could lead to weird behavior, but in general
+it works better than random selection.
+
+5 years ago, \textbf{$K$-means ++ }algorithm came up: The furthest first
+heuristic is roughly deterministic (other than the first
+step). $\mu_1$ is a random point, just like before, but to select the
+second one, compute the distance between $\mu_1$ and every point, get
+smallest $d_i$'s, and pick the point with probability proportional to
+$d_i^2$. THen do Lloyd's algoirthm $\Rarr$ value $\phi$
+
+We get the guarantee that what we find is ``not that bad'' than the
+optimum we want: $\phi \le 8(2+\log k)\phi^{opt}$ with high
+probability. This bound comes from the initialization, not about
+Lloyd's algorithm, so it's not very satisfying. We don't know how much
+better it makes Lloyd.
+
+\textbf{How to chose K}: No one really knows how. Not a question we
+can formulate well as a theory question. By nature so dependant on the
+data. We can regularize K. AIC and BIC criteria. BIC is the bayes
+information criteria, Akaike information criteria.
+On data normalized s.t. $||x|| = 1$.
+AIC: choose $K$ to minimize objective value + $2KD$
+BIC: choose $K$ to minimize objective value + $K\log(D)$ (likes more
+clusters. K is punished less).
+
+
+
+
+
+
+
+
 \end{document}
