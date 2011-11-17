@@ -509,7 +509,7 @@ by Broyden's method is not symmetric.
 So \emph{Symmetric variant:}
 Let $y_k = g_{k+1} - g_k$, $$B_{k+1} = B_K +
 \frac{(y_k-B_kd_k)(y_k-B_kd_k)^T}{(y_k-B_kd_k)^Td_k}$$
-This works satisfies the two requirements.
+
 \pagebreak
 
 \section{Class 20 November 17th 2011}
@@ -548,6 +548,7 @@ $B=U_b\Sig_bV_b^T$, then $X$ is $V_c\Sig_c\inv U_c^TY(U_b\Sig_b\inv V_b^T)$
 
 \subsection{Quasi-Newton Methods}
 \label{sec:quasi-newton}
+From before:
 \begin{algorithmic}
   \STATE{ Start with $x_0$, $B_0$ ($=I$, for example), $g_0 = \grad f(x_0)$}
   \FOR{ $k=0,1,2,\dots$ until convergence}
@@ -557,6 +558,47 @@ $B=U_b\Sig_bV_b^T$, then $X$ is $V_c\Sig_c\inv U_c^TY(U_b\Sig_b\inv V_b^T)$
     \STATE{update $B_{k+1} = B_k - $ (some update)}
   \ENDFOR
 \end{algorithmic}
+ We looked at \emph{Broyden's method} $$B_{k+1} = B_k - \frac{(B_kd_k
+   - (g_{k+1} - g_k))d_k^T}{d_k^Td_k}$$
+That satisfies both conditions, but $B_k$ may not be symmetric (and
+should be because $H_k$ is).
 
+Symmetric variant: Let $y_k = g_{k+1} - g_k$, $$B_{k+1} = B_K +
+\frac{(y_k-B_kd_k)(y_k-B_kd_k)^T}{(y_k-B_kd_k)^Td_k}$$
+We can't impose the second condition that $B_kv = 0$ for $v\perp d_k$.
+Also $B_k$ may not be positive definite.
 
+\emph{Further refinment}: $$B_{k+1} = B_k -
+\frac{(B_kd_k)(B_kd_k)^T}{d_k^TB_kd_k} + \frac{y_ky_k^T}{y_k^Td_k}$$
+It's easy to verify that $B_{k+1}d_k = g_{k+1} - g_k$
+
+\textbf{Theorem} If $y^Td_k > 0$ then $B_{k+1}$ is positive definite.
+
+ $y^Td_k>0$ means $g_{k+1}^Td_k > g_k^Td_k$. $d_k$ taht we're working
+ with is a descent direction, so both sides of the inequality is
+ negative, so it means the next descent direction is not as negative as
+ the one before. i.e. $$-g_k^Td_k > -g_{k+1}^Td_k$$
+
+Returning to Wolfe condition for line search, it says $|g_{k+1}^Td_k |<
+\eta |g_k^Td_k|$ for some $\eta < 0$.
+
+This is equivalent to
+
+$$-g_{k+1}^Td_k \le |g_{k+1}^Td_k| < \frac{1}{\eta}|g_{k+1}^Td_k| \le
+-g_k^Td_k$$
+(given $\eta < 1$). The end equality is the same condition about the theorem. i.e. if we
+impose the Wolfe condition, $B_{k+1}$ is positive definite.
+This refined version where it guarantees positive definite ness is
+called the \textbf{$BFGS$ method}.
+
+\subsection{Constrained Optimization}
+\label{sec:constrainedoptimization}
+
+Now we want to $ \min f(x)$ $f\in \mathbf{R}^n$ subject to $g(x)
+\le 0$, where $g: \mathbf{R}^n \mapsto \mathbf{R}^m$.
+
+ex. $n=2$. $x_2 = x_1+1$, $g(x) = x_2 - x_1 - 1 \ge 0$, then the
+possible region is the parts above the line. 
+
+Find $x$ in constraint set that minimizes $f$.
 \end{document}
