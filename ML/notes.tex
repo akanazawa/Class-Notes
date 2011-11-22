@@ -6,6 +6,7 @@
 \newcommand{\del}{\delta}
 \newcommand{\thet}{\theta}
 \newcommand{\rarr}{\rightarrow}
+\newcommand{\Rarr}{\Rightarrow}
 \newcommand{\larr}{\leftarrow}
 \newcommand{\ol}{\overline}
 \newcommand{\mbb}{\mathbb}
@@ -1900,7 +1901,152 @@ clusters. K is punished less).
 
 
 
+\section{Class 21? November 22nd 2011}
+\label{sec:class21}
 
+\subsection{Semi-supervised Learning}
+
+Both labeled and unlabeled data at training time. The unlabeled data
+could be our test data, if we do this this is called
+\emph{transductive learning}.
+What's out there:
+\begin{enumerate}
+\item Generative models for S.S. learning.
+\item Self-training: Learn $f$ on L, labeled data, run $f$ on U,
+  unlabeled data, make it into $\hat U$ (entire thing or only the high
+  confidence ones), re-learn $f$ on $L\cup \hat
+  U$.
+
+Can be quite effective. Why? say there are two features that are very
+effective, but one dominates, so we learn $f$ mostly on that high
+frequency data, so when predict on $U$, the good feature that wasn't
+so apparent will come out more (more number, higher correlation), so
+when we re-learn we get to learn on two good features. May not work in
+many cases.
+\item Co-training: attempt to take something that look like
+  self-training and prove that it works. Someone gives me data split
+  into two disjoint, relatively indepenent sets. (i.e. webpages split
+  into content $\bar x_n^1$ and link text to
+  the page $\bar x_n^2$, with labels $y_n$).  Where $U = (\bar x_m^1,
+  \bar x_n^2)$. Learn $f_1$, $f_2$ on each data independently, then
+  classify on $U$, if $f_1$ and $f_2$ agree, put the ``labeled'' data
+  back in training.
+
+Tries to mitigate against mistakes that $f$ may make.
+\begin{algorithmic}
+  \STATE{Learn $f^1$ on $L^1$ and $f^2$ on $L^2$}
+  \STATE{run $f^1$ and $f^2$ on $U$}
+  \STATE{add unlabeled $\bar x_m$'s to $L$ only if $f^1(x^1_m) =
+    f^2(x^2_m)$}
+  \STATE{relearn $f^1, f^2$ on $L\cup \{\text{new examples}\}$}
+\end{algorithmic}
+\item Cluster assumptions in discriminative models: decision boundary
+  goes through low-density regions.
+Say we start with SVM: $\min_w \frac{1}{2}||w||^2 + C\sum_n \xi_n$,
+subject to $y_n(w\cdot x_n + b) \ge 1 - \xi_n$ $\forall n\in L$.
+How to use the unlabeled data? regardless of the label, I also want a
+large margin.i.e. add a constraint: $|w\cdot x_m + b| \ge 1 - \eta_m$ $\forall m
+\in U$, and the entire objective becomes $$\min_w \frac{1}{2}||w||^2 +
+C\sum_n \xi_n + c_2\sum_m\eta_m$$ But the new constraint is not
+convex, so it makes life hard. 
+
+Trade off between labeled and unlabeled data. If unlabeled data
+dominates, SVM may focus on the unlabeled data and ignore the
+unlabeled data. Very tricky! Standard thing to do is to weigh them
+equally by using the same $C$ and divide both by $N$ (down weight
+unlabeled data).
+\item Label propagation
+Two half moons dataset. Svms won't work. It's manifold, so we need to
+construct a nearest neighbor graph across the data (graph Laplacian). Basic idea: heat one end, put an ice
+to another end, all warm points are positive, cold points are negative
+etc.
+
+\end{enumerate}
+
+\subsection{EM for SS-learning}
+On binary features (binomial)
+$L=\{(x=<x_1, \dots, x_d>, y)\}, U=\{(x=<x_1, \dots, x_d>)\}$.
+\emph{Generative story:}
+\begin{algorithmic}
+\FOR{$n=1,\dots, N$}
+  \STATE{ choose $y_n \approx Bin(p)$}
+  \FOR{ $d=1,\dots,D$ }
+    \STATE{  choose $x_{n,d} \approx Bin(\theta_{y_n, d})$}
+  \ENDFOR
+  \STATE{ return $(x_n, y_n)$}  
+\ENDFOR
+\FOR{$m=1,\dots, M$}
+  \STATE{ choose $y_m \approx Bin(p)$}
+  \FOR{ $d=1,\dots,D$ }
+  \STATE{  choose $x_{m,d} \approx Bin(\theta_{y_m, d})$}
+    \ENDFOR
+  \STATE{ return $(x_m)$}  
+\ENDFOR
+\end{algorithmic}
+
+Do MLE: $\max_{\rho, \theta} P(L,U| \rho, \theta)$
+\begin{align*}
+ &= \max_{\rho,\theta} [ \prod_n P(x_n, y_n|\rho, \theta)][ \prod_m
+ P(x_m|\rho, \theta)]\\
+ &= \max_{\rho,\theta} [ \prod_n P(y_n|\rho, \theta)\prod_d P(x_{n,d}
+ | y, \theta)][ \prod_m P(x_m|\rho, \theta)]\text{ naive bayes
+   assumption}\\
+\end{align*}
+re-write $P(x_m|\rho, \theta)$ as $\sum_{y_m}P(x_m, y_m|\rho,
+\theta)$, and break it down as
+$\sum_{y_m}P(y_m|\rho,\theta)P(x_m|\rho,\theta)$.
+Now:
+\begin{align*}
+  &=\max_{\rho, \theta} [\prod_n \rho^{y_n=1}(1-\rho)^{y_n=-1}\prod_d
+  \theta_{y_{n,d}}^{x_{n,d}=1}(1-\theta_{y_{n,d}})^{x_{n,d}=0}]
+[\prod_m \sum_{y_m} \rho^{y_m=1}(1-\rho)^{y_m=-1} \prod_d  \theta_{y_{m,d}}^{x_{m,d}=1}(1-\theta_{y_{m,d}})^{x_{m,d}=0} ]
+\end{align*}
+
+If we were doing only labeled, then the updates are : $\rho = \frac{\text{\# of positives}}{N}$, $\theta_{1,5} =
+\frac{\text{\# of positives with $x_5=1$}}{\# of positives}$.
+
+For unlabeled, it's incomplete because we don't have $y_m$, so we
+want to sum over, but that sum will interfere with the log! so use
+jensen's inequality: $\log \sum_{y_m}\cdots \Rarr \sum_{y_m}q(y_m)\log
+\cdots$, this is the EM trick. Based on current parameters, guess
+$q(y_m) = P(y_m | x_m, \rho, \theta)$. $q$ is what do I think the
+label is supposed to be. 
+\begin{align*}
+q(y_m) &= P(y_m | x_m, \rho, \theta)\\
+&= \frac{1}{\text{stuff}}P(y_m | \rho, \theta) p(x_m| y_m, p, \theta) \text{ bayes rules} \\
+\end{align*}
+
+Now we take the log of MLE, then plug in $q$:
+\begin{align*}
+  &\ge \max_{\theta, \rho}\sum_n[ (y_n=+1)\log \rho +
+  (y_n=-1)\log(1-\rho) + \sum_d[ (x_{n,d}=1)\log \theta_{y_n,
+    d}+(x_{n,d}=0)\log(1- \theta_{y_n, d})] ] + \sum_m\sum_{y_m}[q(y_m) (y_m=+1)\log \rho +
+  (y_m=-1)\log(1-\rho)+ \sum_d[ (x_{m,d}=1)\log \theta_{y_m,
+    d}+(x_{m,d}=0)\log(1- \theta_{y_m, d})]]\\
+&= \sum_{i=1}^{N+M}\sum_{y_i}q(y_i)=
+\begin{cases}
+  1 & \text{ if $i\le N$, and $y_n = y_i$}\\
+0 & \text{ if $i\le N$, and $y_n \neq y_i$}\\
+p(y_i|x_i, \rho, \theta) &  \text{ if $i> N$}
+\end{cases}
+(y_i=+1)\log \rho + (y_i=-1)\log(1-\rho) + \sum_d[ (x_{i,d}=1)\log \theta_{y_i,
+    d}+(x_{i,d}=0)\log(1- \theta_{y_i, d})]
+\end{align*}
+
+Let's take $\frac{\partial}{\partial \rho }$ ($\rho$ and $\theta$ in $q$ are constants here!)
+\begin{align*}
+&= \sum_i\sum_{y_i} q(y_i)[\frac{y_i=+1}{\rho} -
+\frac{y_i=-1}{1-\rho}]\\
+\sum_i\sum_{y_i} q(y_i)(y_i=+1)(1-\rho)&=\sum_i\sum_{y_i}
+q(y_i)(y_i=-1)(\rho)\\
+\sum_iq(y_i = +1) - q(y_i=+1)\rho&=\rho \sum_i q(y_i=-1)\text{
+  distribute}\\
+\sum_iq(y_i = +1)&=\rho (\sum_i q(y_i=-1) + q(y_i=+1))\\
+\sum_iq(y_i = +1)&=\rho\times (N+M)\\
+\rho &= \frac{\sum_iq(y_i=+1}{N+M}
+\end{align*}
+
+So the final update for $$\rho = \frac{\sum_iq(y_i=+1}{N+M}$$
 
 
 
