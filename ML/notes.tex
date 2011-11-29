@@ -2048,6 +2048,158 @@ q(y_i)(y_i=-1)(\rho)\\
 
 So the final update for $$\rho = \frac{\sum_iq(y_i=+1}{N+M}$$
 
+\section{Class 22? November 29th 2011}
 
+\subsection{HMM}
+\label{sec:hmm}
 
+Reasoning over time: of a sequence of observations. Involves time into
+our models.
+
+\subsubsection{Markov Models}
+\begin{itemize}
+\item a chain-structued Bayes Net
+\item each node identicall distirbuted
+\item We have $P(X_1)$, then we assume $P(X_j|X_{j-1})$ uniformly
+\item Parameters: \textsf{transition probabilities}
+\item Conditional independence assumption: first order Markov
+  property, that each time step only depends ont he previous
+\item example: $P(X_2=sun) = P(X_2=sun|X_1=sun)P(x_1=sun) + P(X_2=sun|X_1=rain)P(X_1=rain)$
+\item generalized $P(X_t=sun) = \sum_{x_1\dots x_{t-1}}P(x_1, \dots,
+  x_{t-1}, sun)$ (Stupid way, because there are $t-1$ days, sum over
+  all values of $1$ to $t-1$. $2^{t-1}$ values in the sum!)
+\item Nice thing is that we can apply the same chain rule and move
+  sums around, do dynamic programming. If we look at one configuration
+  $P(X_1=sun)$, when second day is rain or second day is sun, the rest is
+  the same.
+\item \textbf{Mini-forward algorithm} draw in lattice. Say we know
+  $P(x_1)$ is known, then we also know that $$P(x_t) =
+  \sum_{x_{t-1}}P(x_t|x_{t-1})P(x_{t-1})$$
+the forward simulation.
+\item So in the example, $P(X_t=sun|X_{t-1}=sun) =
+  0.9,P(X_t=sun|X_{t-1}=rain) = 0.1$, so $P(X_3=sun) =
+P(X_2|X_1=sun)P(X_1=sun)+P(X_2|X_1=rain)P(X_1=rain) =
+0.9(0.9)+0.1(0.1) = 0.82$
+\item If we simulate the chain long enough, there's a stationary
+  distribution exists. The states like to stay constant..
+\end{itemize}
+
+For us we don't care that stationary distribution exists.
+
+\subsubsection{HMM}
+Markov chains not so useful for robots/agents. Whereever I come from,
+the next distribution is always the same. With the stationary
+distribution, the robot will have no idea where he is. Completely
+independent of my initial configuration.
+This happens because the robot is not paying attention to his
+environments. You'd like it to be able to look around and see what's
+going on and adjust it's beliefs based on what it sees.
+
+So HMM is defined by:
+\begin{itemize}
+\item  initial distribution: $P(X_1)$
+\item Transitions: $P(X_T|X_{T-1})$
+\item Emissions: $P(E|X)$
+\end{itemize}
+Conditional Independnece assumptions:
+\begin{itemize}
+\item Future depends on past only by the time step before i.e. the present (1st order
+  markov assumption)
+\item Current observation independent of all else given current state.
+\end{itemize}
+Notation:$X$ is all possible configuraiton, $x_t$ is a single value
+we've observed.
+Robot example:
+\begin{itemize}
+\item  Assume we have current beliefe $P(X|evidence to date)$,
+then after one time step, $P(X_{t+1}|e_{1:t}) = \sum_{x_t}P(X_{t+1}|x_t)P(x_t|e_{1:t})$
+\item After a step, current belief: $B'(X_{t+1}) = P(X_{t+1}|e_{1:t})$, before
+  observing the new world. Then $$P(X_{t+1}|e_{1:t+1}) \prop
+  P(e_{t+1}|X_{t+1})P(X_{t+1}|e_{1:t})$$
+aka: $$B(X_{t+1})\prop P(e|X)B'(X_{t+1})$$
+Does what I observe agree with what I think Where I am?
+\item Idea: beliefs reweighted by likelihood of evidence. We need to renormalize
+\end{itemize}
+
+The forward algorithm:
+\begin{align*}
+P(X_t|e_{1|t})&\prop P(x_t, e_{1:t})  \\
+&=\sum_{x_{t-1}}P(x_{t-1}, x_t, e_{1:t})\\
+&=\sum_{x_{t-1}}P(x_{t-1}, e_{1:t-1})P(x_t|x_{t-1})P(e_t|x_t) \text{
+  chain rule}\\
+&= P(e_t|x_t)\sum_{x_{t-1}}P(x_t|x_{t-1})P(x_{t-1}, e_{1:t-1})
+\text{reorganized}
+\end{align*}
+Main thing is to compute my belief at time $t$, I need to only sum
+over values at $t-1$. (quadratic in the number of states, compute x
+many state beliefs, then also compute what state was yesterday = x options)
+Not good when the number of states >> or states are continuous.
+
+Alternative: \textbf{Particle Filtering}
+\begin{itemize}
+\item Discrete approxmiation of forward algorithm
+\item Track sampels of $X$, not all values. Time per step now is
+  linear in the number of samples.
+\item For a grid of states, use n balls (num samples). Number of balls in each bin is the approximation to the
+  probability of picking that bin (grid).
+\item Each particle is moved by sampling its next position from the
+  transition model $$x' = sample(P(X'|x))$$. He's at $x$, where does he think he's going to be next time step?
+\item Instead of evaluating the probability, pick at random weighted
+  by the probability..Moving the particles according to the
+  transitions. Each particles move independently, so linear in the
+  number of particles/samples
+\item Observation: right after the move we have $B'(X)$. We need to get these particles to
+  account for what they actually observe. Like likelihood weighting,
+  so we downweight our samples based on the evidence - reweight.
+\item if a paritcle can explain the observation well, we gets more,
+  less otherwise. $w(x) = P(e|x)$ $$B(X)\prop P(e|X)B'(X)$$
+\item Probabilities don't sum to one! sum to $P(e)$, the approximation
+\item This is repetition of move->resize, in the end one particle will
+  dominate, that happens to get moved in the right way. To alleviate, we can \textbf{resampling}:
+  \begin{itemize}
+  \item Think of moved particles as distribution of states. Then
+    resample based on this distribution, all with weight 1. Now
+    probability sums to one (equivalent to renormalizing).
+  \item repeat: Move, resize, resample.
+  \end{itemize}
+\end{itemize}
+
+\section{Most-likely Question}
+
+Question: most likely sequence ending in $x$ at $t$? We don't have the
+observation (more like MM setting, not HMM).
+Slow answer: enumerate and score.
+$$\max_{x_1, \dots, x_{t-1}) P(x_1, \dots, x_{t-1}, sun)$$
+ $2^{t-1}$ state sequences. Previously, we were summing over all of
+ this, not we max over them because we want the most likely state.
+
+\subsection{Mini-viterbi algorithm} (mini because it's for MM)
+What's the probability of most likely path that goes to this state,
+and in that sequence where did I come from?
+define: $$m_t[x] = \max_{x_{1:t-1}}P(x_{1:t-1}, x_t)$$
+$$a_t[x]=\argmax_{x_{1:t-1}}P(x_{1:t-1}, x)$$
+$m$'s are the probability, $a$'s are the back pointers.
+
+Recursively, 
+\begin{align*}
+  m_t[x] &= \max_{x_{1:t-1}}P(x_{1:t-1}, x)\\
+&=\max_{x_{1:t-1}}P(x_{1:t-1})P(x_t|x_{t-1})\\
+&=\max_{x_{t-1}}P(x|x_{t-1})\max_{x_{1:t-2}} \text{ if the most likely
+sequence goes through $x_{t-1}$, ask how we got to $x_{t-1}$ }\\
+&=\max_{x_{t-1}}P(x|x_{t-1})m_{t-1}[x_{t-1}]\\
+\end{align*}
+Where $m_1[x] = P(x_1)$.
+
+\subsection{Viterbi Algorithm}
+Q:What is themost likely state sequence given the observations?. Same
+thing but we need to factor in the observation probabilities.
+Now $$m_t[x] = \max_{x_{1:t-1}}P(x_{1:t-1}, x_t, e_{1:t})$$
+Same story:
+\begin{align*}
+  m_t[x] &=\max_{x_{1:t-1}}P(x_{1:t-1}, x_t, e_{1:t})\\
+&=\max_{x_{1:t-1}}P(x_{1:t-1}, e_{1:t-1})P(x_t|x_{t-1})P(e_t|x_t)\\
+&=P(e_t|x_t)\max_{t-1}P(x_t|x_{t-1})\max_{x_{1:t-2}}P(x_{1:t-1},
+e_{1:t-1})\\
+&=P(e_t|x_t)\max_{t-1}P(x_t|x_{t-1})m_{t-1}[x_{t-1}]\\
+\end{align*}
 \end{document}

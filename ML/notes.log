@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  22 NOV 2011 12:23
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  29 NOV 2011 11:34
 entering extended mode
  %&-line parsing enabled.
 **\input notes.tex
@@ -352,18 +352,18 @@ Overfull \hbox (586.41133pt too wide) in paragraph at lines 2034--2034
 [] 
  []
 
-[39] [40] (./notes.aux)
+[39] [40] [41] (./notes.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 1988 strings out of 495062
- 21477 string characters out of 1182645
+ 1991 strings out of 495062
+ 21507 string characters out of 1182645
  79729 words of memory out of 3000000
- 5153 multiletter control sequences out of 15000+50000
- 15208 words of font info for 62 fonts, out of 3000000 for 9000
+ 5155 multiletter control sequences out of 15000+50000
+ 15513 words of font info for 63 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  27i,19n,24p,224b,365s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on notes.dvi (40 pages, 127848 bytes).
+Output written on notes.dvi (41 pages, 132808 bytes).
