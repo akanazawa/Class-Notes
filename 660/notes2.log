@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  17 NOV 2011 15:15
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  29 NOV 2011 15:13
 entering extended mode
  %&-line parsing enabled.
 **\input notes2.tex
@@ -119,59 +119,59 @@ LaTeX Warning: Label `sec:quasi-newton' multiply defined.
 )
 \openout1 = `notes2.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Try loading font information for U+msa on input line 47.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Try loading font information for U+msa on input line 48.
  (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 47.
+LaTeX Font Info:    Try loading font information for U+msb on input line 48.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 ) [1
 
 ] [2] [3] [4] [5]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 307.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 308.
 
 
 (/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 307.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 308.
 
-Overfull \hbox (166.79941pt too wide) in paragraph at lines 358--358
+Overfull \hbox (166.79941pt too wide) in paragraph at lines 359--359
 [] 
  []
 
 [6] [7] [8] [9]
-Overfull \hbox (119.48512pt too wide) in paragraph at lines 542--542
+Overfull \hbox (119.48512pt too wide) in paragraph at lines 543--543
 [] 
  []
 
-[10] [11] (./notes2.aux)
+[10] [11] [12] [13] (./notes2.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 1388 strings out of 495062
- 15245 string characters out of 1182645
- 72968 words of memory out of 3000000
- 4587 multiletter control sequences out of 15000+50000
+ 1389 strings out of 495062
+ 15248 string characters out of 1182645
+ 72976 words of memory out of 3000000
+ 4588 multiletter control sequences out of 15000+50000
  12468 words of font info for 48 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  27i,15n,24p,225b,277s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on notes2.dvi (11 pages, 38324 bytes).
+Output written on notes2.dvi (13 pages, 46580 bytes).

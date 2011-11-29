@@ -21,6 +21,7 @@
 % linear alg
 \newcommand{\inv}{^{-1}}
 \renewcommand{\vec}[1]{\boldsymbol{#1}}
+\newcommand{\kth}{^{(k)}}
 % order 
 \newcommand{\cO}{\mathcal{O}}
 % gradient
@@ -601,4 +602,119 @@ ex. $n=2$. $x_2 = x_1+1$, $g(x) = x_2 - x_1 - 1 \ge 0$, then the
 possible region is the parts above the line. 
 
 Find $x$ in constraint set that minimizes $f$.
+
+\section{Class 22 (skipped one) Nov 29th}
+HW3: first part, to show the error is proportional to $\kap(Q)$,
+taylor series approximation is involved. Number of steps is
+approximately $\kap(Q)$ based on the taylor approximation, assuming
+that $\kap(Q)$ is big. Part b of problem 2, enforce certain
+equalities, gradually tweak so taht the equality is true. Do line
+search in several different ways and he talked about a way in class to
+do tweaking, do that for number 2. For number iii, use matlab
+minimization function. For i, you might have to do global search, but
+tweaking is what he has in mind..
+
+\subsection{Constrained Minimization}
+
+Minimize for $x\in \mathbf{R}$, $f(x)$ subject to $Ax=b$. $A$ is a
+full rank $m$ by $n$ wide matrix ($m<n$).
+\begin{itemize}
+\item Method 1: start with a feasible $\bar x$ (satisfies $A\bar x =
+  b$), let $Z=$matrix whose columns span the null space of $A$, $Z\in
+  \mathbf{R}^{n\times (n-m)}$. (SVD's
+  last $m-n$ columns of V). We can solve this problem by solving $\min
+  v\in \mathbf{R}^{n-m}\hat f(v)$, $\hat f(v) = f(\bar x + Zv)$
+  (compute the gradient of $\grad_v\hat f=Z^T(\grad_xf(\bar x + Zv))$,
+  $grad_v^2 \hat f = H = Z^T(\grad_x^2f(\bar x + Zv))Z$
+  then use steepest descent or newton using H)
+\item Method 2: Using the first order conditions for minimizing $\hat
+  f$, we are led to the equation of the form $\grad f(x)+A^T\lam = 0$
+  and $Ax=b$. We want to find $x, \lam$ that satisfies these
+  equations. (the first equation says that the gradient is in the
+  range space of A) We don't need $Z$ for this method: if $n$ is
+  large, computing $Z$ is expensive. 
+  
+  This is a nonlinear system of equations, to do it we'll discuss it
+  in class.
+\end{itemize}
+
+For method 1, how do we get $\bar x$, a feasible point?
+Suppose we obtained $Z$ by $QR$ factorization. $A^T=QR= [Q_1 Q_2][R_1;
+0] = Q_1R_1$, where $Z=Q_2$ $Q_1$ spans the range space of $A$ and
+$Q_2$ is the orthogonal complement of $Q_1$ so it spans the null space
+of $A$. And $A=R_1^TQ_1^T$. We want $A\bar x = b$:
+\begin{align*} 
+  A\bar x &= b\\
+R_1^TQ_1^T \bar x &=b\\
+Q_1^T \bar x = R_1^{-T}b \text{ let }R_1^{-T}b = \hat b\\
+&\text{ Define }\hat x = Q_1\hat b\\
+Q_1^T\bar x &=  Q_1^TQ_1 \hat b\\
+Q_1^T\bar x &=  Q_1^TQ_1 R_1^{-T}b\\
+R_1^TQ_1^T\bar x &=  R_1^TR_1^{-T}b\\
+A\bar x &=  b
+\end{align*}
+Now we have $\bar x$.
+
+\subsection{Nonlinear constraint problem }
+minimize $f(x)$ for $x\in \mathbf{R}^n$, subject to $g(x)\ge 0$, where
+$g:\mathbf{R}^n \mapsto \mathbf{R}^m$. Example: $g(x) = Ax-b$, or
+$g_1(x), \dots, g_m(x)$ all $\ge 0$.
+Harder problem.
+Highlevel statemetn: Minimize the function inside, move closer to the
+boundary and see if that changes things.
+
+\textbf{Strategy}:
+\begin{itemize}
+\item Define $\phi(x)$ s.t. $\phi(x)\rarr \infty$ as $g(x) \rarr 0$.
+  \begin{itemize}
+  \item \emph{Example}: $\phi(x) - \sum_1^m \log q_i(x)$ means $\log$ is
+  well defined, if all $g_i$s approach 0, $\sum_1^m \log q_i(x)\rarr
+  -\infty$, so $\phi(x) \rarr \infty$.
+\item \emph{Example}: $\phi(x) = \sum_{i=1}^m \frac{1}{g_i(x)^2}$
+  \end{itemize}
+\item Introduce a scalar parameter $\mu>0$ and consider the function
+  $$\hat f_\mu(x)=f(x) + \mu \phi(x)$$ (function of n+1 param, but think of $\mu$ as fixed here)
+\item Consider the unconstraint problem $\min_x \hat f_\mu(x)$. As
+$x$ approaches the boundary of the constraint set i.e. $g(x)\equiv 0$,
+$\mu\phi(x)\rarr \infty$, so the solution/minimizer to this problem will be in
+the interior of our constraint, that is $g(x)>0$. This minimizer $x$
+depends on $\mu$. i.e. $x=\mu(x)$.
+\item next step, is to reduce $\mu$ and do it again.
+
+\end{itemize}
+\emph{Claim}: as $\mu\rarr 0$, $x(\mu)\rarr x^*$, the solution to the
+constraint problem.
+
+\textbf{Algorithm - the Barrier Method}: For a sequence $\mu_1 > \mu_2 > \dots$, find $x(\mu_i)$, use
+$x(\mu_i)$ as the initial value for the problem with parameter
+$\mu_i+1$ ($\hat f_\mu(x)$). As $\mu\rarr 0$, the conditioning of the hessian of $\hat
+f_\mu(x)$ grows. Meaning makes it harder for newton's method to solve.
+
+\subsection{Nonlinear equations}
+$F:\mathbf{R}^n \mapsto \mathbf{R}^n$, where $F=
+\begin{pmatrix}
+f_1(x_1, \dots, x_n)  \\
+f_2(x_1, \dots, x_n)  \\
+\vdots
+f_n(x_1, \dots, x_n)  \\
+\end{pmatrix}$
+We want to find $x$ s.t. $F(x) = 0\in\mathbf{R}^n$.
+Taylor series: $F(x+d) = F(x) + J_F(x)d + \cO(||d||^2)$ for
+$d$ small where $J_F =
+\begin{pmatrix}
+\frac{\partial f_1}{\partial x_1}&\dots &\frac{\partial f_1}{\partial
+  x_n}\\
+\vdots\\
+\frac{\partial f_n}{\partial x_1}&\dots &\frac{\partial f_n}{\partial
+  x_n}\\
+\end{pmatrix}$
+
+\textbf{Newton's method}: Given an iterate $x^{(k)}$, compute
+$d^{(k)}$ update by ignoring the $\cO(||d||^2)$ term and setting
+$F(x\kth)d_k = 0$, solve $$J_F(x\kth)d\kth = -F(x\kth)$$
+then $x^{(k+1)}  = x\kth + \ah_kd\kth$
+Need to solve systems of linear equations (LU but ppl don't really use LU anymore)
+
+
+
 \end{document}
