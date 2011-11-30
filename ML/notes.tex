@@ -2169,7 +2169,7 @@ Alternative: \textbf{Particle Filtering}
 Question: most likely sequence ending in $x$ at $t$? We don't have the
 observation (more like MM setting, not HMM).
 Slow answer: enumerate and score.
-$$\max_{x_1, \dots, x_{t-1}) P(x_1, \dots, x_{t-1}, sun)$$
+$$\max_{x_1, \dots, x_{t-1}} P(x_1, \dots, x_{t-1}, sun)$$
  $2^{t-1}$ state sequences. Previously, we were summing over all of
  this, not we max over them because we want the most likely state.
 
