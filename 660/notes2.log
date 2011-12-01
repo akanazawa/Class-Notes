@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  29 NOV 2011 15:13
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  1 DEC 2011 15:18
 entering extended mode
  %&-line parsing enabled.
 **\input notes2.tex
@@ -160,7 +160,13 @@ Overfull \hbox (119.48512pt too wide) in paragraph at lines 543--543
 [] 
  []
 
-[10] [11] [12] [13] (./notes2.aux)
+[10] [11] [12] [13] [14]
+Overfull \hbox (13.92592pt too wide) detected at line 823
+[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 u[]\OT1/cmr/m/n/10 ([]) = \OML/cmm/m/it/1
+0 v\OT1/cmr/m/n/10 ([])
+ []
+
+[15] (./notes2.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -174,4 +180,4 @@ Here is how much of TeX's memory you used:
  28 hyphenation exceptions out of 8191
  27i,15n,24p,225b,277s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on notes2.dvi (13 pages, 46580 bytes).
+Output written on notes2.dvi (15 pages, 53964 bytes).

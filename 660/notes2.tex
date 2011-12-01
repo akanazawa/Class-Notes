@@ -602,7 +602,7 @@ ex. $n=2$. $x_2 = x_1+1$, $g(x) = x_2 - x_1 - 1 \ge 0$, then the
 possible region is the parts above the line. 
 
 Find $x$ in constraint set that minimizes $f$.
-
+\pagebreak
 \section{Class 22 (skipped one) Nov 29th}
 HW3: first part, to show the error is proportional to $\kap(Q)$,
 taylor series approximation is involved. Number of steps is
@@ -714,7 +714,113 @@ $d^{(k)}$ update by ignoring the $\cO(||d||^2)$ term and setting
 $F(x\kth)d_k = 0$, solve $$J_F(x\kth)d\kth = -F(x\kth)$$
 then $x^{(k+1)}  = x\kth + \ah_kd\kth$
 Need to solve systems of linear equations (LU but ppl don't really use LU anymore)
+\pagebreak
+\section{Class 23 December 1st 2011}
+$F:\mathbf{R}^n \rarr \mathbf{R}^n$, find $x$ s.t. $F(x)=0$. 
+
+\textbf{Newton's method}: 
+\begin{algorithmic}
+  \STATE{start with $x_0$}
+\REPEAT
+\STATE{ solve $$J_F(x_k)d_k = -F(x_k)$$}
+\STATE{ set $x_{k+1} = x_k + d_k$}
+\UNTIL{$||F(x_k)||$ small enough}
+\end{algorithmic}
 
 
+ If $F(x) = G(x) - g$, often the tolerance looks like
+$$||F(x_k)||\le \tau||g||$$
+Like a relative error, where $g$ is like an input data.
 
+Sometimes there is no $g$. Then we stop when $||F(x_k)||\le \tau$,
+some tolerance $\tau$.
+
+A few difference from optimization are that:
+\begin{itemize}
+\item $J_F$ may not be symmetric
+\item Don't have a descent direction
+\end{itemize}
+
+\subsection{Convergence}
+
+Loosely, $$||x-x_{k+1}|| = c||x-x_k||^2$$
+Whenever $x_k$ is close enough to $x$ and $J_F$ is smooth enough.
+
+Small enough means $J_F(x)$ is nonsingular and Lipschitz
+continuous $$||J_F(z_1) - J_F(z_2)|| le \gam ||z_1 - z_2||$$
+$\forall z_1,z_2$ near $x$.
+
+``near $x$'' means: $\exists \del > 0$ s.t. Lipschitz continuity holds
+$\forall z_1,_2, s.t. ||z_i - x|| < \del$
+
+These are called ``standard assumptions''. Usually try to get into
+this ball by doing steepest descent, then do newton because then
+convergence is faster.
+
+\subsection{Inexact Newton's method}
+
+
+Solving for $J_F(x_k)d_k = -F(x_k)$ is the most expensive part of the
+task. If we're not sure if we're in the ball, it doesn't pay enough to
+compute for an accurate $d_k$.
+
+Consider a scenario where we're far from the solution. Suppose instead
+of $d_k$, we somehow get $\hat d_k$, s.t. the residual $$||-F(x_k) - J_F(x_k)\hat
+d_k||\le \eta_k||F(x_k)||$$
+i.e. not forcing $d_k$ to be exact.
+
+with this $x_{k+1} = x_k + \hat d_k$,
+
+\emph{Theorem}: under standard assumptions, the error satisfies
+$$||x-x_{k+1}|| \le c_1||x-x_k||^2 + c_2\eta_k||x-x_k||$$
+
+So if we could choose $\eta_k = ||x-x_k||$, then we can recover quadratic
+convergence.
+
+This is not possibel because we don't know $x$.
+
+Note:
+\emph{Lemma}: for $x_k$ near $x$, $$||x-x_k|| \approx c ||F(x_K)||$$
+
+Using the lemma, we could choose $\eta_k = \tau ||F(x_k)||$ (in the
+theorem). Then if we can find $\hat d_k$
+s.t. $$||-F(x_k) - J_F(x_k)\hat d_k|| \le \tau||F(x_K)||^2$$
+we can \emph{recover quadratic convergence}.
+
+How to compute $\hat d_k$:
+Use an interative method, for each $k$, iterate over $j$: find $\hat d_{k,j}:\hat d_{k,1}, \hat
+d_{k,2}, \dots, \hat d_{k,m}$ s.t. the residual $||-F(x_k) -
+J_F(x_k)\hat d_{k,j}||$ decreasing with $j$, so $\hat d_k = \hat
+d_{k,m}$, $m$ is when you satisfy the condition: residual $\le \tau
+||F(x_k)|^2$
+
+\subsection{Example of a nonlinear equation}
+Function $u(x,t)$ is the density of cars driving on a street at time
+$t$, where $x$-axis represents the 1 way street.
+It's modeled by: $$\frac{\partial u}{\partial t} + u\frac{\partial
+  u}{\partial x} = v\frac{\partial^2 u}{\partial x^2}$$
+$v>0$, where $u\frac{\partial u}{\partial x}$ is the transport term, moves
+things from left to right, and $v\frac{\partial^2 u}{\partial x^2}$ is
+the diffusion term.
+
+There is no analytic solution because this is non-linear.
+
+$u(x,0)$ given at time $t=0$, and $u(0,t), u(1,t)$ given.
+
+We want to discretize in space and time. Then approximate:
+$$\frac{\partial u}{\partial x}|_{x=x_i} \sim \frac{u(x_{i+1}, t) -
+  u(x_{i-1},t)}{2k}$$
+$$\frac{\partial^2 u}{\partial x^2}|_{x=x_i} \sim \frac{u(x_{i+1}, t)
+  -2u(x_i,t) + u(x_{i-1},t)}{k^2}$$
+$$\frac{\partial u}{\partial t}|_{t=t_m} \approx \frac{u(x, t_{m+1}) -
+  u(x,t_m)}{\Delta t}$$
+
+Denote: $u(x_i, t_j) = u_{ij}$. Substitute approximations in PDE at
+$x_i, t_{m+1}$. Then we get:
+
+$$\frac{u_{i,m+i} - u_{i,m}}{\Delta t} +
+u_{i,k+1}(\frac{u_{i+1,m+1}-u_{i-1,m+1}}{2k}) = v
+  (\frac{u_{i+1,m+1}-2u_{i,m+1} +u_{i-1,m+1}}{k^2})$$
+
+The unknowns are $u_{1,m+1}, u_{2,m+1}, \dots, u_{n,m+1}$.
 \end{document}
