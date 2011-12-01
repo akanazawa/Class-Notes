@@ -2202,4 +2202,80 @@ Same story:
 e_{1:t-1})\\
 &=P(e_t|x_t)\max_{t-1}P(x_t|x_{t-1})m_{t-1}[x_{t-1}]\\
 \end{align*}
+
+\pagebreak
+\section{Class 23 December 1st!}
+\textbf{Forward} $\ah_{i,t+1} = \sum_j \ah_{j,t}stuff$
+\textbf{Viterbi} $\ah_{i,t+1} = \max_j \ah_{j,t}stuff'$
+
+\emph{Ring}: ($\textbf{R}$, 0, 1, +, $\times$) where 0 is the identity
+1 is the multiplicative identity, and transitivity. 
+We have additive inverse ($\forall a \exists b s.t. a+b = 0$) and
+multiplicative inverse ($\forall a \exists b s.t. ab = 1$)
+
+\emph{Semi-Ring}: is a ring without the additive inverse.
+
+Then, ($\mathbf{R} \le 0 \cup \{-\infty\}, -\infty, 0, addLog ,+$) is
+a semi-ring that's like a log. ($\mathbf{R}\ge, 0, 1, max, \times$)
+also, like a max semi-ring.
+
+The only difference between forward and viterbi is that they're on
+different algebraic structure. Do the same thing with forward with
+ring, but with max semi-ring on viterbi.
+
+\subsection{Undirected Graphical Models}
+Extend the types of structures we can ask questions about, and develop
+algorithms that answer specific types of questions.
+
+$\{X_1,X_2,X_3,X_,4\}$, think of the 4 r.v. as graphs. There are
+dependencies between adjacent states, i.e. the edges. The idea is that
+\textbf{the probability distribution has to factor over cliques in
+  this graph}.
+
+If there's no edge betwen $X_1$ and $X_3$, (they're not independent),
+but you can't say anything specific about the relationship between
+$X_1$ and $X_3$. i.e. $$P(X_1,X_2,X_3,X_,4)= \prod_{c\in C(G)}\frac{1}{Z}\phi_c(\vec
+x_c)$$
+$Z$ is the normalization value, and computing this is expensive.
+Cleaner drawing represntation: For every clique, draw a square node in
+between (add edges if required to). Think of these boxes, factor
+nodes, as $\phi_i$'s. As an observation this is a bipartite graph between rv
+nodes and factor nodes. so
+$$P(X_1,X_2,X_3,X_,4) = \prod_i \phi_i(x\in N(i))$$
+
+We can encode an HMM with this: i.e. the first unitary factor node to $X_1$
+is $\phi(X_1) = P(e_1|x_1) = b_{x_1,
+  e_1}$,  and the factor node in between stsates are $\phi(x_i,x_j) = \ah_{x_2,x_3}$
+
+\subsection{Belief Propagation Algorithm}
+In HMM, beliefe propagation is exactly foward-backward. So it's a
+generalization to more complicated structures.
+
+Evrery node has a belief (some belief that i'm state 0 and some belief
+that i'm state 1) and neighbors. It's going to tell their
+neighbors, the factor node (that is in the middle of all the
+neighbors) collects all of these messages, tells everyone what the
+belief update should be.
+
+Factors also have a belief. 
+
+First, every factor sends messages to a node, telling it what it
+thinks it should be. Then every factor updates its belief based on the
+belief of nodes.
+
+Belief of nodes:
+$$b_i(x_i)\prop \prod_{a\in N(i)}m_a \rarr i(x_i) \quad ``beliefs'' \prop ``messages''$$
+A single message is a vector of possible states.
+
+Belief of factors($a$):
+$$b_a(X_a)\prop \phi_a(X_a)\prod_{i\in N(a)}\prod_{b\in
+  N(i)\a}m_b\rarr i(x_i)$$
+(If a factor has two nodes, it will have a matrix of beliefs.)
+Or 
+$$b_a(X_a)\prop \phi_a(X_a)\prod_{i\in N(a)}\frac{b_i(x_i)}{m_a\rarr i(x_i)}$$
+$\prod_{i \in N(a)}$ is the product over node neighbors, divide
+because we need to remove $i$'s belief. If $x_i$ is $n$ by $1$ vector
+of $n$ possible options, then $b_a(X_a)$ is a matrix (or tensor, or
+function if more neighbors) of $n$ by $n$.
+
 \end{document}
