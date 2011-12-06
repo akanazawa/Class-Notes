@@ -41,7 +41,8 @@
 \parindent 0pt
 
 \documentclass[a4paper]{article}
-\usepackage{amsmath,amssymb,algorithmic,pdfpages}
+\usepackage{amsmath,amssymb,algorithmic}
+% \usepackage{pdfpages}
 \begin{document}
 \title{Scientific Computing CS660 Fall '11\\Notes after the midterm}
 \author{Angjoo Kanazawa}
@@ -408,9 +409,9 @@ In N-D, it's $J_F(x_n)d = -F(x_n)$ (not the same $d$)
 
 \pagebreak
 \section{Class 17,18 November 15th 2011} Missed for grace hopper 
-\includepdf[pages={-}]{jessyNote1.pdf}
+% \includepdf[pages={-}]{jessyNote1.pdf}
 \section{Class 19 November 15th 2011}
-\includepdf[pages={-}]{jessyNote2.pdf}
+% \includepdf[pages={-}]{jessyNote2.pdf}
 \label{sec:class19}
 
 \subsection{Optimization}
@@ -825,4 +826,86 @@ u_{i,k+1}(\frac{u_{i+1,m+1}-u_{i-1,m+1}}{2k}) = v
   (\frac{u_{i+1,m+1}-2u_{i,m+1} +u_{i-1,m+1}}{k^2})$$
 
 The unknowns are $u_{1,m+1}, u_{2,m+1}, \dots, u_{n,m+1}$.
+
+\section{Class 24 December 6th 2011}
+
+\subsection{Initial Value Problems}
+A particular type of ODE problem. Have the form $y' = f(t,y)$, find
+$y(t)$, a function of time. $y(t_0)=y_0$ is given. What does $y(t)$
+look like for $t>0$? $y$ can be a vector valued function.
+
+\emph{Example Preditor-prey model:} Prey = $y_1$, Preditor =
+$y_2$. $
+\begin{smallmatrix}
+  y_1\\y_2
+\end{smallmatrix}' = f(t,y)$, where $y_1' = ay_1 - b_1y_1y_2$, $y_2' =-cy_2 + dy_1y_2$ .
+Initial population $\begin{smallmatrix}
+  y_1(0)\\y_2(0) \end{smallmatrix}  = \vec y(0)$
+
+We want numerical methods to approximate $y(t)$. (think Taylor
+series).
+$$y'(t) = \lim_{h\rarr 0}\frac{y(t+h)-y(t)}{h}\approx
+\frac{y(t+h)-y(t)}{h}$$
+Let $h$ be fixed for us here.
+Equivalently, $y(t+h) \approx y(t) = hy'(t)$.
+
+We know $y(0)$, estimate $y(t_1)$ as $\hat y(t_1) = y_1 = y_0 +
+hf(t_0, y_0)$. Then estimate $\hat y(t_2) = y_2 = y_1 +
+hf(t_1,y_1)$. One would expect this approximation is worse than the
+approximation to $y(t_1)$.
+In general, \textbf{Euler's method}: $$y_{k+1} = y_k + hf(t_k,y_k)$$ 
+
+Taylor series: Fix $t$ and look at $t$th: $y(t+h) = y(t) + hy'(t) +
+\cO(h^2)$ $\Rarr y'(t) = \frac{y(t+h)-y(t)}{h} + \cO(h)$
+If we ignore $\cO(h)$ term, we get Euler's method.
+
+Do this in a different way (just taylor expansion in a diff way):
+$y(t) = y(t+h) - hy'(t+h) + \cO(h^2)$. Then $y'(t+h) = \frac{y(t+h) -
+  y(t)}{h} + \cO(h)$.
+
+Ignore $\cO(h)$ term again, and use $y'(t+h) = f(t+h, y(t+h))$ from
+definition. Take $t=t_0$, $t+h = t_1$, then $f(t_1, y_1) =
+\frac{y_1-y_0}{h}$. (replace $y(t_i)$ with corresponding approximation $y_i$):
+In other words, $y_1 = y_0 + hf(t_1,y_1)$, more generally
+\textbf{Backwards Euler's method}: $$y_{k+1}
+= y_k + hf(t_{k+1},y_{t+1})$$
+In order to do this, we need to solve a nonliner equasion for
+$y_{t+1}$ at each step so it might be costly.
+
+Recap taylor series of $\phi(b)$ about $a$
+$$\phi(b) = \phi(a) + (b-a)\phi'(a) + \frac{(b-a)^2}{2}\phi''(a) +
+\dots$$
+Euler's method is with $\phi=y$, $a = t, b=t+h$, the backward euler's
+method is with $a=t+h,b=t$.
+
+\subsubsection{Benchmark example}
+Given $y' = f(t,y) = \lam y$, $\lam < 0$, $y(0)=y_0$. The solution is $y(t) = y_0e^{\lam t}$ (what we want). Verify:
+$y' = \lam t y_0e^{\lam t} = \lam y$.
+
+Euler says 
+\begin{align*}
+y_{k+1} &= y_k + h \lam y_k  \\
+&= (1+h\lam) y_k\\
+(1-h\lam)y_{k+1} &= y_k
+\end{align*}
+Want: $y_k$ to decrease (at least, doesn't increase) as $k$ grows.
+I.e. we require $|y_{k+1}| \le |y_k|$:
+\begin{align*}
+  |y_{k+1}| &\le |y_k|\\
+|1+h\lam||y_k| &\le |y_k|\\
+&\le 1\\
+-1 &\le 1+h\lam \le 1\\
+h|\lam| &\le 2\\
+h &\le \frac{2}{|\lam|}
+\end{align*}
+
+With backward euler:
+from before $y_{k+1} = \frac{y_k}{1+h|\lam|}$, we need
+$\frac{1}{1+h|\lam|} le 1$ which is always going to be true, so we can
+do anything we want (alhtough usually we'd have to solve some system
+of equations)
+
+The trade off between the two method is that euler has very
+restrictive time step, but simple. Backward we need to solve a system
+of equations but we can to whatever.
 \end{document}
