@@ -2278,4 +2278,115 @@ because we need to remove $i$'s belief. If $x_i$ is $n$ by $1$ vector
 of $n$ possible options, then $b_a(X_a)$ is a matrix (or tensor, or
 function if more neighbors) of $n$ by $n$.
 
+\section{Class 24 December 6th 2011}
+\textbf{Belief Propagation Cont..:}\\
+
+Factored graph: assign a probability distribution over all variables
+around the model (nodes). The probability is a normalize product of
+factor values, so for a fixed assignment of state values, the probability
+calculated by the factor graph should match that computed by HMM. It
+is actually mimicking the behavior of HMM.
+
+Two questions to ask:
+\begin{itemize}
+\item viterbi:what is the most probable configuration given
+  observation?
+\item forward backward:what is the marginal probability for a node/group
+  of nodes? $P(x_1=A)=\sum_{x_2}\sum_{x_3}P(x_1=A, X_2, X_3)$?
+\end{itemize}
+
+\subsection{Belief Propagation}
+
+The ``belief'' is the Belief Propagation approximation of the
+marginal probability. (``how much do I think i'm in state A, how much do
+I think i'm in state B''). $b_1=[1;1] = [b_1(A)=1, b_1(B)=1]$. belief at node 1 for
+state A and B.
+(Notations are bad but)
+\textbf{Belief at nodes}:
+$$b_i(x_i) \prop \prod_{a\in N(i)}m_{a\rarr i}(x_i)$$
+
+THe graph is bi-partite so all neighbors of nodes will be
+factors. From neighbors, we get messages from the factors to a node i
+which tells for each state, how much does this factor thing this node
+i is a A or a B.
+
+\textbf{Belief at factor nodes}:
+If we have 2 states, and if a factor nodes have two neighbors  belief at the factor has
+4 possible configurations (2 from left, 2 from right)-> 2x2
+matrix. If it only has one neighbor, its belief is 2x1. If you have
+three neighbors you get 2x2x2.
+
+Belief at the factor is what is the marginal probability of this pair
+(or combination) of configurations. What's the probability of each of
+those 4 ($\text{num of neighbor}^{\text{num of states}}$ possible configurations happening.
+
+Notation: $X_a$ means the set of all variables adjasent to the factor
+$a$.
+
+$$b_a(X_a) \prop f_a(X_a)\prod_{i\in N(a)}\prod_{b\in N(i)\a}m_{b\rarr i}(x_i)$$
+
+$\prod_{b\in N(i)\a}m_{b\rarr i}(x_i)$ is the belief of my
+neighbor. (for my neighbor $i$, the product of his incoming messages,
+similar to the equation @ belief of nodes). Not including yourself, so
+usually write it as belief of your neighbor/belief of yourself. i.e.
+$$b_a(X_a) \prop f_a(X_a)\prod_{i\in N(a)}\prod_{b\in
+  N(i)}b_i(x_i)/m_{a\rarr i}(x_i)$$
+$f_a(X_a)$ is how much do I like this configuration.
+
+\textbf{BP message-update rules}: 
+Our goal is $b_1(A) \prop P(x_1=A)$, and $b_a(A,B)\prop P(x_1=A,
+x_2=B)$. Then , it should be true that $b_1(A) = b_a(A,A) + b_a(A,B)$
+That is:
+Using $b_i(x_i) =
+\sum_{X_a\x_i}b_a(X_a)$, we get the 
+sum-product
+ messagee-update rules:
+$$m_{a\rarr i}(x_i) = \sum_{X_a\x_i}f_a(X_a)\prod_{f\in
+  N(a)\i}\prod_{b\in N(j)\a}m_{b\rarr j}(x_j)$$
+
+$m_{a\rarr i}(x_i)$ is how much does factor $a$ like the state $x_i$,
+passed on to noe $i$.
+$\sum_{X_a\x_i}$ is exponential to the number of neighbors.
+$\prod_{b\in N(j)\a}m_{b\rarr j}(x_j)$ is the belief of this node,
+excluding $a$. How much node $j$ think he's in state $x_i$ A or
+B. (Analogous to forward)
+
+If your graph is a tree (no cycles), BP is exact i.e. the resulting number is
+always proportional to the marginal probabilities. (Always converges
+on trees). The point is,\emph{ the probability of any configuration is
+proportional to the product of factor nodes.} Here the belief is the
+marginal probability of $x_1$ if you sum over the rest. It also
+converges in two iterations!
+(HMM is a special form of tree)
+
+For others, the marginal probability is almost never exact and we
+don't know if it converges.
+
+\textbf{On arbitrary graphs: Variational Free Energies}\\
+In a tree, if we run BP and pick some node as a root, you keep on
+traversing unti you branch out (because you need the belief of the one
+before/message to compute). When you branch out, you're dividing trees
+into two. Like in sense of DP, split the problem, go compute it, then
+store, so that we can reuse.
+
+But when we have a graph with cycles, this causes prblems because
+there's no notion of stuff on that side and stuff on this
+side. Because it's cyclic, everything is dependent. We can't cut the
+problem into two. $$F = U-TS = \sum_sp_sE_s + T\sum_sp_s\log p_s$$
+
+The idea in the statistical physics world is that they call
+un-normalized probability as ``\emph{energy}'', the difference between the
+true energy and the energy we estimate is called the ``\emph{free
+  energy}'': is an entropy term. Idea: If the free energy goes to 0,
+what I've computed is exact. Write down an otimization problem that
+minimizes the free energy subject to what i've computed (the
+constraints). Add a lot of lagrangians and solve. Turns out that lagrange variables you get are exactly
+the messages that BF computes. If you do GD On thes lagrange
+variables, you get exactly the same message updates that you get by
+BP.
+
+This was about 5~10 years ago. This opened the door where ppl started
+applying LP and other methods directly, which provably converge and
+better in practice.
+
 \end{document}
