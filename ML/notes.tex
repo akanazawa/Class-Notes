@@ -2269,7 +2269,7 @@ A single message is a vector of possible states.
 
 Belief of factors($a$):
 $$b_a(X_a)\prop \phi_a(X_a)\prod_{i\in N(a)}\prod_{b\in
-  N(i)\a}m_b\rarr i(x_i)$$
+  N(i)\ a}m_b\rarr i(x_i)$$
 (If a factor has two nodes, it will have a matrix of beliefs.)
 Or 
 $$b_a(X_a)\prop \phi_a(X_a)\prod_{i\in N(a)}\frac{b_i(x_i)}{m_a\rarr i(x_i)}$$
@@ -2277,7 +2277,7 @@ $\prod_{i \in N(a)}$ is the product over node neighbors, divide
 because we need to remove $i$'s belief. If $x_i$ is $n$ by $1$ vector
 of $n$ possible options, then $b_a(X_a)$ is a matrix (or tensor, or
 function if more neighbors) of $n$ by $n$.
-
+\pagebreak
 \section{Class 24 December 6th 2011}
 \textbf{Belief Propagation Cont..:}\\
 
@@ -2323,9 +2323,9 @@ those 4 ($\text{num of neighbor}^{\text{num of states}}$ possible configurations
 Notation: $X_a$ means the set of all variables adjasent to the factor
 $a$.
 
-$$b_a(X_a) \prop f_a(X_a)\prod_{i\in N(a)}\prod_{b\in N(i)\a}m_{b\rarr i}(x_i)$$
+$$b_a(X_a) \prop f_a(X_a)\prod_{i\in N(a)}\prod_{b\in N(i)\ a}m_{b\rarr i}(x_i)$$
 
-$\prod_{b\in N(i)\a}m_{b\rarr i}(x_i)$ is the belief of my
+$\prod_{b\in N(i)\ a}m_{b\rarr i}(x_i)$ is the belief of my
 neighbor. (for my neighbor $i$, the product of his incoming messages,
 similar to the equation @ belief of nodes). Not including yourself, so
 usually write it as belief of your neighbor/belief of yourself. i.e.
@@ -2338,16 +2338,16 @@ Our goal is $b_1(A) \prop P(x_1=A)$, and $b_a(A,B)\prop P(x_1=A,
 x_2=B)$. Then , it should be true that $b_1(A) = b_a(A,A) + b_a(A,B)$
 That is:
 Using $b_i(x_i) =
-\sum_{X_a\x_i}b_a(X_a)$, we get the 
+\sum_{X_a\ x_i}b_a(X_a)$, we get the 
 sum-product
  messagee-update rules:
-$$m_{a\rarr i}(x_i) = \sum_{X_a\x_i}f_a(X_a)\prod_{f\in
-  N(a)\i}\prod_{b\in N(j)\a}m_{b\rarr j}(x_j)$$
+$$m_{a\rarr i}(x_i) = \sum_{X_a\ x_i}f_a(X_a)\prod_{f\in
+  N(a)\i}\prod_{b\in N(j)\ a}m_{b\rarr j}(x_j)$$
 
 $m_{a\rarr i}(x_i)$ is how much does factor $a$ like the state $x_i$,
 passed on to noe $i$.
-$\sum_{X_a\x_i}$ is exponential to the number of neighbors.
-$\prod_{b\in N(j)\a}m_{b\rarr j}(x_j)$ is the belief of this node,
+$\sum_{X_a\ x_i}$ is exponential to the number of neighbors.
+$\prod_{b\in N(j)\ a}m_{b\rarr j}(x_j)$ is the belief of this node,
 excluding $a$. How much node $j$ think he's in state $x_i$ A or
 B. (Analogous to forward)
 
@@ -2388,5 +2388,107 @@ BP.
 This was about 5~10 years ago. This opened the door where ppl started
 applying LP and other methods directly, which provably converge and
 better in practice.
+\pagebreak
+\section{Class 25 December 8th 2011}
+``Variational methods'' - means trying to solve a problem by making it into a
+optimization problem.
 
+\subsection{Structured Prediction}
+
+Learn a function mapping inputs to complex output. $f:X\rarr
+Y$. Exponential time in the length of inputs.
+Why important?
+\begin{itemize}
+\item Some correlations among outputs
+\item Global coherence (deteminers - ``the'' won't appear 3 times in a row)
+\item My loss function changes things
+\end{itemize}
+
+\subsubsection{Perceptron with multiple classes}
+
+Store separate weight vector for each class.
+\begin{algorithmic}
+  \FOR{$n=1\dots N$}
+\STATE predict $\hat y = \arg\max_k \vec w_k \dot \phi(x_n)$
+\IF{ $\hat y \neq y_n$}
+\STATE $\vec w_{\hat y} = \vec w_{\hat y} - \phi(x_n)$
+\STATE $\vec w_{ y} = \vec w_{ y} + \phi(x_n)$
+\ENDIF
+\ENDFOR
+\end{algorithmic}
+
+Now, incorporate the class label in $\phi$ so i.e. $\phi(x) \Rarr
+\phi(x,news) = <\phi(x), 0,\dots, 0>$
+like $\vec w = (\vec w_1, \vec w_2, \vec w_3)$, then:
+\begin{algorithmic}
+  \FOR{$n=1\dots N$}
+\STATE predict $\hat y = \arg\max_k \vec w \dot \phi(x_n, k)$
+\IF{ $\hat y \neq y_n$}
+\STATE $\vec w = \vec w - \phi(x_n,\hat y) + \phi(x_n, y_n)$
+\ENDIF
+\ENDFOR
+\end{algorithmic}
+\subsubsection{Structured Perceptron}
+
+
+Features for structured prediciton each input word gets a label from
+small set of possible labels.
+Make $\phi(x,y)$, a feature with input output pairs: design it, like
+each input word$^{\text{ possible labels}}$.
+
+Algorithm exactly same as multiclass perceptron, but $\hat y =
+\arg\max_k \vec w \dot \phi(x_n, k)$ needs to eneumerate over all
+outputs (exponential). This computation is exactly the ``find me the
+most likely configuration'' problem if written in graphical
+model. (emission: words, states: noun, verb, md, etc)
+
+Now we can do the exact same thing to Margin/SVM as well:
+Given a ranked list of all possible outputs, our notion of error is if
+true sequesence is not ranked as the highest, modulo $\xi$. I.e. For every
+example, for every incorrect output, I have a constraint $\Rarr$
+exponential. But there's no notion of decision boundary. I just want
+my weight vector to point to the positive examples, because I only
+care about the realtive score (so that positive labeled sequence will
+always be scored higher than negative ones)
+
+So some will make one error (only one order  of a sequence wrong),
+some will make two, so the margin is not 1 but $l(y,\hat y)$, on the
+loss function.
+Originally, we wanted $$\vec w \cdot (x_n, y_n) \vec \cdot \phi(x_n,\hat y) + \xi_n \ge 1$$ now, 
+$$\vec w \cdot (x_n, y_n) \vec \cdot \phi(x_n,\hat y) + \xi_n \ge
+l(y_n, \hat y)$$
+We have exponential number of constraints.
+$$\forall \hat y, \vec w \cdot \phi(x_n, y_n) - \vec \cdot \phi(x_n,\hat y) +\xi_n \ge l(y_n, \hat y)$$ is equivalent to
+$$\max_{\hat y}-\vec \cdot \phi(x_n,\hat y) \ge l(y_n, \hat y)$$
+
+We're taking $\max_{\hat y}\vec w \cdot \phi(x,\hat y) + l(y_n, \hat
+y)$ I want you to be the best means i want you to be better than the
+next best person. I need ot insure that i'm better than everybody else
+by a margin of size $l$.
+If we get rid of the $l$ term, it's just viterbi (find me the best
+sequence). If we add $l$ it's ``augmented loss inference''. We add 1
+to every in correct path. We want to find the best sequence even though we add incorrect nodes an
+artificial bonus. 
+
+The BIG assumption is that we can decompose the loss function into variables.
+
+\textbf{Structured svm}:
+\begin{algorithmic}
+  \FOR{$n=1\dots N$}
+  \STATE augmented viterbi: $\hat y = \arg\max_k \vec w \dot \phi(x_n,
+  k) + l(y_n,k)$
+\IF{ $\hat y \neq y_n$}
+\STATE $\vec w = \vec w - \phi(x_n,\hat y) + \phi(x_n, y_n)$
+\ENDIF
+\STATE $\vec w = (1-\frac{1}{CN})\vec w$
+\ENDFOR
+\end{algorithmic}
+(C is the regularization parameter) So for all above $\arg\max$ is
+dynamic programming.
+
+Take home message: Having a big feature vector for input output pair
+(almost all structured prediction)
+Loss augmented infrerence (adding a bonus, because you want a large
+margin between the really bad one and good ones. So if you still beat
+the ones with bonus, that means they were really really bad => big margin)
 \end{document}

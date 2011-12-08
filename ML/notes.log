@@ -1,12 +1,8 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.9.4)  5 DEC 2011 19:33
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  8 DEC 2011 12:15
 entering extended mode
  %&-line parsing enabled.
-**notes.tex
-(./notes.tex
-LaTeX2e <2009/09/24>
-Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
-yphenation, loaded.
-(/usr/share/texmf-texlive/tex/latex/base/article.cls
+**\input notes.tex
+(./notes.tex (/usr/share/texmf-texlive/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/base/size10.clo
 File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
@@ -203,7 +199,7 @@ to-tal, af-ter 48hrs 50% down, teams. (Python
 
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
+] [2]
 Overfull \hbox (2.00693pt too wide) in paragraph at lines 127--129
 []\OT1/cmr/bx/n/10 Calc/Linear Al-ge-bra\OT1/cmr/m/n/10 : find-ing max-ima/mini
 ma of func-tions, al-lows high-
@@ -361,103 +357,51 @@ Overfull \hbox (93.96364pt too wide) in paragraph at lines 2190--2190
 [] 
  []
 
-[43] [44]
-! Argument of \a has an extra }.
-<inserted text> 
-                \par 
-l.2272   N(i)\a}
-                m_b\rarr i(x_i)$$
-? 
-Runaway argument?
-! Paragraph ended before \a was complete.
-<to be read again> 
-                   \par 
-l.2272   N(i)\a}
-                m_b\rarr i(x_i)$$
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.2272   N(i)\a}
-                m_b\rarr i(x_i)$$
-? 
-! Missing } inserted.
-<inserted text> 
-                }
-l.2272   N(i)\a}
-                m_b\rarr i(x_i)$$
-? 
-! Display math should end with $$.
-<to be read again> 
-                   \par 
-l.2272   N(i)\a}
-                m_b\rarr i(x_i)$$
-? 
-! Too many }'s.
-<recently read> }
-                 
-l.2272   N(i)\a}
-                m_b\rarr i(x_i)$$
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.2272   N(i)\a}m_
-                  b\rarr i(x_i)$$
-? q
-OK, entering \batchmode...
-! Missing $ inserted.
-<inserted text> 
-                $
-l.2276 $\prod
-             _{i \in N(a)}$ is the product over node neighbors, divide
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
+[43] [44] [45]
+Underfull \hbox (badness 10000) in paragraph at lines 2282--2283
 
-
-Overfull \hbox (12.56718pt too wide) in paragraph at lines 2272--2280
-[]\OT1/cmr/m/n/10 m$[] \OMS/cmsy/m/n/10 ! \OML/cmm/m/it/10 i\OT1/cmr/m/n/10 (\O
-ML/cmm/m/it/10 x[]\OT1/cmr/m/n/10 )$$(\OML/cmm/m/it/10 Ifafactorhastwonodes; it
-willhaveamatrixofbeliefs:\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 Or$$b[]\OT1/cmr/m/n/
-10 (\OML/cmm/m/it/10 X[]\OT1/cmr/m/n/10 ) \U/msa/m/n/10 _
  []
 
- [45] (./notes.aux)
+
+Overfull \hbox (4.61064pt too wide) in paragraph at lines 2336--2344
+[]\OT1/cmr/bx/n/10 BP message-update rules\OT1/cmr/m/n/10 : Our goal is $\OML/c
+mm/m/it/10 b[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 A\OT1/cmr/m/n/10 ) \U/msa/m/n/1
+0 _ \OML/cmm/m/it/10 P\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[] \OT1/cmr/m/n/10 = \
+OML/cmm/m/it/10 A\OT1/cmr/m/n/10 )$, and $\OML/cmm/m/it/10 b[]\OT1/cmr/m/n/10 (
+\OML/cmm/m/it/10 A; B\OT1/cmr/m/n/10 ) \U/msa/m/n/10 _
+ []
+
+
+LaTeX Warning: Command \i invalid in math mode on input line 2345.
+
+[46] [47]
+Overfull \hbox (24.38307pt too wide) in paragraph at lines 2420--2424
+[]\OT1/cmr/m/n/10 Now, in-cor-po-rate the class la-bel in $\OML/cmm/m/it/10 ^^^
+$ \OT1/cmr/m/n/10 so i.e. $\OML/cmm/m/it/10 ^^^\OT1/cmr/m/n/10 (\OML/cmm/m/it/1
+0 x\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ) \OML/cmm/m/it/10 ^^^\OT1/cmr/m/n/10 (\O
+ML/cmm/m/it/10 x; news\OT1/cmr/m/n/10 ) =\OML/cmm/m/it/10 < ^^^\OT1/cmr/m/n/10 
+(\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cm
+m/m/it/10 ; [] ; \OT1/cmr/m/n/10 0 \OML/cmm/m/it/10 >$
+ []
+
+
+Overfull \hbox (3.21796pt too wide) in paragraph at lines 2439--2444
+[]\OT1/cmr/m/n/10 Algorithm ex-actly same as mul-ti-class per-cep-tron, but $[]
+ = [] [][] [][](\OML/cmm/m/it/10 x[]; k\OT1/cmr/m/n/10 )$
+ []
+
+[48] [49] (./notes.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 1993 strings out of 495061
- 21526 string characters out of 1182622
+ 1992 strings out of 495062
+ 21516 string characters out of 1182645
  79729 words of memory out of 3000000
  5156 multiletter control sequences out of 15000+50000
  15513 words of font info for 63 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 27i,19n,24p,217b,365s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
-re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-te
-xlive/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/share/texmf-texlive/fonts/
-type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/type1/publi
-c/amsfonts/cmextra/cmex7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
-nts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi
-5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
-share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texm
-f-texlive/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb></usr/share/texmf-texl
-ive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/ty
-pe1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public/a
-msfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
-mr5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr
-/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texm
-f-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/f
-onts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texlive/fonts/type1/p
-ublic/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
-ts/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt1
-0.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on notes.pdf (45 pages, 433912 bytes).
-PDF statistics:
- 240 PDF objects out of 1000 (max. 8388607)
- 0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 27i,19n,24p,224b,365s stack positions out of 5000i,500n,10000p,200000b,50000s
 
+Output written on notes.dvi (49 pages, 159584 bytes).
