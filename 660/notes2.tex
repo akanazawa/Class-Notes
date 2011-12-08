@@ -4,6 +4,7 @@
 \newcommand{\del}{\delta}
 \newcommand{\ah}{\alpha}
 \newcommand{\lam}{\lambda}
+\newcommand{\Lam}{\Lambda}
 \newcommand{\gam}{\gamma}
 \newcommand{\kap}{\kappa}
 \newcommand{\rarr}{\rightarrow}
@@ -826,7 +827,7 @@ u_{i,k+1}(\frac{u_{i+1,m+1}-u_{i-1,m+1}}{2k}) = v
   (\frac{u_{i+1,m+1}-2u_{i,m+1} +u_{i-1,m+1}}{k^2})$$
 
 The unknowns are $u_{1,m+1}, u_{2,m+1}, \dots, u_{n,m+1}$.
-
+\pagebreak
 \section{Class 24 December 6th 2011}
 
 \subsection{Initial Value Problems}
@@ -847,7 +848,7 @@ series).
 $$y'(t) = \lim_{h\rarr 0}\frac{y(t+h)-y(t)}{h}\approx
 \frac{y(t+h)-y(t)}{h}$$
 Let $h$ be fixed for us here.
-Equivalently, $y(t+h) \approx y(t) = hy'(t)$.
+Equivalently, $y(t+h) \approx y(t) + hy'(t)$.
 
 We know $y(0)$, estimate $y(t_1)$ as $\hat y(t_1) = y_1 = y_0 +
 hf(t_0, y_0)$. Then estimate $\hat y(t_2) = y_2 = y_1 +
@@ -908,4 +909,112 @@ of equations)
 The trade off between the two method is that euler has very
 restrictive time step, but simple. Backward we need to solve a system
 of equations but we can to whatever.
+\pagebreak
+
+\section{Class 25 December 8th 2011}
+Last time: Given $y' = f(t,y)$, $y(0)$, want $y(t)$ for $t\in [0,T]$.
+
+\emph{Forward Euler}: $y_{k+1} = y_k + hf(t_k,y_k)$
+
+\emph{Backward Euler}: $y_{k+1} = y_k + hf(t_{k+1},y_{k+1})$
+To get $y_{k+1}$, we need to solve a system of nonlinear equations:
+$y_{k+1}-hf(t_{k+1}, y_{k+1}) - y_{k} = 0$
+
+For example $y' = \lam y$
+
+Tangent point: Consider a vector valued problem of $\vec y = A\vec y$,
+where $\vec y(t) = (y_1(t), \dots, y_n(t))^T$. We saw this problem at
+the middle of the term, the eigenvalue decomposition.
+
+Suppose $A = V \Lambda V\inv$, where $\Lam$ is a diagonal matrix with
+$\lam_i$ on the diagonal. Then
+\begin{align*}
+  y' &= V\Lam V\inv y\\
+V\inv y' = \Lam V\inv y\\
+&\text{ let }z=V\inv y\\
+z' = \Lam z
+\end{align*}
+Suppose all $\lam_i<0$. Then $z_i = z_oe^{\lam_i t}$. In general
+$y=Vz$ is the solution, a linear combination of $z_i$s. 
+
+Recall: The Forward Euler method required $h<\frac{2}{|lam|}$. 
+
+Forward Euler for this problem would be $\vec y_{k+1} = \vec y_k + h A
+\vec y_k$.  We will have a restriction of type.
+
+Backward Euler would be solving:
+\begin{align*}
+\vec y_{k+1} - h A \hat{\vec y_{k+1}} &= \hat{\vec y_k}\\
+ (I-hA)\hat{\vec y_{k+1}} &= \vec{ \hat y_k}
+\end{align*}
+Backward Euler method has no restriction on the step size.
+
+Are we worried about accuracy? No. We wanted the $h\le
+\frac{2}{|\lam|}$ because we required $|y_{k+1}| \le |y_k|$.
+This question (for $y' = \lam y$, $\vec y' = A\vec y$) concerns
+\underline{stability} of discrete solution (can we do what we want
+when the problem is dissapating).
+
+The trade off between implicit (backward euler) and explicit (forward euler) methods is always about
+stability. 
+
+Back from tangent topic:
+
+If we take a tangent line from $y_0$, at $t_1$, it is sitting
+on some other solution curve $\hat y$ with another initial point.
+Suppose we have $y_k = \hat y(t_k)$. 
+
+Question $y_{k+1} = y_k + hf(t_k, y_k) = y_k + hy'$. How large is $y_{k+1} - \hat y(t_{k+1})$? 
+
+Notice that this is not the same as ``how large is $y_{k+1} -
+y(t_{k+1})$?'' We're asking for local error here, not the global
+error.
+
+This is called the \emph{Local Truncatio Error} (LTE).
+The second question is the \emph{Global Error}.
+
+The Local error:
+Difference between $y_{k+1} = y_k + h \hat y'(t_k)$ and $\hat y(t_{k+1}) = \hat y(t_k) +
+h \hat y'(t_k) + \cO(h^2)$ (taylor series of $\hat y(t_{k+1})$), so
+it's 
+$$\hat y(t_{k+1}) - y_{k+1} =\cO(h^2)$$
+
+The global error: $T = t_n$, $h=\frac{T}{n}$. $n$ steps, each case
+$\cO(h^2)$ (worst case) error..
+So 
+\begin{align*}
+\text{global error} &\le n\cO(h^2)\\
+&= \frac{T}{h}\cO(h^2)\\  
+\text{global error} &\cO(h)\\
+\end{align*}
+This is called the \emph{1st order method}.
+
+Local and global error characteristics for backward euler are the
+same.
+Backward euler has same error analysis but superior stability
+assurance.
+
+\subsection{Using Numerical Integration}
+Using the trapezoidal rule, 
+$$\int_a^b g(x)dx \approx \frac{1}{2}(g(a)+g(b)(b-a).$$
+
+Using the trapezoidal rule, we want $$\int_{t_k}^{t_{k+1}}y'(t)dt \approx \frac{1}{2}(y'(t_k) + y'(t_{k+1}))(h)$$
+By FTC, $\int_{t_k}^{t_{k+1}}y'(t)dt = y(t_{k+1}) - y(t_k)$. We can replace $y'(t_k)$  with $f(t_k,y_k)$, we could $y'(t_{k+1})$
+with $f(t_{k+1}, y_{k+1})$. Putting all this together, we have an implicit method: $$y_{k+1}
+= y_k + \frac{1}{2}h(f(t_k, y_k) + f(t_{k+1}, y_{k+1}).$$
+
+Explicit method? We need to replace $f(t_{k+1}, y_{k+1})$. Let's use
+Euler's method and replace it with $f(t_{k+1}, y_k + hf(t_k, y_k))$
+
+Explicit Method: $$y_{k+1}= y_k + \frac{1}{2}h(f(t_k, y_k) +
+f(t_{k+1}, y_k + hf(t_k, y_k))$$
+
+ For euler, LTE was $\cO(h^2)$ and global was
+$\cO(h)$, here, LTE: $\cO(h^3)$ and Global: $\cO(h^2)$. Called the \emph{2nd
+order Runge-Kutta method}, based on trapezoid. 
+
+Next idea: If we used simpon's rule, $\int_a^b g(x)dx \approx \frac{1}{6}(g(a)+4g(\frac{a+b}{2})+g(b)(b-a)$, we can get LTE $\cO(h^5)$, global
+$cO(h^4)$, called the \emph{4th order method}.
+
+
 \end{document}
