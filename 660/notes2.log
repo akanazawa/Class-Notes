@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  8 DEC 2011 15:15
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2011.9.4)  13 DEC 2011 14:56
 entering extended mode
  %&-line parsing enabled.
 **\input notes2.tex
@@ -166,7 +166,16 @@ Overfull \hbox (13.92592pt too wide) detected at line 827
 0 v\OT1/cmr/m/n/10 ([])
  []
 
-[15] [16] [17] [18] [19] (./notes2.aux)
+[15] [16] [17] [18] [19]
+Overfull \hbox (2.79686pt too wide) in paragraph at lines 1078--1080
+[]\OT1/cmr/m/n/10 Recall: We're com-put-ing $\OML/cmm/m/it/10 y[] \OT1/cmr/m/n/
+10 = \OML/cmm/m/it/10 y[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 h^^^[]\OT1/cmr/m/n
+/10 (\OML/cmm/m/it/10 t[]; y[]; h\OT1/cmr/m/n/10 )$, $\OML/cmm/m/it/10 y[] \OT1
+/cmr/m/n/10 = \OML/cmm/m/it/10 y[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 h^^^[]\OT
+1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]; y[]; h\OT1/cmr/m/n/10 )$,
+ []
+
+[20] [21] (./notes2.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -180,4 +189,4 @@ Here is how much of TeX's memory you used:
  28 hyphenation exceptions out of 8191
  27i,15n,24p,225b,277s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on notes2.dvi (19 pages, 67856 bytes).
+Output written on notes2.dvi (21 pages, 74076 bytes).
