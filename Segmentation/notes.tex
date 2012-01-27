@@ -1,0 +1,95 @@
+\newcommand{\sig}{\sigma}
+\newcommand{\eps}{\epsilon}
+\newcommand{\del}{\delta}
+\newcommand{\ah}{\alpha}
+\newcommand{\lam}{\lambda}
+\newcommand{\gam}{\gamma}
+\newcommand{\kap}{\kappa}
+\newcommand{\rarr}{\rightarrow}
+\newcommand{\larr}{\leftarrow}
+\newcommand{\ol}{\overline}
+\newcommand{\mbb}{\mathbb}
+\newcommand{\contra}{\Rightarrow\Leftarrow}
+% for cross product
+\newcommand{\lc}{\langle} %<
+\newcommand{\rc}{\rangle} %>
+
+%other shortcuts
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\beq}{\begin{quote}}
+\newcommand{\enq}{\end{quote}}
+\newcommand{\hsone}{\hspace*{1cm}}
+\newcommand{\hstwo}{\hspace*{2cm}}
+
+\newcommand{\noi}{\noindent}
+\parskip 5pt
+\parindent 0pt
+
+\documentclass[a4paper]{article}
+\usepackage{amsmath,amssymb,algorithmic}
+\begin{document}
+\title{Image Segmentation CS828 Spring '12}
+\author{Angjoo Kanazawa}
+\maketitle
+\section{January 25th First Class}
+\textbf{Definition}: Segmentation (for this class):
+\begin{itemize}
+\item About low level vision in general
+\item Requires a lot of knowledge about th eworld, high level understanding,
+quite challenging.
+\item  So we're going to focus on simpler segmentation
+that doesn't require that much knowledge about the world: Uniform
+surfaces, smooth shape. Still there will be varietion in intensity.
+\item Want to find uniform region in things (texture, color, motion, smoothness), not necessarily world property. Removed from true segmentation of objects but still useful.
+\item Image is an 2D geometric structure. Segmentation is clustering
+  that takes advantage of this structure. Based on the assumption that
+  near-by pixels have the same intensity. 
+\item 
+\end{itemize}
+
+We're going to look at
+\begin{enumerate}
+\item Diffusion
+\item Anisotropic diffusion
+\item Graph based algorithms: message passing, thinking of an image as
+  a graph, every pixel is a node in a graph, edges to neighbors
+  $\rarr$ Markov Random FIeld. Gives us a probablistic way to express
+  the state of a node in relation to its neighbors. Usually NP-hard, but graph-cut and
+  belief propagation algorithms still work. The biggest issue is when
+  the number of labels is big.
+\item Conditional Random Fields, a general version of MRF
+\item Normalized Cut: form a graph
+\item Wavelets
+\end{enumerate}
+
+\textbf{Math}
+\begin{itemize}
+\item Fourier transforms
+\item Convolution
+\item Diffusion
+\item Wavelets
+\item Level sets
+\item Riemannian Geometry
+\end{itemize}
+
+\textbf{Current Research}
+\begin{itemize}
+\item Bilateral filtering (by Morel)
+\item Texture Segmentation
+\item Cosegmentation
+\item Affinity propagation
+\item 
+\end{itemize}
+
+\textbf{Workload}
+\begin{enumerate}
+\item Reports (6 out of 8 papers):Be critical when reading papers, even if the paper is good, what is
+the really important. Learn to recognize, have a taste. (10\%)
+\item Presentations: 3 presentations per day, 15 min per paper 10 min
+  each to discuss paper (15\%)
+\item a take home midterm, Final all on lecture material (50\%)
+\item Problem set/Project (25\%)
+\end{enumerate}
+
+\end{document}
