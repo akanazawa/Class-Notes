@@ -1,0 +1,32 @@
+;; RefTeX parse info file
+;; File: /Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex
+;; User: kanazawa (Angjoo Kanazawa)
+
+(set reftex-docstruct-symbol '(
+
+
+(xr nil "\\\\\\\\\\\\")
+
+(index-tags)
+
+(is-multi nil)
+
+(bibview-cache)
+
+(master-dir . "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/")
+
+(label-numbers)
+
+(bof "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex")
+
+(toc "toc" "    1 January 30th Class 1" "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil 2 "1" "\\section{January 30th Class 1}" 932)
+
+(toc "toc" "          1.0.0.1 Perception vs Language" "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil 5 "1.0.0.1" "\\paragraph{Perception vs Language}" 964)
+
+(toc "toc" "          1.0.0.2 The Cognitive Dialogue" "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil 5 "1.0.0.2" "\\paragraph{The Cognitive Dialogue}" 1844)
+
+(toc "toc" "          1.0.0.1 Perception vs Language" "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil 5 "1.0.0.1" "\\paragraph{Perception vs Language}" 964)
+
+(eof "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex")
+))
+
