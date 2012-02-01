@@ -32,7 +32,7 @@
 \title{Image Segmentation CS828 Spring '12}
 \author{Angjoo Kanazawa}
 \maketitle
-\section{January 25th First Class}
+\section{January 25th First Lecture}
 \textbf{Definition}: Segmentation (for this class):
 \begin{itemize}
 \item About low level vision in general
@@ -85,7 +85,7 @@ the really important. Learn to recognize, have a taste. (10\%)
 \item Problem set/Project (25\%)
 \end{enumerate}
 
-\section{January 30th Class 2}
+\section{January 30th Lecture 2}
 
 \subsection{Perceptual Grouping}
 
@@ -122,6 +122,185 @@ the really important. Learn to recognize, have a taste. (10\%)
   \item 
   \end{itemize}
   
+\section{February 1st Lecture 3: Fourier Transform}
+\label{sec:lec3}
 
+\subsection{Mathematical representation}
+
+\label{sec:math-repr}
+a point in a $\mathbf{R^2}$ can be represented in a
+coordinate. If $p=(7,3)$, we really mean $p = 7(1,0) +
+3(0,1)$. \emph{Any} point can be represented by a linear combination
+of two vectors. The basis vectors are:
+\begin{enumerate}
+\item Span the entire space: every point in the space can be written by  linear combinations of these vectors.
+\item Orthogonal: If not, moving in one direction will mean you'll be
+  moving in the another direction 
+\item Unit: if not, the distance from the origin will not be constant.
+\end{enumerate}
+
+We can compute the bases by
+\begin{enumerate}
+\item Linear Projection (inner product with each basis) 
+  \begin{equation}
+p = (p\cdot
+  (1,0))(1,0) + (p\cdot (0,1))(0,1)\label{eq:1}  
+\end{equation}
+\item Magnitude of a point $||p||^2 = x^2 + y^2$
+\end{enumerate}
+
+\subsection{Functions in $\mathbf{R}^1$}
+The domain of the function is $[0,2\pi]$, and we'll deal with
+functions in $\mathbf{R}^1$.
+
+\textbf{Def:} a delta function: $$\del_s(t) =
+\begin{cases}
+  0 & s\neq t\\
+\infty & s=t
+\end{cases}, \int_0^{2\pi}\del_s(t) dt = 1$$
+
+We'll write functions by using delta functions as a basis.
+
+In infinite dimensions, 
+$$f(t) = \int f_s(\del_s(t)ds$$ is the same as \eqref{1} but in
+infinite dimensions. 
+Tw basis are orthogonal if their inner products are 0, in infinite
+dimensions, this is taking the integral. So delta functions are orthogonal.
+
+This is a bad representation in some ways. It doesn't converge to the
+right representation (the function) quickly:  using countable number of delta functions will not be a good
+representation of the function because it will only be correct in
+those places. We also need a lot of co-efficients. 
+
+\paragraph{Differen Representation}
+\label{sec:diff-repr}
+Divide the interval $[0, 2\pi]$ into short $k$ intervals with width
+$\frac{2\pi}{k}$. Use a rectangle in a interval as basis. They are
+orthogonal, so we can scale these rectangles and set it to a height
+that is equal to the average of the function in that interval. We have
+a piece-wise representation of a function using a finite basis. As $k\rarr \infty$, the approximation gets better. The
+\emph{Reimann integral}. Here, we're stuck with a cetain level of
+accuracy as we fix $k$.
+
+To get an arbitrary accuracy, we can reuse basis from multiple
+$k$s. i.e. if we divide the interval in 2, then 4, etc, then we'll get many
+rectangles or infinite bases that are \emph{not} orthogonal, but can
+represent any function with finite pieces.
+
+Functions are uncountable, but we're trying to represent it as a
+countable set of bases. But this is okay because we enforce the
+functions to be continuous. 
+
+\subsection{Fourier Series}
+\label{sec:fourier-basis}
+The basis elements:
+\begin{itemize}
+\item Height of $\sqrt{\frac{1}{2\pi}}$
+\item $\frac{\cos(t)}{\sqrt{n}}$ all are multiplied by a constant so when
+  integrated it is 1.
+\item $\frac{\sin(t)}{\sqrt{n}}$
+\item $\cos(2t)$, $\sin(2t)$
+\end{itemize}
+
+They are unit vectors (normalized) and they are orthonormal
+i.e. $\int \sin(t)\cos(t)dt =0$. But better, draw them around
+$\pi$. $\sin$ is symmetric around $\pi$, $\cos$ is negative
+symmetric. So if they are multiplied together, the signs are different
+so they cancel and gives you 0. 
+
+Now, we can write any function as an infinite sum of these basis
+elements:
+
+\begin{equation}
+  \label{eq:2}
+  f(t) = a_0 + \sum_{k=1}^\infty a_k \cos kt + \sum_{k=1}^\infty b_k
+  \sin kt
+\end{equation}
+If the sums were finite upto $N$, then $\lim{N\rarr \infty} ||f(t)|| =
+0$. This is a better representation then the delta functions because
+if we use enough co-efficients we will get really good approximation
+to the function.
+
+$\cos^{2n}(t/2)$: Look at waht $\cos(t/2)$ look like, then raise it to
+a higher power. Really quicly, it will peak and look more like a delta
+function. By adding a constant in, $\cos(t/2 + a)$, we can shift the
+peaks. 
+
+Becasue we know that we can approximate any function with infinite
+delta functions, this means we can also do it with these basis. 
+There are couple of identities by trigonometry to write higher power
+trig functions as a single power functions. i.e. trig functions with
+different frequences: 
+$sin^2(t/2) = \frac{1-\cos(t)}{2}$, $sin^2(t) = \frac{1-\cos 2t}{2}$
+
+\textbf{Intuition:} In practice, functions are smooth and with very
+small coefficients we can get a very good approximations.
+
+\paragraph{Notation}
+\begin{equation}
+  \label{eq:3}
+  \cos kt + i \sin kt = e^{i k t}
+\end{equation}
+
+There are simple ways of computing these coefficients $a_k, b_k$. If
+we want $a_k$, we \textbf{take the inner product }of the function and $\cos kt$
+i.e. $\int f(t) \cos kt dt$.
+
+\paragraph{Complex case}
+Given $$c_k = \lc f, e^{ikt}, \rc = \lc f, \cos kt \rc + i\lc f, \sin
+kt \rc,$$ $c_{-k} = \lc f, e^{i-kt}, \rc = \lc f, \cos kt \rc - i\lc f, \sin kt\rc$
+
+Then
+\begin{equation}
+c_ke^{ikt} + c_{-k}e^{-ikt} = a_k \cos kt + b_k \sin kt\label{eq:5}
+\end{equation}
+
+We get back to the fourier representation.
+
+Following from $a \sin t + b \cos t = c \cos (t + k)$, $k$ is the phase, or the shift
+of functions.
+
+\textbf{Parsevaal's Theorem:} Same as the pythagorean theorem:
+$$\int f^2(t) dt = \frac{\pi}{2}a_0^2 + \pi\sum (a_k^2 + b_k^2)$$
+
+This is good to use to measure how good our approximation is. 
+So  
+We can do $$
+||(\int f(t) - a_0 -\sum_{k=1}^N a_k \cos kt - \sum_{k=1}^N
+b_k)^2||  = ||(\sum_{N+1}^\infty a_k \cos kt - \sum_{N+1}^\infty b_k )^2||$$
+
+
+\subsection{Fourier Transform}
+\label{sec:fourier-transform-1}
+Let $f(t)$ is periodic going from $[0, 2\pi l]$. Then, we can
+represent $f(t)$ by
+$$
+  f(t)= \sum c_k e^{ikt/ l}
+$$
+
+(By dividing with $l$, we're stretching the basis element in $[0,
+2\pi]$.) As $l\rarr \infty$, this gives us every possible fraction,
+all of $\mathbf{Q}$. Which mean we write this as:
+
+\begin{equation}
+  \label{eq:7}
+  f(t)= \int_{-\infty}^\infty F(k)e^{ikt}dk
+\end{equation}
+
+Remember: $e^{ikt}$ carries the orthonromal basis, now extending to
+all of $\mathbf{R}$, this means the coefficients are now in the
+$\infty$ domain so we write coefficients as $F(k)$, and call this the
+\textbf{Fourier transform} of $f(k)$.
+
+\eqref{7} is the approximation of $f(t)$, the inverse operation to get
+the fourier transform is;
+\begin{equation}
+  \label{eq:9}
+F(k) = \int_{-\infty}^\infty f(k)e^{-ikt}dk  
+\end{equation}
+
+$e^{-ikt}$ is negative because it's the complex conjugate of
+$e^{ikt}$, (square it we multiply
+it with the complex conjugate.)
 \end{document}
  
