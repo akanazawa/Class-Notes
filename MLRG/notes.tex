@@ -1,0 +1,95 @@
+\newcommand{\sig}{\sigma}
+\newcommand{\eps}{\epsilon}
+\newcommand{\del}{\delta}
+\newcommand{\ah}{\alpha}
+\newcommand{\lam}{\lambda}
+\newcommand{\gam}{\gamma}
+\newcommand{\kap}{\kappa}
+\newcommand{\rarr}{\rightarrow}
+\newcommand{\larr}{\leftarrow}
+\newcommand{\ol}{\overline}
+\newcommand{\mbb}{\mathbb}
+\newcommand{\contra}{\Rightarrow\Leftarrow}
+% for cross product
+\newcommand{\lc}{\langle} %<
+\newcommand{\rc}{\rangle} %>
+
+%other shortcuts
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\beq}{\begin{quote}}
+\newcommand{\enq}{\end{quote}}
+\newcommand{\hsone}{\hspace*{1cm}}
+\newcommand{\hstwo}{\hspace*{2cm}}
+
+\newcommand{\noi}{\noindent}
+\parskip 5pt
+\parindent 0pt
+
+\documentclass[a4paper]{article}
+\usepackage{amsmath,amssymb,algorithmic}
+\begin{document}
+\title{Machine Learning Reading Group: Graphical Models}
+\author{Angjoo Kanazawa}
+\maketitle
+\section{Day 1 PGM Chapter 3}
+\begin{itemize}
+\item \textbf{Motivations}: High dimensional distributions are evil ($2^n
+-1$ parameters)
+\item \textbf{Solution}: We can represent them compactly via independence
+assumptions. Exponentially smaller. In geenral $2^n - 1$ to $2n-1$.
+\item we have \emph{Bayes Nets}, a data structures that represents
+  joint distribution. Equivalent to a compact representation of
+  conditional independence assumptions about a distribution.
+\item Formal semantics of a Bayes Net G:
+  \begin{itemize}
+  \item a node's parents ``block'' its other non-descendents
+  \item $\forall X_i \in X$, $X_i \indept NonDesc(X_i) | Pa(X_i)$
+  \item Given a $G$ and a distribution $P$ that satisfies
+    the point above. Show that we can
+    associate CPT (conditional probability table) with each node in
+    $G$  define $P$:
+PF: Without any assumptions, we can marginallize any first node
+$x_1$. Use the chain rule.
+  \item The other direction is also true i.e. \emph{A distribution $P$
+    satisfies the above conditional independence assumption iff it can
+  be represented as a set of CPT's associated with its graph $G$}
+  \end{itemize}
+\item The book defines local independence assumption, then analyzes
+  its consequences.
+\item \emph{Independence Map}: set of all independence assertions that hold
+  in $P$
+  \begin{itemize}
+  \item Say i have a $G$ and find the CI structure, it's possible that
+    $P$ has more independence assumptions ($G$ does not reflect all)
+  \end{itemize}
+\item \textbf{D-separation}:
+  \begin{itemize}
+  \item $G$ represents a subset of $I(P)$, i.e. if we know $P$ factorizes
+    over $G$, $P$ satisfies $I(G)$.
+  \item Question: are there additional independence assumption that we
+    can read off of $G$?
+  \item Active-trail, an undirected path with no loop is active given
+    $Z$ if:
+    \begin{enumerate}
+    \item Whenever we have common effect, then the effect $X_i$ or one
+      of its descendents are in $Z$.
+    \item No other node along the trail is in $Z$.
+    \end{enumerate}
+  \end{itemize}
+Shows dependency. We're unhappy given $Z$, if $Z$ gives us 
+\item We say $X$ and $Y$ are D-seperated if there are no active trails
+  between $X$ and $Y$.
+\item Intuitive idea: d-sep completely characterizes
+  independencies. (Soundness yes, complicated completeness)
+\item Algorithms for d-seperation:
+  \begin{itemize}
+  \item Bottmo-up: mark all nodes in $Z$ or ancestors($Z$), BFS from
+    $X$ to $Y$, stop at marked nodes. Return ``Dependent'' if you can
+    find a path.
+  \end{itemize}
+\item Immoral: ``You need to be married to have kids''.
+\end{itemize}
+
+
+\end{document}

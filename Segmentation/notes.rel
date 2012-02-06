@@ -1,0 +1,106 @@
+;; RefTeX parse info file
+;; File: /Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex
+;; User: kanazawa (Angjoo Kanazawa)
+
+(set reftex-docstruct-symbol '(
+
+
+(xr nil "\\\\\\\\\\\\")
+
+(index-tags)
+
+(is-multi nil)
+
+(bibview-cache)
+
+(master-dir . "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/")
+
+(label-numbers ("eq:" . 12))
+
+(bof "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex")
+
+(toc "toc" "    1 January 25th 2012 - Lecture 1" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 2 "1" "\\section{January 25th 2012 - Lecture 1}" 994)
+
+(toc "toc" "    2 January 30th - Lecture 2" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 2 "2" "\\section{January 30th - Lecture 2}" 3141)
+
+(toc "toc" "      2.1 Perceptual Grouping" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "2.1" "\\subsection{Perceptual Grouping}" 3177)
+
+(toc "toc" "          2.1.0.1 History" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "2.1.0.1" "\\paragraph{History}" 3352)
+
+(toc "toc" "          2.1.0.2 Classical principles/cues" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "2.1.0.2" "\\paragraph{Classical principles/cues}" 3819)
+
+(toc "toc" "          2.1.0.3 Theories" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "2.1.0.3" "\\paragraph{Theories}" 4196)
+
+(toc "toc" "    3 February 1st - Lecture 3: Fourier Transform" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 2 "3" "\\section{February 1st - Lecture 3: Fourier Transform}" 4584)
+
+("sec:lec3" "s" "\\subsection{Mathematical representation}  a point in a $\\mathbf{R^2}$ can be represented in a coordi" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil)
+
+(toc "toc" "      3.1 Mathematical representation" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "3.1" "\\subsection{Mathematical representation}" 4667)
+
+("sec:math-repr" "s" "a point in a $\\mathbf{R^2}$ can be represented in a coordinate. If $p=(7,3)$, we really mean $p = 7(" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil)
+
+("eq:1" "e" "p = (p\\cdot (1,0))(1,0) + (p\\cdot (0,1))(0,1) " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil)
+
+(toc "toc" "      3.2 Functions in $\\mathbf{R}^1$" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "3.2" "\\subsection{Functions in $\\mathbf{R}^1$}" 5534)
+
+(toc "toc" "          3.2.0.1 Differen Representation" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "3.2.0.1" "\\paragraph{Differen Representation}" 6413)
+
+("sec:diff-repr" "s" "Divide the interval $[0, 2\\pi]$ into short $k$ intervals with width $\\frac{2\\pi}{k}$. Use a rectangl" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil)
+
+(toc "toc" "      3.3 Fourier Series" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "3.3" "\\subsection{Fourier Series}" 7366)
+
+("sec:fourier-basis" "s" "The basis elements: \\begin{itemize} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil)
+
+("eq:2" "e" "f(t) = a_0 + \\sum_{k=1}^\\infty a_k \\cos kt + \\sum_{k=1}^\\infty b_k \\sin kt " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil)
+
+(toc "toc" "          3.3.0.1 Notation" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "3.3.0.1" "\\paragraph{Notation}" 9095)
+
+("eq:3" "e" "\\cos kt + i \\sin kt = e^{i k t} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil)
+
+(toc "toc" "          3.3.0.2 Complex case" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "3.3.0.2" "\\paragraph{Complex case}" 9377)
+
+("eq:5" "e" "c_ke^{ikt} + c_{-k}e^{-ikt} = a_k \\cos kt + b_k \\sin kt " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil)
+
+(toc "toc" "      3.4 Fourier Transform" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "3.4" "\\subsection{Fourier Transform}" 10158)
+
+("sec:fourier-transform-1" "s" "Let $f(t)$ is periodic going from $[0, 2\\pi l]$. Then, we can represent $f(t)$ by $$ f(t)= \\sum c_k " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil)
+
+("eq:7" "e" "f(t)= \\int_{-\\infty}^\\infty F(k)e^{ikt}dk " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil)
+
+("eq:9" "e" "F(k) = \\int_{-\\infty}^\\infty f(k)e^{-ikt}dk " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil)
+
+(toc "toc" "    4 February 6th - Lecture 4: Smoothing \\& Convolution" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 2 "4" "\\section{February 6th - Lecture 4: Smoothing \\& Convolution}" 11185)
+
+("sec:lecture-4" "s" "Why do we \\emph{smooth} images? It's a way of passing information around, also it connects it more t" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil)
+
+(toc "toc" "      4.1 1-D image" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "4.1" "\\subsection{1-D image}" 12161)
+
+("sec:1-d-image" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:4" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:6" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:8" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:11" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          4.1.0.1 Convolution" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.1.0.1" "\\paragraph{Convolution}" 13416)
+
+("sec:convolution" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:12" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          4.1.0.2 Why remove higher frequency component?" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.1.0.2" "\\paragraph{Why remove higher frequency component?}" 15599)
+
+("sec:why-remove-higher" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          4.1.0.3 Gaussian Filter" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.1.0.3" "\\paragraph{Gaussian Filter}" 16950)
+
+("sec:gaussian-filter" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:10" "e" " " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil)
+
+(eof "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex")
+))
+

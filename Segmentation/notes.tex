@@ -7,12 +7,14 @@
 \newcommand{\kap}{\kappa}
 \newcommand{\rarr}{\rightarrow}
 \newcommand{\larr}{\leftarrow}
+\newcommand{\lrarr}{\Leftrightarrow}
 \newcommand{\ol}{\overline}
 \newcommand{\mbb}{\mathbb}
 \newcommand{\contra}{\Rightarrow\Leftarrow}
 % for cross product
 \newcommand{\lc}{\langle} %<
 \newcommand{\rc}{\rangle} %>
+\newcommand{\pri}{^{'}} %'
 
 %other shortcuts
 \newcommand{\ben}{\begin{enumerate}}
@@ -21,18 +23,21 @@
 \newcommand{\enq}{\end{quote}}
 \newcommand{\hsone}{\hspace*{1cm}}
 \newcommand{\hstwo}{\hspace*{2cm}}
+% vision
+\newcommand{\conv}{\convolution}
+
 
 \newcommand{\noi}{\noindent}
 \parskip 5pt
 \parindent 0pt
 
 \documentclass[a4paper]{article}
-\usepackage{amsmath,amssymb,algorithmic}
+\usepackage{amsmath,amssymb,algorithmic,mathabx}
 \begin{document}
 \title{Image Segmentation CS828 Spring '12}
 \author{Angjoo Kanazawa}
 \maketitle
-\section{January 25th First Lecture}
+\section{January 25th 2012 - Lecture 1}
 \textbf{Definition}: Segmentation (for this class):
 \begin{itemize}
 \item About low level vision in general
@@ -84,8 +89,8 @@ the really important. Learn to recognize, have a taste. (10\%)
 \item a take home midterm, Final all on lecture material (50\%)
 \item Problem set/Project (25\%)
 \end{enumerate}
-
-\section{January 30th Lecture 2}
+\pagebreak
+\section{January 30th - Lecture 2}
 
 \subsection{Perceptual Grouping}
 
@@ -122,7 +127,8 @@ the really important. Learn to recognize, have a taste. (10\%)
   \item 
   \end{itemize}
   
-\section{February 1st Lecture 3: Fourier Transform}
+\pagebreak
+\section{February 1st - Lecture 3: Fourier Transform}
 \label{sec:lec3}
 
 \subsection{Mathematical representation}
@@ -147,7 +153,7 @@ p = (p\cdot
   (1,0))(1,0) + (p\cdot (0,1))(0,1)\label{eq:1}  
 \end{equation}
 \item Magnitude of a point $||p||^2 = x^2 + y^2$
-\end{enumerate}
+v\end{enumerate}
 
 \subsection{Functions in $\mathbf{R}^1$}
 The domain of the function is $[0,2\pi]$, and we'll deal with
@@ -302,5 +308,169 @@ F(k) = \int_{-\infty}^\infty f(k)e^{-ikt}dk
 $e^{-ikt}$ is negative because it's the complex conjugate of
 $e^{ikt}$, (square it we multiply
 it with the complex conjugate.)
-\end{document}
+\pagebreak
+\section{February 6th - Lecture 4: Smoothing \& Convolution}
+\label{sec:lecture-4}
+
+Why do we \emph{smooth} images? It's a way of passing information around, also it
+connects it more to segmentation (looking for a uniform
+property). When we smooth, we can take things that are similar and
+make them more similar. It also allows us to represent images in
+multiple scales, it helps us get rid of fine details, giving us coarser
+representations of an image. That is we want to remove high frequency portion and
+analyze the low frequency part. 
+
+Smoothing can be done by \emph{convolution}.
+
+In vision we always assume vision. Given a noisy input, the true intensity
++ noise, say $P_i = 100 + n_i$, smoothing takes the average of all pixels, we'll have
+\begin{align*}
+ &= \frac{1}{M} \sum P_i\\
+&=  \frac{1}{M} \sum 100 + n_i\\
+&= 100 + \frac{1}{M} \sum n_i\\
+\end{align*}
+
+A simple example of smoothing, the average of a lot of random variables makes the std of noise
+smaller. 
+
+\subsection{1-D image}
+\label{sec:1-d-image}
+Think of 1-D images as a function: $f(t)$. We want to replace a pixel
+by the average of its neighbors. We write this as:
+\begin{equation}
+  \label{eq:4}
+  h(t) = \frac{1}{2\del}\int_{t-\del}^{t+\del} f(t^{'}) dt^{'}
+\end{equation}
+(Where $t^{'}$ is just another points, not derivatives)
+
+Let us define,
+\begin{equation}
+  \label{eq:6}
+  g(t) =
+  \begin{cases}
+     \frac{1}{2\del} & \text{ for } -\del \le t \le \del\\
+     0 & \text{ otherwise }
+  \end{cases}
+\end{equation}
+Note that $g(t)$ sums to 1. (Like a pdf of $U(-\del, \del)$.)
+
+Now, we can write \eqref{eq:4} as
+\begin{equation}
+  \label{eq:8}
+  h(t) = \int_{-\infty}^\infty f(t-u)g(u)du
+\end{equation}
+It's as if we take the function $g$ and winding it up so that it's
+centered around $t$ and taking the inner product to get $h$. It flips,
+the left side of the filter is applied to the right side of point
+$t$. The resulted $h$ is just shifting $g$ at everypoint and taking the
+inner product.
+
+We write this as
+\begin{equation}
+  \label{eq:11}
+  h(t) = g(t)\conv f(t)
+\end{equation}
+
  
+It's natural to take the weighted average of your neighbors, because
+it's more likely that people around you have more information. So we
+use a gaussian filter.
+
+\subsection{Convolution}
+\label{sec:convolution}
+Two properties:
+\begin{enumerate}
+\item Linear: $g\conv kf = k(g\conv f)$, $g\conv (f_1 + f_2) = g\conv
+  f_1 + g\conv f_2$
+\item Shit-invariant: Take my function and translate, then convolve
+  with a filter is same as convolving with a filter and shifting
+  it. i.e. if $f'(t) = f(t+k)$, $h= g\conv f$, and $h\pri = g \conv
+  f\pri$, then $h\pri = h(t+k)$
+\end{enumerate}
+
+\textbf{Convolution Theorem}
+Given $F$ as the fourier transform of $f$, ($F$ is the function of
+frequency), and the same for $G$, $g$, and $H$, $h$.
+\begin{equation}
+  \label{eq:12}
+f\conv g = h \lrarr FG = H  
+\end{equation}
+
+\emph{Proof}: $f\conv g = \int f(t-u)g(u)du$, call this $h$. To take
+the fourier transform of this, we take the inner product of $h$ and
+$e^{-itw}$.
+So $$H(w) = \int e^{-itw} (\int f(t-u)g(u)du) dt$$
+Define $v = t-u$. Now, 
+\begin{align*}
+  H(w) &= \int e^{-itw} (\int f(t-u)g(u)du) dt\\
+&= \int e^{-i(v+u)w} (\int f(v)g(u)du) dv\\
+&= \int e^{-iuw} g(u)du \int e^{-ivw}  f(v) dv\\
+&= GF
+\end{align*}
+
+The sines and cosines are eigenvectors of functions because when you
+convolve it with any filter it just scales it. 
+
+The narrower the gaussian, the broader the fourier transform, The
+broader my gaussian, the narrower my fourier transform. So the
+lower frequency part gets preserved and the higher frequency (the edge
+of gaussian) gets reduced more. 
+
+\emph{Intuition}:
+If the gaussian is so sharp that it's like a delta function, it'll
+only scale the function at that point $t$. Then, the fourier transform of a delta function is uniformly 1 at all
+frequencies. Because convolving with a delta function doesn't change
+anything, so $f\conv \delta = f$, bug $F*G = H = F$, so $G$ is a
+uniformly 1 that doesn't change anything.
+
+Similarly, if the gaussian is so broad that it's like a uniform function, then
+the fourier transform is like a delta function.
+
+\emph{example} A sinc function: $G(w) = \int_{-\delta}^\del \frac{1}{2\delta} e^{-iwt}
+dt = \frac{2\sin(\delta w}{w}$. Plot it, bad fourier transform because
+the high frequency components go in and out.
+Compared, the gaussian filter provides us a very good fourier
+transform.
+
+\paragraph{Why remove  higher frequency components?}
+\label{sec:why-remove-higher}
+If we assume the noise is i.i.d., we can show that the fourier
+transform of the noise is uniform. i.i.d. noise has equal energy. Bc
+this noise has the same energy everywhere, it's called the \emph{white
+noise}. If we think of our image as some smooth pixels with a white noise.
+Images tend to have much more low frequencies than high
+frequencies. Noise is equal in low and high frequency, so if you
+reduce the high frequency components, it significantly reduces the
+noise. 
+
+\textbf{Band-pass filter}: Looks like $U(a,b)$, it perfectly preserves
+the low frequency component. It's fourier transform is the sinc
+function. So there's limitation to use these perfect filters.
+
+\textbf{High-pass filter}: inverse of $U(a,b)$. 
+
+Fourier series: $$f(t) = a_0 + \sum a_k \cos(k t) + \sum b_k
+\sin(k t)$$ ($K$ is the frequency)
+The derivative:$$f'(t) = \sum - a_k \sin(k t) + \sum b_k
+\cos(k t)$$
+
+This is also a fourier series, \emph{taking the derivative has the
+effect of scaling the coefficients by the frequency.} As frequency gets
+higher, it amplifies the coefficients. 
+
+This is why it's dangerous to take the derivative of a noisy image,
+because the derivative ampliflies the high frequency components with a
+lot of noise. 
+
+Taking the derivative is like convolution.
+
+\paragraph{Gaussian Filter}
+\label{sec:gaussian-filter}
+For any function, the more spatially localized (peaked) it is, the
+broader it is in frequency. Vice versa.
+
+\pagebreak
+\pagebreak
+\pagebreak
+\pagebreak
+\end{document}
