@@ -76,8 +76,70 @@ Three approaches:
 \begin{enumerate}
 \item Bayesian: Build a memory of concepts by looking at many.
 \item Attribute: Every object have a vector of properties.
-\item Theory
+\item Theory: A concept is such a complicated thing, it's not just one
+  function or datastructure, it's more like a scientific theory. A
+  formal system defined on a set of objects and the relationship
+  between such objects.
 \end{enumerate}
+
+\subsection{Douglas Stay: Visual Filter}
+\label{sec:douglas-stay:-visual}
+in PASCAL, people start with superpixel segmentation. Problems with
+this is that where do you divide the pieces? What happens with
+occlusion? How to figure out texture vs object?
+
+A different approach, is by using a filter:
+\begin{enumerate}
+\item Take a feature (multiscale patch compressed with PCA in $\mathbf{R}^k$)
+\item Train a NN classifier
+\item Run the classifier on the images, return to step 1 but with
+  results from step 2 (feature now in $\mathbf{R}^{2k}$), with a new NN
+\end{enumerate}
+
+This iteration is the key because it actively improves/motivates the
+classification.
+
+Finding objects people are holding in image streams: Using background
+substraction (motion cue) + human filter = figure out objects.
+
+Seems like we recognize objects instantly without reasoning about why
+it maybe a ``cup''.
+
+Can we combine filteres to make new ones? By using intersets and
+unions. Do we have a limited number of concepts and combine them to
+make sentences. The ability to generalize from categories.
+
+A draw back: extremely supervised.
+
+\subsection{Intelligence}
+Action is fundamental. A very important part of intelligence is the
+ability to understand others, understanding human action.
+
+What's involved in human action? 
+\begin{itemize}
+\item Movement of body parts
+\item Object to act upon
+\item Tools
+\item Goal
+\end{itemize}
+
+\subsection{Chomsky}
+\label{sec:chomsky}
+Minimalist Program: $X, X', X''$, $X$ a word, $X'$ is a word when we
+know something, like a verb, $X''$ when you know a lot about the
+word. 
+
+This grammar works for vision as well, instead of words, we'll use
+action. Human action has syntax.
+
+
+
+
+
+
+
+
+
 
 \end{document}
  

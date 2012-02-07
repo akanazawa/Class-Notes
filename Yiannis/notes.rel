@@ -25,6 +25,22 @@
 
 (toc "toc" "          1.0.0.2 The Cognitive Dialogue" "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil 5 "1.0.0.2" "\\paragraph{The Cognitive Dialogue}" 1844)
 
+(toc "toc" "    2 Lecture 2" "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil 2 "2" "\\section{Lecture 2}" 2220)
+
+("sec:lecture-2" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil "")
+
+(toc "toc" "      2.1 Douglas Stay: Visual Filter" "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil 3 "2.1" "\\subsection{Douglas Stay: Visual Filter}" 2789)
+
+("sec:douglas-stay:-visual" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil "")
+
+(toc "toc" "      2.2  " "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil 3 "2.2" "\\subsection{}" 3907)
+
+(toc "toc" "      2.3 Chomsky" "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil 3 "2.3" "\\subsection{Chomsky}" 4202)
+
+("sec:chomsky" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil "")
+
+("sec:Action" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil "")
+
 (toc "toc" "          1.0.0.1 Perception vs Language" "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil 5 "1.0.0.1" "\\paragraph{Perception vs Language}" 964)
 
 (eof "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex")
