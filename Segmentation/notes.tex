@@ -25,6 +25,10 @@
 \newcommand{\hstwo}{\hspace*{2cm}}
 % vision
 \newcommand{\conv}{\convolution}
+% big 0
+\newcommand{\cO}{\mathcal{O}}
+% calc
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
 
 
 \newcommand{\noi}{\noindent}
@@ -168,7 +172,7 @@ functions in $\mathbf{R}^1$.
 We'll write functions by using delta functions as a basis.
 
 In infinite dimensions, 
-$$f(t) = \int f_s(\del_s(t)ds$$ is the same as \eqref{1} but in
+$$f(t) = \int f_s(\del_s(t)ds$$ is the same as \eqref{eq:1} but in
 infinite dimensions. 
 Tw basis are orthogonal if their inner products are 0, in infinite
 dimensions, this is taking the integral. So delta functions are orthogonal.
@@ -298,7 +302,7 @@ all of $\mathbf{R}$, this means the coefficients are now in the
 $\infty$ domain so we write coefficients as $F(k)$, and call this the
 \textbf{Fourier transform} of $f(k)$.
 
-\eqref{7} is the approximation of $f(t)$, the inverse operation to get
+\eqref{eq:7} is the approximation of $f(t)$, the inverse operation to get
 the fourier transform is;
 \begin{equation}
   \label{eq:9}
@@ -470,6 +474,175 @@ For any function, the more spatially localized (peaked) it is, the
 broader it is in frequency. Vice versa.
 
 \pagebreak
+
+\subsection{February 8th - Lecture 5: Diffusion}
+\label{sec:lecture-5}
+
+\paragraph{Sampling theorem}
+\label{sec:sampling-theorem}
+Given $$f(t) = a_0 + \sum_{k=1}^T a_k \cos(kt) + \sum_{k=1}^Tb_k\sin(
+kt) \text{ for } t=0, \frac{2\pi}{M}, 2\frac{2\pi}{M}, 3\frac{2\pi}{M}$$
+This equation is linear in unknown coefficients ($2T+1$ many) so we need
+$2T+1$ samples to solve this equation.
+
+If we have an analog version of someone's speech, you can digitize it
+by taking $2T+1$ samples knowing they are band-limited (otherwise
+we'll lose information). Speech is fine but the best thing is to apply a band-pass filter to make sure that
+it's band-limited.
+
+If the signal isn't band-limited to begin with, i.e. 
+$f(t) = a_0 + \sum_{k=1}^{3T} a_k \cos(kt) + \sum_{k=1}^{3T} b_k\sin(
+kt) $, you have more unknowns with $2T+1$ samples, and you're ignoring
+a lot of information and it's totally meaning less.
+
+\emph{Aliasing} when high frequency is indistinguishable from low
+frequency when sampled.
+
+\subsection{Diffusion}
+\label{sec:diffusion}
+Diffusing is like smoothing, provides a physical analogy to
+smoothing. By setting it up and solving diffusion as a PDE, we'll see that
+writing smoothing as PDE can be modified so that edges can be
+preserved?
+
+Again, everything followed is in 1D, we go from discrete, continuous,
+then back to discrete.
+
+\paragraph{Discrete}
+\label{sec:discrete}
+Imagine you have a lot of small buckets with lots of particles in it,
+describe each bucket by how many things are in it, the
+\emph{concentration}, $C(x,t)$, which changes over discrete time steps. 
+i.e. $C(1,0)$ tells us how many particles are in bucket 1 at time 0.
+Some of these particles can jump to neighboring buckets. A reasonable
+model for physical diffusion (milk and coffee, heat, etc).
+\emph{Flux} , $J(x,t)$, is the net number of particles that are moving in the
+positive direction.
+
+Diffusion is \emph{isotropic} (equally likely to go to left and
+right) and \emph{homogenous} (same things happen everywhere).
+
+The relationship between flux and concentration can be modelled as
+such:
+\begin{equation}
+  \label{eq:13}
+  J(x,t) = -D \frac{\partial C}{\partial x}
+\end{equation}
+If more stuff goes to the left than the right, the flux is
+negative. $D$ is a constant diffusion coefficient, what fraction of things move around, the ``diffusivity'' of
+particles. If $D$ is low, less stuff moves around.
+\begin{equation}
+  \label{eq:14}
+  \frac{\partial C}{\partial t} = - \frac{\partial J}{\partial x}
+\end{equation}
+How much $C$ changes over time? Then I want to count how much is
+coming in and how much is coming out (flux).  So if flux is constant,
+then the concentration is not changing. If the flux is increasing,
+that means there's more stuff going out to the right. So if the change
+of $J$ is positive, the change in $C$ is negative. 
+
+If $D$ wasn't constant, it would depend on $x$, to do more interesting
+kind of smoothing, we can make $D$ into a function of $x$.
+
+Combine the equation to get rid of $J$ by taking PDE wrt $x$: $$  \frac{\partial J}{\partial x} = -D   \frac{\partial^2 C}{\partial
+    x^2}$$
+Plugging this back to \eqref{eq:14}, we get
+\begin{equation}
+  \label{eq:16}
+  \frac{\partial C}{\partial t} = D \frac{\partial^2 C}{\partial
+    x^2}
+\end{equation}
+
+A positive second derivative means concavity, a local minima, so the
+concentration increases, similarly, concentration goes down at a local
+maxima second derivative negative. This means that concentration is being
+smoothed over time.
+
+\paragraph{Numerical Analysis}
+\label{sec:numerical-analysis}
+A finite differential problem. Taking the taylor series for a fixed
+$t$, we get
+\begin{equation}
+  \label{eq:17}
+  c_{i+1} = c_i + \del x   \frac{\partial C}{\partial x} +
+  \frac{1}{2} \del x^2   \frac{\partial^2 C}{\partial x^2} + \cO(\del x^3)
+\end{equation}
+(also $  c_{i-1} = c_i - \del x   \frac{\partial C}{\partial x} +
+  \frac{1}{2} \del x^2   \frac{\partial^2 C}{\partial x^2} + \cO(\del
+  x^3)$)
+
+Ignoring the higher order terms, you get, in first-order,
+\begin{equation}
+  \label{eq:18}
+\frac{\partial C}{\partial x} =
+\begin{cases}
+\frac{  c_{i+1} - c_i }{\del x} \\  
+ \frac{  c_{i} - c_{i-1} }{\del x} 
+\end{cases}
+\end{equation}
+
+Adding them together, we get
+\begin{equation}
+  \label{eq:19}
+ \frac{\partial C}{\partial x}=  \frac{  c_{i+1} - c_{i-1} }{2\del x} 
+\end{equation}
+Better because this is symmetric. 
+
+Doing the same thing to the second derivative (difference between the
+first derivative of left and right)
+\begin{equation}
+  \label{eq:20}
+  \frac{\partial^2 C}{\partial x^2} = \frac{  (c_{i+1} - c_i) - (c_{i} - c_{i-1}) }{\del x^2} 
+\end{equation}
+
+We could say similar thing to wrt to $t$:
+\begin{equation}
+  \label{eq:21}
+  \frac{\partial C}{\partial t} = \frac{ c(x,t+1)- c(x,t)}{\del t} 
+\end{equation}
+
+Putting all of this together, \eqref{eq:16} becomes
+
+\begin{align*}
+  \frac{\partial C}{\partial t} &= D \frac{\partial^2 C}{\partial
+    x^2}\\
+ \frac{ C(i,t_0+1)- C(i,t_0)}{\del t} &= D \frac{ C(i+1, t_0) - 2C(i,t_0) +
+   C(i-1, t_0) }{\del x^2} \\
+C(i,t_0+1)&= C(i,t_0) + \frac{\del t D}{\del x^2} (C(i+1, t_0) - 2C(i,t_0) +
+   C(i-1, t_0))\\
+ &= (1-2\lam)C(i,t_0) + \lam (i+1,t_0) + \lam C(i-1, t_0)   
+\end{align*}
+Where $\lam = \frac{\del t D}{\del x^2} $. This is just another
+convolution with a filter that looks like $l = (\lam, 1-2\lam, \lam)$.
+
+Let $C(x,0) = f(x)$, to get the concentration at time $n$, I get the
+initial concentration at time $0$ and apply convolusion with filter
+$l$ $t_0$ times. i.e. $$C(x,t_0) = (l\times l \times \cdots \times
+l)\times f$$But since convolution is associative, we can combine
+the filters together. Convolving $l$ with $l$ over and over gives us a
+gaussian.
+
+So \emph{diffusion is just a convolution with gaussian, same thing as
+low-pass filtering an image, smoothing}.
+
+Limitation on $\lambda$:  
+
+\begin{align*}
+  1 - 2\lam &> 0\\
+1 - 2\frac{\del t D}{\del x^2} &> 0\\
+\frac{\del x^2}{2D} &> \del t 
+\end{align*}
+
+\paragraph{Another intuition}
+Consider a single particle that is diffusion< This
+is a random variable $x_i$, where $x_i = -\del x$ if it moves left at
+time $i$, $\del x$ if it moves to right. After $T$ time steps, the
+position of the particle is $\sum_{i=1}^T x_i$, where by LLN, this is
+a r.v. with 0 mean Gaussian distribution. So the particles position
+after $T$ time steps is a Gaussian, we can get it by convolving $x_0$
+with a Gaussian or convolving it with a filter $T$ times, same thing.
+
+
 \pagebreak
 \pagebreak
 \pagebreak
