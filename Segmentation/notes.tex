@@ -25,18 +25,22 @@
 \newcommand{\hstwo}{\hspace*{2cm}}
 % vision
 \newcommand{\conv}{\convolution}
+\newcommand{\Ix}{I_x}
+\newcommand{\Iy}{I_y}
+\newcommand{\Ixy}{I_{xy}}
 % big 0
 \newcommand{\cO}{\mathcal{O}}
 % calc
 \renewcommand{\vec}[1]{\boldsymbol{#1}}
-
+% gradient
+\newcommand{\grad}{\nabla}
 
 \newcommand{\noi}{\noindent}
 \parskip 5pt
 \parindent 0pt
 
 \documentclass[a4paper]{article}
-\usepackage{amsmath,amssymb,algorithmic,mathabx}
+\usepackage{amsmath,amssymb,algorithmic,mathabx,hyperref}
 \begin{document}
 \title{Image Segmentation CS828 Spring '12}
 \author{Angjoo Kanazawa}
@@ -172,7 +176,7 @@ functions in $\mathbf{R}^1$.
 We'll write functions by using delta functions as a basis.
 
 In infinite dimensions, 
-$$f(t) = \int f_s(\del_s(t)ds$$ is the same as \eqref{eq:1} but in
+$$f(t) = \int f_s(\del_s(t))ds$$ is the same as \eqref{eq:1} but in
 infinite dimensions. 
 Tw basis are orthogonal if their inner products are 0, in infinite
 dimensions, this is taking the integral. So delta functions are orthogonal.
@@ -475,7 +479,7 @@ broader it is in frequency. Vice versa.
 
 \pagebreak
 
-\subsection{February 8th - Lecture 5: Diffusion}
+\section{February 8th - Lecture 5: Diffusion}
 \label{sec:lecture-5}
 
 \paragraph{Sampling theorem}
@@ -643,6 +647,125 @@ after $T$ time steps is a Gaussian, we can get it by convolving $x_0$
 with a Gaussian or convolving it with a filter $T$ times, same thing.
 
 
+\pagebreak
+\section{February 13th - Lecture 6: Edge Detection}
+\label{sec:lecture-6}
+
+\paragraph{Paper Presentation Topics}
+\begin{itemize}
+\item Graph based, MRF/CRF
+\item Texture: (texton-boost)
+\item \textbf{Co-segmentation}
+\item \textbf{Layout} (3D surface estimation) by Hoeim, Efros
+\item Affinity propagation by Frey (tronto)
+\item Edge detection: Malik, Basiri
+\item Graph Cuts - Galun \href{''http://www.wisdom.weizmann.ac.il/~vision/SketchTheCommon/''}{'Detecting and Sketching the Common''} 
+\item Semantic
+\end{itemize}
+
+\subsection{Edge Detection: Canny Edge Detector}
+\label{sec:edge-detection}
+
+Basic Idea: look at sudden changes in intensity and the first derivative $\Ix$. 
+But we'd expect some noise, so we always have to smooth the image with
+a gaussian before we take the derivative.
+
+\textbf{Algorithm in 1D}:
+\begin{enumerate}
+\item Smooth with a gaussian
+\item Take the first derivative
+\item 
+  \begin{enumerate}
+  \item Is it strong? (of large magnitude) Everything above a certain
+    threshold is strong, where image is changing rapidly.
+  \item Pick points that are not only strong but also a local extrema
+  \end{enumerate}
+\end{enumerate}
+
+This procedure is optimal to minimize the number of false detections,
+while also optimizing how well we localize the edge.
+
+Couple of parameters: The threshold is the tradeoff between false
+positive/negativees, std of the Gaussian, $\sig$, is the width of the
+filter, the wider it is the smoother $I$ and less noise, but less accurately we'll localize the edge.
+
+\subsection{In 2D}
+\label{sec:2d}
+In 2D, things are little bit more complicated. A rapid intensity
+change depends on the direction. We need to figure out which direction
+the intensity changes  most rapidly.
+
+Compute the image gradient, $(\Ix, \Iy)$, and the magnitude $||(\Ix,
+\Iy)|| = \sqrt{\Ix^2 + \Iy^2}$. We can represent the direction with
+the maximal change by a unit vector: 
+\begin{equation}
+  \label{eq:24}
+\frac{(\Ix, \Iy)}{||(\Ix, \Iy)||}
+\end{equation}
+
+Intuition: When you take the first derivatie, you assume the image is
+locally linear, like a tilted plane, where there's a direction with
+big change, where orthogonal to that direction change is flat.
+
+We take gradient $\grad I$ instead of a derivative in 2D, and in
+asking is it strong, we ask if $|| \grad I||$ big. It's bad if you don't use a big enough gaussian. We want to
+renormalize so that the filter sums to 1, otherwise it makes the image
+dimmer or lighter than it actually is.
+
+\textbf{Smoothing in 2D}\\
+Gaussian in 1D: $$\frac{1}{\sig \sqrt{2\pi}}e^{-\frac{x^2}{2\sig^2}}$$
+Gaussian in 2D: 
+\begin{align*}
+G(x,y) &= \frac{1}{\sig \sqrt{2\pi}}e^{-\frac{x^2+y^2}{2\sig^2}}\\
+&= \frac{1}{\sig \sqrt{2\pi}}e^{-\frac{x^2}{2\sig^2}} e^{-\frac{y^2}{2\sig^2}}\\
+\end{align*}
+(Maybe midterm: prove that these are same things)
+We can use seperable filters because we can divide the filter into 2 filters.
+
+\textbf{Picking extrema in 2D}
+What defined an edge is the local extrema \emph{in the direction of
+  the gradient}. The orthogonal direction is where the edge
+continues. A subtlety: Given a vector field, every pixel has a vector which is its
+gradient. We want to know what the image gradient is where each vector
+is pointing, but there might not be any pixel ther. We can calculate
+what it would be if the pixel grid were dense by interpolating (linear
+or bi-linear) between two image locations.
+
+\textbf{Hysteresis} to figure out if $||\grad I||$ is big: if i pick a threshold that's too big, things
+might get fragmented and miss some edges. With a lower threshold,
+we'll get unneccessarily edges from noise in the background. We want
+the best of both. One heuristic to get this is to do the high
+threshold, then the low threshold to get weaker edges but only keep
+them if they're close to the stronger edges.
+This is a very basic perceptual grouping based on connectivity.
+
+This is the prominent method for edge detection but it still doesn't really work in real images. No matter how you pick threshold,
+we get too much or too less. Because edges/boundaries that are
+intuitive to us may not be strong locally. Also around pointy edges/corners,
+smoothing weakens them.
+
+\subsection{Corner Detection}
+\label{sec:corner-detection}
+A way to define a corner is a smal region in the image where you have
+image gradient change in both directions. Look at a small window (5 x
+5), in this window look at the image gradients (25). Do PCA, principal
+component analysis, on the gradients and find out how much variations
+there are in image gradients in one direction. If image gradient only
+goes in one direction, only one PCA will be strong, but if it
+goes in $x$ and $y$ direction, both PCA will be strong.
+
+Compute a scatter matrix, $$H =
+\begin{pmatrix}
+  \sum \Ix\Ix & \sum \Ix\Iy \\
+  \sum \Iy\Ix & \sum \Iy\Iy \\
+\end{pmatrix}
+$$
+Where the first eigen value $\lam_2$, smallest one, gives you how much
+gradient is in the direction of least.  if both $\lam_2, \lam_1$ big,
+it means gradients change in all direction. This is call the harris
+corner detector. 
+
+\pagebreak
 \pagebreak
 \pagebreak
 \pagebreak

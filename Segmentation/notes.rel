@@ -15,7 +15,7 @@
 
 (master-dir . "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/")
 
-(label-numbers ("eq:" . 12))
+(label-numbers ("eq:" . 23))
 
 (bof "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex")
 
@@ -98,6 +98,50 @@
 (toc "toc" "          4.1.0.3 Gaussian Filter" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.1.0.3" "\\paragraph{Gaussian Filter}" 16950)
 
 ("sec:gaussian-filter" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      4.2 February 8th - Lecture 5" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "4.2" "\\subsection{February 8th - Lecture 5}" 17217)
+
+(toc "toc" "          4.2.0.1 Sampling theorem" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.2.0.1" "\\paragraph{Sampling theorem}" 17289)
+
+("sec:sampling-theorem" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      4.3 Diffusion" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "4.3" "\\subsection{Diffusion}" 18206)
+
+("sec:diffusion" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          4.3.0.1 Discrete" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.3.0.1" "\\paragraph{Discrete}" 18554)
+
+("sec:discrete" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:13" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:14" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:16" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          4.3.0.2 Numerical Analysis" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.3.0.2" "\\paragraph{Numerical Analysis}" 20720)
+
+("sec:numerical-analysis" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:17" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:18" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:19" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:20" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:21" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:22" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:23" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          4.3.0.3  " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.3.0.3" "\\paragraph{}" 23185)
+
+("eq:15" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("sec:february-8th-lecture" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 ("eq:10" "e" " " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil)
 
