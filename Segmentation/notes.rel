@@ -15,7 +15,7 @@
 
 (master-dir . "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/")
 
-(label-numbers ("eq:" . 23))
+(label-numbers ("eq:" . 24))
 
 (bof "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex")
 
@@ -138,6 +138,32 @@
 ("eq:23" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 (toc "toc" "          4.3.0.3  " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.3.0.3" "\\paragraph{}" 23185)
+
+(toc "toc" "      4.4 February 13th - Lecture 6: Edge Detection" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "4.4" "\\subsection{February 13th - Lecture 6: Edge Detection}" 23808)
+
+(toc "toc" "          4.4.0.1 Paper Presentation Schedule" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.4.0.1" "\\paragraph{Paper Presentation Schedule}" 23883)
+
+(toc "toc" "      4.5 \\paragraph{Edge Detection}" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "4.5" "\\subsection{\\paragraph{Edge Detection}}" 24331)
+
+("sec:paragr-detect" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          4.4.0.2 Edge Detection" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.4.0.2" "\\paragraph{Edge Detection}" 24331)
+
+("sec:edge-detection" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      4.5 In 2D" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "4.5" "\\subsection{In 2D}" 25331)
+
+("sec:2d" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:24" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      4.6 Corner Detection" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "4.6" "\\subsection{Corner Detection}" 27978)
+
+("sec:corner-detection" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("sec:paper-pres-sched" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("sec:febr-13th-lect" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 ("eq:15" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 

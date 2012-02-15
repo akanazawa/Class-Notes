@@ -766,6 +766,117 @@ it means gradients change in all direction. This is call the harris
 corner detector. 
 
 \pagebreak
+
+\section{February 15th - Lecture 7: Non-linear Diffusion}
+\label{sec:febr-15th-lect}
+
+Presentation points:
+\begin{itemize}
+\item Understand what's the biggest contribution about the paper. No
+  need to pay attention to all of th edetails in the paper.
+\item Give context of this paper from state-of-the-art, past, and how
+  it fits
+\item Where significant problems identified, addressed?
+\item Give opinions
+\item Always understand the questions before answering it
+\end{itemize}
+
+\subsection{Nonlinear Diffusion}
+\label{sec:nonlinear-diffusion}
+Goal for today
+Non-homogenous diffusion: when you're near the boundary don't smooth
+so much. Anisotropic (\# of particles leaving is not same in all direction):.
+
+In 2D isotropic, the flux is in the direction of the negative
+gradient, down hill. In anisotropic, the matrial isn't necessarily
+going down hill, the direction depends on a larger context.
+
+\subsection{Review: Isotropic Diffusion}
+$f(x)$ is the image at time 0, and $u(x,t)$ is the image at time $t$
+Flux in 1D: $$j(x,t) = -D \frac{\partial u}{\partial x}$$
+flows to the negative direction of the derivative. $D$ is how fast
+stuff diffuse.
+Flux in 2D: $$j = - D \grad u$$
+If $D$ is constant, this is gaussian smoothing in 2D, isotropic and homogenous. If we make $D=D(x)$ a
+function of location $x$, it's non-homogenous. $D$ could also be a tensor,
+a 2x2 matrix, giving us two vectors, now diffusion is non-homogenous
+and anisotropic.
+Intuition in 1D: $$\frac{\partial u}{\partial t} = -\frac{\partial
+  j}{\partial x}$$
+in 2D: $$\frac{\partial u}{\partial t} = -\text{div} j$$
+Where $$\text{div} j = \frac{\partial j}{\partial x} + \frac{\partial j}{\partial y}$$
+
+Substituting things, the heat equation in 1D $$\frac{\partial u}{\partial t} = D \frac{\partial^2 u}{\partial
+  x^2} $$
+in 2D $$\frac{\partial u}{\partial t} = \text{div}(D \grad u) $$
+
+Gradient is a vector $\grad u = (\frac{\partial u}{\partial x} ,
+\frac{\partial u}{\partial y} )$. $\text{div} j$ is the sum of these, saying
+how much material is piling up in this location.
+
+\subsection{2D Non-homogenous, isotropic diffusion}
+\label{sec:non-homog-isotr}
+Let $D=g(x)$, a function of the image. The amount of diffusion is
+different in locations but the way things diffuse is the same. Write
+$\frac{\partial u}{\partial t} = \text{div}(g(x) \grad u) $.
+
+We want to diffuse but not around the boundary, i.e. when the gradient
+is big, not. To do this, we can
+make $g$:
+
+$$g(||\grad f||^2) = \frac{1}{\sqrt{1 + \frac{||\grad f||^2}{\lam^2}}}$$
+
+When $||\grad f|| \rarr \infty$, $\sqrt{1 + \frac{||\grad
+    f||^2}{\lam^2}} \rarr \frac{\lam}{||\grad f||}$, very small. So
+we'll smooth less and less as the gradient gets bigger.
+$\lam$ is set by hand, controls what's the point where we make things
+non-homogenous (where to stop diffusing). This gives a linear PDE, and
+we can't do this with a convolution anymore (because convolution
+applies same thing everywhere).
+
+Problem with this approach is that it depends on the original
+image. Say we have a small gradient that gets smoothed out. It'll have
+less influence but small structures like this leave
+artifacts. Instead, we can take the gradient of the actual image (not
+the original $f$).
+\begin{equation}
+g(||\grad f||^2) = \frac{1}{\sqrt{1 + \frac{||\grad u||^2}{\lam^2}}}\label{eq:25}
+\end{equation}
+This is the \textbf{Perona-Malik} model. This model is \emph{unstable}. Why?
+When a gradient really big at one point, its left neighbor is not getting
+anything, so the neighbor goes down (with a slow bumpy slope, we can
+get staircases) i.e. things are going in the opposite direction than usual
+diffusion (instead of hi to low, it can go from low to hi). So this is
+unstable. We can go around this by smoothing the image before taking the
+gradient. 
+
+\subsection{2D Non-homogenous, anisotropic diffusion}
+\label{sec:2d-non-homogenous}
+Let $D$ a 2x2 matrix based on the image. So back to$\frac{\partial
+  u}{\partial t} = \text{div}(D\grad u) $. $D$ has eigenvectors $v_1,
+v_2$, $v_1$, where  $v_1 \parallel \grad u_\sig$ and $v_2 \perp \grad
+u_\sig$. Set the eigenvalues $\lam_1, \lam_2$ to $\lam_1 = g(||\grad u_\sig
+||^2)$ (the term in Perona-Malik) and $\lam_2 = 1$.
+
+If $\grad u_\sig = \grad u$, we're just scaling $\lam_1$ by sometime,
+and this is just Perona-Malik. $u_\sig$ is the original image smoothed
+by gaussian of size $\sig$.
+
+Intuition: around the boundary, at a finer scale, the gradient is
+showing noise. If $\grad u_\sig$ large, means that we're near a
+boundary. 
+$\grad u_\sig$ has the largest direction $v_1$ (pointing towards the boundary), and a component
+orthogonal $v_2$. We can always take $\grad u$ and decompose it
+into $v_1, v_2$. If $\grad u_\sig$ big, $v_1$ gets scaled down, but
+$v_2$ is totally preserved (it's just 1), so \emph{$\grad u$ points away
+from the boundary.} 
+
+These approaches are all still heuristics compared to the bilateral filters.
+
+
+
+
+
 \pagebreak
 \pagebreak
 \pagebreak

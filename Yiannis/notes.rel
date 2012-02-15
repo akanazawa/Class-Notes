@@ -39,6 +39,10 @@
 
 ("sec:chomsky" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil "")
 
+(toc "toc" "    3 February 13th Lecture 3" "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil 2 "3" "\\section{February 13th Lecture 3}" 4486)
+
+("sec:febr-13th-lect" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil "")
+
 ("sec:Action" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil "")
 
 (toc "toc" "          1.0.0.1 Perception vs Language" "/Users/kanazawa/Documents/github/Class-Notes/Yiannis/notes.tex" nil 5 "1.0.0.1" "\\paragraph{Perception vs Language}" 964)
