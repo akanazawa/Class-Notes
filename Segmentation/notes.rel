@@ -15,7 +15,7 @@
 
 (master-dir . "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/")
 
-(label-numbers ("eq:" . 24))
+(label-numbers ("eq:" . 34))
 
 (bof "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex")
 
@@ -75,67 +75,67 @@
 
 (toc "toc" "      4.1 1-D image" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "4.1" "\\subsection{1-D image}" 12161)
 
-("sec:1-d-image" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:1-d-image" "s" "Think of 1-D images as a function: $f(t)$. We want to replace a pixel by the average of its neighbor" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:4" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:4" "e" "h(t) = \\frac{1}{2\\del}\\int_{t-\\del}^{t+\\del} f(t^{'}) dt^{'} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:6" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:6" "e" "g(t) = \\begin{cases} \\frac{1}{2\\del} & \\text{ for } -\\del \\le t \\le \\del" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:8" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:8" "e" "h(t) = \\int_{-\\infty}^\\infty f(t-u)g(u)du " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:11" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:11" "e" "h(t) = g(t)\\conv f(t) " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 (toc "toc" "          4.1.0.1 Convolution" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.1.0.1" "\\paragraph{Convolution}" 13416)
 
-("sec:convolution" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:convolution" "s" "Two properties: \\begin{enumerate} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:12" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:12" "e" "f\\conv g = h \\lrarr FG = H " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 (toc "toc" "          4.1.0.2 Why remove higher frequency component?" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.1.0.2" "\\paragraph{Why remove higher frequency component?}" 15599)
 
-("sec:why-remove-higher" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:why-remove-higher" "s" "If we assume the noise is i.i.d., we can show that the fourier transform of the noise is uniform. i." "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 (toc "toc" "          4.1.0.3 Gaussian Filter" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.1.0.3" "\\paragraph{Gaussian Filter}" 16950)
 
-("sec:gaussian-filter" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:gaussian-filter" "s" "For any function, the more spatially localized (peaked) it is, the broader it is in frequency. Vice " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 (toc "toc" "      4.2 February 8th - Lecture 5" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "4.2" "\\subsection{February 8th - Lecture 5}" 17217)
 
 (toc "toc" "          4.2.0.1 Sampling theorem" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.2.0.1" "\\paragraph{Sampling theorem}" 17289)
 
-("sec:sampling-theorem" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:sampling-theorem" "s" "Given $$f(t) = a_0 + \\sum_{k=1}^T a_k \\cos(kt) + \\sum_{k=1}^Tb_k\\sin( kt) \\text{ for } t=0, \\frac{2\\" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 (toc "toc" "      4.3 Diffusion" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "4.3" "\\subsection{Diffusion}" 18206)
 
-("sec:diffusion" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:diffusion" "s" "Diffusing is like smoothing, provides a physical analogy to smoothing. By setting it up and solving " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 (toc "toc" "          4.3.0.1 Discrete" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.3.0.1" "\\paragraph{Discrete}" 18554)
 
-("sec:discrete" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:discrete" "s" "Imagine you have a lot of small buckets with lots of particles in it, describe each bucket by how ma" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:13" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:13" "e" "J(x,t) = -D \\frac{\\partial C}{\\partial x} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:14" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:14" "e" "\\frac{\\partial C}{\\partial t} = - \\frac{\\partial J}{\\partial x} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:16" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:16" "e" "\\frac{\\partial C}{\\partial t} = D \\frac{\\partial^2 C}{\\partial x^2} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 (toc "toc" "          4.3.0.2 Numerical Analysis" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.3.0.2" "\\paragraph{Numerical Analysis}" 20720)
 
-("sec:numerical-analysis" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:numerical-analysis" "s" "A finite differential problem. Taking the taylor series for a fixed $t$, we get \\begin{equation}  c_" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:17" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:17" "e" "c_{i+1} = c_i + \\del x \\frac{\\partial C}{\\partial x} + \\frac{1}{2} \\del x^2 \\frac{\\partial^2 C}{\\par" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:18" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:18" "e" "\\frac{\\partial C}{\\partial x} = \\begin{cases} \\frac{ c_{i+1} - c_i }{\\del x} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:19" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:19" "e" "\\frac{\\partial C}{\\partial x}= \\frac{ c_{i+1} - c_{i-1} }{2\\del x} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:20" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:20" "e" "\\frac{\\partial^2 C}{\\partial x^2} = \\frac{ (c_{i+1} - c_i) - (c_{i} - c_{i-1}) }{\\del x^2} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:21" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:21" "e" "\\frac{\\partial C}{\\partial t} = \\frac{ c(x,t+1)- c(x,t)}{\\del t} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:22" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:22" "e" "" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" "LOST LABEL.  RESCAN TO FIX.")
 
-("eq:23" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:23" "e" "" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" "LOST LABEL.  RESCAN TO FIX.")
 
 (toc "toc" "          4.3.0.3  " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.3.0.3" "\\paragraph{}" 23185)
 
@@ -145,29 +145,111 @@
 
 (toc "toc" "      4.5 \\paragraph{Edge Detection}" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "4.5" "\\subsection{\\paragraph{Edge Detection}}" 24331)
 
-("sec:paragr-detect" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:paragr-detect" "s" "" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" "LOST LABEL.  RESCAN TO FIX.")
 
 (toc "toc" "          4.4.0.2 Edge Detection" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "4.4.0.2" "\\paragraph{Edge Detection}" 24331)
 
-("sec:edge-detection" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:edge-detection" "s" "Basic Idea: look at sudden changes in intensity and the first derivative $\\Ix$. But we'd expect some" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 (toc "toc" "      4.5 In 2D" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "4.5" "\\subsection{In 2D}" 25331)
 
-("sec:2d" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:2d" "s" "In 2D, things are little bit more complicated. A rapid intensity change depends on the direction. We" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:24" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:24" "e" "\\frac{(\\Ix, \\Iy)}{||(\\Ix, \\Iy)||} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 (toc "toc" "      4.6 Corner Detection" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "4.6" "\\subsection{Corner Detection}" 27978)
 
-("sec:corner-detection" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:corner-detection" "s" "A way to define a corner is a smal region in the image where you have image gradient change in both " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("sec:paper-pres-sched" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+(toc "toc" "    5 February 15th - Lecture 7" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 2 "5" "\\section{February 15th - Lecture 7}" 28874)
 
-("sec:febr-13th-lect" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:febr-15th-lect" "s" "Presentation points: \\begin{itemize} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:15" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+(toc "toc" "      5.1 Nonlinear Diffusion" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "5.1" "\\subsection{Nonlinear Diffusion}" 29355)
 
-("sec:february-8th-lecture" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:nonlinear-diffusion" "s" "Goal for today Non-homogenous diffusion: when you're near the boundary don't smooth so much. Anisotr" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          5.1.0.1  " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "5.1.0.1" "\\paragraph{}" 29773)
+
+(toc "toc" "          5.1.0.2 Non-homogenous, isotropic diffusion" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "5.1.0.2" "\\paragraph{Non-homogenous, isotropic diffusion}" 30927)
+
+("sec:non-homog-isotr" "s" "Let $D=g(x)$, a function of the image. The amount of diffusion is different in locations but the way" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:25" "e" "g(||\\grad f||^2) = \\frac{1}{\\sqrt{1 + \\frac{||\\grad u||^2}{\\lam^2}}} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      5.2 2D Non-homogenous, anisotropic diffusion" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "5.2" "\\subsection{2D Non-homogenous, anisotropic diffusion}" 32652)
+
+("sec:2d-non-homogenous" "s" "Let $D$ a 2x2 matrix based on the image. So back to$\\frac{\\partial u}{\\partial t} = \\text{div}(D\\gra" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "    6 Lecture 8 - Contours" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 2 "6" "\\section{Lecture 8 - Contours}" 33796)
+
+("sec:lecture-8-contours" "s" "\\subsection{Markov Representation}  Each variable depends on its neighbors. Conditionally independen" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      6.1 Markov Representation" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "6.1" "\\subsection{Markov Representation}" 33859)
+
+("sec:mark-repr" "s" "Each variable depends on its neighbors. Conditionally independent of the variables far away. Markov " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          6.1.0.1 1D case" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "6.1.0.1" "\\paragraph{1D case}" 34962)
+
+("sec:1d-case" "s" "Markov chains is important for classification: positive examples are similar meaning that they are s" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:26" "e" "-\\log P(\\Gamma_t)\\approx \\int \\theta^2dt " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "    7 Lecture - 10" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 2 "7" "\\section{Lecture - 10}" 37659)
+
+(toc "toc" "      7.1 Markov Property" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "7.1" "\\subsection{Markov Property}" 37838)
+
+("sec:markov-property" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:27" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:28" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:29" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      7.2 Relaxation Labeling" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "7.2" "\\subsection{Relaxation Labeling}" 40192)
+
+("sec:relaxation-labeling" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      7.3 Intelligent Scissors" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "7.3" "\\subsection{Intelligent Scissors}" 41598)
+
+("sec:intelligent-scissors" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      7.4 Review of DP" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "7.4" "\\subsection{Review of DP}" 42530)
+
+("sec:review-dp" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "    8 Lecture 10 - Markov Random Field" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 2 "8" "\\section{Lecture 10 - Markov Random Field}" 43128)
+
+("sec:lecture-10-markov" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:30" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      8.1 Gibbs Distribution" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "8.1" "\\subsection{Gibbs Distribution}" 45285)
+
+("sec:gibbs-distribution" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:31" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:32" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:33" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:34" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("sec:lecture-10" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      6.1 NL-Means filtering" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "6.1" "\\subsection{NL-Means filtering}" 33858)
+
+("sec:nl-means-filtering" "s" "" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" "LOST LABEL.  RESCAN TO FIX.")
+
+("sec:paper-pres-sched" "s" "" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" "LOST LABEL.  RESCAN TO FIX.")
+
+("sec:febr-13th-lect" "s" "" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" "LOST LABEL.  RESCAN TO FIX.")
+
+("eq:15" "e" "" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" "LOST LABEL.  RESCAN TO FIX.")
+
+("sec:february-8th-lecture" "s" "" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" "LOST LABEL.  RESCAN TO FIX.")
 
 ("eq:10" "e" " " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil)
 

@@ -39,7 +39,8 @@
 \parskip 5pt
 \parindent 0pt
 
-\documentclass[a4paper]{article}
+\documentclass[10pt,a4paper]{article}
+\usepackage[letterpaper,hmargin=1.15in,vmargin=1.25in]{geometry} % full page dimensions
 \usepackage{amsmath,amssymb,algorithmic,mathabx,hyperref}
 \begin{document}
 \title{Image Segmentation CS828 Spring '12}
@@ -871,13 +872,496 @@ into $v_1, v_2$. If $\grad u_\sig$ big, $v_1$ gets scaled down, but
 $v_2$ is totally preserved (it's just 1), so \emph{$\grad u$ points away
 from the boundary.} 
 
-These approaches are all still heuristics compared to the bilateral filters.
+These approaches are all still heuristics compared to the bilateral
+filters.
 
+\pagebreak
+
+\section{Lecture 8 - Contours}
+\label{sec:lecture-8-contours}
+
+\subsection{Markov Representation}
+\label{sec:mark-repr}
+
+Each variable depends on its neighbors. Conditionally independent of
+the variables far away.
+
+Markov Chain: R.V. occuring over time. 1D.
+Markov Random Field: 2D. In an image, a markov field, a
+pixel depends on the immediate neighbors, but conditionally indepenent of
+the rest of the pixels given the neighboring pixels.
+
+In 1D, key is that if you know a single r.v. it divides the set into
+two disjoint sets. The seperation allows us to use DP etc to find
+optimal solution. In 2D, a pixel doesn't divide the image in two
+disconnected sets, so the problems with optimal solution in 1D becomes
+NP-hard.
+
+Sometimes we want to have a stochastic model of
+images/objects. Deniosing is a random process that adds noise. To get
+the MAP estimate, I need some expectation about the image, some
+prior. We can model the boundaries of objects, having some prior model
+of the shape of an object is important, and markov models help us
+build these prior.
+
+One way to describe a texture is repetition with variation or samples
+drawn from some random process. 
+
+
+\paragraph{1D case}
+\label{sec:1d-case}
+Markov chains is important for classification: positive examples are
+similar meaning that they are samples from the same distribution. We
+can model actions/image sequences in a markov chain.
+
+\textbf{Definition}: $x_1, x_2, \dots, x_n$ are random variables. $x_i$s form a Markov
+Chain iff. $$P(x_j | x_{j-1}, x_{j-2}, \dots,x_1) = P(x_j | x_{j-1})$$
+
+Diffusion is an example of a  markov chain. Knowing where the paritcle
+was at time $t-1$ helps us guess where the particle maybe at time $t$,
+but knowing that at time $t-2$ doesn't really help. 
+
+Markov chain that can model contours. You want to find a contour in
+the image that fits the image gradients (the edges) but it's also
+plausible (to be a real shape).  We want to solve the contour, $c$,
+given the image $I$. This is $$\arg\max_c P(c|I) =
+\frac{P(I|c)P(c)}{P(I)} \approx P(I|c)P(c)$$ (The denominator doesn't
+matter because $P(I)$ same for all. $PI(c)$ is is this contour
+plausible, is it likely to be a boundary of a real object? To do this
+we need a prior. 
+
+We can learn such distribution, but generate a simple model. Define contour to be
+a point that moves through a space with some particular
+direction. Denote the direction by $\theta$. Then we can say 
+$$x' =\cos \theta, x'=\sin \theta, \theta' = \mathcal{N}(0, \sig^2)$$
+where $x'$ is the change in the $x$-coordinate etc. If sigma is small,
+the countor is smooth (straight) and not very contorted. In another words, $\theta$ is going
+through a diffusion process and the direction follows from it..
+
+Let $\Gamma_t$ is the position of the contour at time $t$. Then,
+without constant, 
+$$P(\Gamma_t)\approx \prod e^{-\frac{\theta'(t)^2}{\sig^2}}$$
+Better written as (dropping constant):
+\begin{equation}
+  \label{eq:26}
+-\log P(\Gamma_t)\approx \int \theta^2dt
+\end{equation}
+
+``Snakes'' computes a contour and also acounts for the prior probability of
+the contour, minimizing \eqref{eq:26}.
+
+Is this a really good prior for contours? Obvious fixable problems:
+\begin{itemize}
+\item Probability of generating an perpendicular edge (discontinuity)
+  is 0. Fix by adding a gaussian mixture for the model that $\theta'$
+\item Convex shapes are relatively likely, where curvature is all
+  positive, meaning curvature is in a single direction. But this model
+  allows $\theta'$ to go in both directions.
+\item We also want contours that are short and smooth. How: Fixed
+  probability that contours will end, i.e. particles have a half life
+  $\lam$ that we add to \eqref{eq:26}
+\end{itemize}
+
+\emph{Curve of least energy}, curve between two edges that minimizes
+\eqref{eq:26} because it can be thought as a energy of contours. 
+
+
+\pagebreak
+
+\section{Lecture - 9 Markov Random Field}
+\label{sec:lecture-9}
+Term project: Baseline-comparison of several algorithms, High
+end-conference paper submission.
+EC for doing both.
+
+\subsection{Markov Property}
+\label{sec:markov-property}
+$x_1, \dots, x_k$ form a markov chain if $P(x_k | x_{k-1}, \dots, x_1)
+= P(x_k | x_{k-1})$.
+Assume $x_k$ has a label,  $x_k \in S = {s_1, \dots,
+  s_m}$. Probability distribution for $x_k$, $P(x_k)$ is the probability it has
+each label. We can express this in a vector $P^K = \lc P(x_k=s_1)
+\dots P(x_k=s_m)\rc$. Using the markov property, the transition can be
+represented in a matrix multiplication.
+
+\begin{equation}
+  \label{eq:27}
+P(x_k | x_{k-1}, \dots, x_1) = \sum_{j=1}^M P^{k-1}(j)P(x_k=s_i |
+x_{k-1} = s_j)  
+\end{equation}
+Where we let $A_{ij} = P(x_k=s_i |x_{k-1} = s_j)$, an entry in the transition
+matrix $A$.$A_{ij}$ is going from state $j$ to state $i$, always same
+over time.  If columns of $A$ sum to 1, we say that $A$ is a
+stochastic matrix. Here, it should sum to 1 because a column is probability of going from $j$ to all
+$i$. Then, 
+\begin{equation}
+  \label{eq:28}
+  P^k = AP^{k-1}
+\end{equation}
+The inner product of the first row of $A$ and $P^{k-1}$ is same as \eqref{eq:27}.
+
+$A$ is an easy way to figure out the stable distribution of this
+chain. i.e.
+\begin{align*}
+   P^2 &= AP^1\\
+   P^3 &= AP^2 = A(AP^1)\\
+&\vdots\\
+P^n &= A^{n-1}P^1
+\end{align*}
+In the end we get the largest eigenvector of $A$. This is actually the
+power method of finding eigenvectors.
+Let $P^1 = a_1v_1 + a_2v_2$, where $v_1,v_2$ are the eigenvectors. If
+we apply $A$ to $P^1$, we get:
+\begin{align*}
+AP^1 &=a_1Av_1 + a_2Av_2\\
+&= a_1 \lam_1v_1 + a_2 \lam_2v_2
+\end{align*}
+And in general
+\begin{equation}
+A^{n}P^1 = a_1\lam_1^nv_1 + a_2\lam_2^nv_2\label{eq:29}
+\end{equation}
+For a stochastic matrix, largest eigenvalue is 1, so we preserve
+$v_1$. If we want to know the steady state of a markov chain, we take
+the eigenvector corresponding to the largest eigenvalue.
+
+Technicality: $P^1$ matters to do this: It has to be possible to
+reach any state from any other state. And largest eigenvalue has to be
+unique. 
+
+Diffusion is a markov process.
+Recall: gaussian smoothing is repeatedly applying a filter like $\lam,
+1-2\lam, \lam$ to an image. i.e.
+$$\begin{pmatrix}
+  \lam & 1-2\lam& \lam & 0 & \dots 0\\
+0&  \lam & 1-2\lam& \lam &  \dots 0\\
+\vdots
+\end{pmatrix}$$
+Convolution is equivalent to matrix multiplication with this matrix.
+Eigenvectors of this is harmonic, sines and cosines.
+
+\subsection{Relaxation Labeling}
+\label{sec:relaxation-labeling}
+
+Basic idea: Suppose I want to label regions. If you know that there's
+a telephone, the thing underneath it is likely to be a table etc. The
+label of one thing gives you evidence about labels of other objects in
+the scene. The point of relaxation labeling is to figure out how to
+combine all these information.
+
+\textbf{Linear version of relaxation labeling} assumes that evidences can be
+linearly combined. An example of edge labeling: label foreground or
+background. I.e. things that are close to each other and connect
+smoothly to each other are foreground. One way to solve this problem
+by prodviding edges between line segments. If the edge between
+segments is strong, then the two segments are highly correlated.
+Initialize everything at 0.5. Initial condition doesn't matter. 
+This is different from belief propagation, because a node may get a
+strong evidence but it's not an independent evidence. (Because you
+started the rumor). In belief propgation, you're really careful not to
+double count an evidence. 
+
+Another interpretation of this algorithm is that edges are like
+transition probabilities of particles. Steady state is defined by how
+well particles can get to certain nodes.
+
+1D case is nice because we can do matrix multiplication to find the
+steady state i.e. taking eigen values. You can also do dynammic
+programming. 
+
+\subsection{Intelligent Scissors}
+\label{sec:intelligent-scissors}
+An interactive segmentation method. Idea: click on two different
+pixels. Find the best boundaries that connect those two
+points. Because it's interactive, it doesn't have to be perfect. In
+order to solve this, we use markov/diffusion model for contours. We
+want the contours to have relatively low curvature (smooth) and close
+to points of high image gradient.
+
+Add edges and weight it with whether this edge is a good boundary or
+not, then just use any shortest path algorithms (DP).
+Take the perpendicular derivative of an edge, you get high cost if
+derivative is small, vise versa. Cost is high if you're not following
+the boundary (gradient).
+
+Next thing is smoothness/curvature. You need three points to define a
+curvature. Create a node for every pixel, find its image gradient, when
+you move, the penalty is if the image gradient is changing a lot or
+not. 
+
+\subsection{Review of DP}
+\label{sec:review-dp}
+Problem: we know the state as $x_1=0$, $x_n=1$. Find the most likely
+sequence of intermediate states given the markov model, kind of like
+the contour problem. The most trivial solution is consider all
+possible combinations and try it - clearly exponential. You don't
+really have to test all. If some intermediate $x_k=0$, we can split
+the probelm into two: what's the problem of going from $x_1$ to $x_k$,
+$x_k$ to $x_n$, same for $x_k=1$. 
 
 
 
 
 \pagebreak
+
+\section{Lecture 10 - Markov Random Field}
+\label{sec:lecture-10-markov}
+MRF is a collection of sites $S=\{ s_1, \dots, s_n\}$ (in 2D grid of
+sites $S = \{S_{ij}\}$), and a set of labels $L=\{L_0\})$. Every site
+is labeled with a labeling $f=\{f_1, \dots, f_n\}$.
+
+It would make sense to talk about $P(f)$, which is the joint
+probability of assigning a label to all sites. 
+With a markov chain, $s_k$ will be dependent on $f_{k+1}, f_{k-1}$,
+but given those it's conditionally independent from the rest. Here,
+similar, but not two but all the neighbors and a site is conditionally
+independent given all the neighbors, the markov blanket.
+Formally, the neighborhood of $s_i$ is $N_i$, where $s_i\notin N_i$, and $s_i \in
+N_j \iff s_j \in N_i$.
+An MRF is $P(f) > 0 \forall f$. The key property is that 
+\begin{equation}
+  \label{eq:30}
+P(f_i |f_{S-\{i\}} = P(f_i | f_{N_i})  
+\end{equation}
+
+You can take any probability distribution and make it in to a MRF just
+by making everything into neighbors. The computational effort depends
+on the size of the neighborhoods. If the neighborhood size is too big,
+we don't get the benefit from making it into a MRF. Think of a grid
+structure. 
+
+\emph{Example}: in denoising, the label for each pixel is its true
+noise free intensity. Putting it in MRF says that the true intensity of a pixel depends on the
+true intensity of its immediate neigbhors but it's conditionally
+independent of the rest given those neighbors.
+In stereo, labels are the disparity level. 
+We can also use this for less structured (not grids) things, like
+detecting line segements and labeling it as a
+foreground/background, where the neighbors are defined by those
+segments around the line segment.
+
+We can ask questions like ``What's the MAP estimate of assigning
+labels?'', marginalizing over one site/rv: ``what's the probability distribution of
+that site given the rest?''. We also want to learn this probability
+distribution modeled by MRF, i.e. if we get bunch of examples of
+labeled images. But these questinos are not trivial.
+
+The big result that brings all of this together is the equivalence between MRF and
+the gibbs distribution. 
+
+\subsection{Gibbs Distribution}
+\label{sec:gibbs-distribution}
+A clique is a set of sites $\{s_{i_1}, s_{i_2}, \dots \}$
+s.t. $s_{i_j} \in N_{i_k} \forall j,k$. $P(f)$ is a \textbf{gibbs
+  distribution } iff.
+\begin{equation}
+  \label{eq:31}
+  P(f) = \frac{1}{Z}e^{-u(f) / T}
+\end{equation}
+$T$ is referred to as the temperature and $u(f)$ is the energy
+function/potential, can be written as
+\begin{equation}
+  \label{eq:32}
+  u(f) = \sum_{c\in C} V_c(f)
+\end{equation}
+Where $V$ is the clique potential of $C$. In a grid, we have a trivial clique (by itself), two clique (two
+pairs) in vertical and horizontal direction. In \eqref{eq:31}, the
+exponent should look like summing multiple probabilities of the
+clique. $Z$ is the normalization factor $Z= \sum_{f\in F} e^{-u(f)/T}$.
+
+For vision, MRF is builds a prior. But we haven't discussed about how
+well this prior fits to the image we have (i.e. denoising). So we have
+\textbf{observations} , $X$. 
+
+Usual vision problems form MRF s.t. every obesrvation have a specific
+independent structure. 
+I.e. given $X=\{x_1, \dots,x_n\}$,
+\begin{equation}
+P(x_i | f, X/\{x_i\}) = P(x_i | f_i)\label{eq:33}
+\end{equation}
+Implicitly we've had this assumption in the denoising papers we read,
+because we assume that the actual observation (noise+truth)'s noise is
+independent of every other pixel's noise. 
+
+Continuing with the denoising example, we want solve this labeling
+problem. In denoising it amounts to recovering the true intensity.
+So given an observation, $x_i = f_i + e_i$ where $e_i$ is an
+i.i.d. noise from $\mathcal{N}(o, \sig^2)$. We want
+$$ \arg\max_f P(f | X)= \arg\max_f\frac{P(X|f) P(f)}{P(X)}.$$ by Bayes
+law. Well $$P(X|f) = \prod P(x_i | f_i)$$   because of \eqref{eq:33},
+and in image denoising, we have $P(x_i | f_i) =
+\frac{1}{\sqrt{2\pi}\sig}e^{ \frac{-(f_i-x_i)^2}{2\sig^2}}$.
+
+We can define the single clique potential as $$V_c(f_i) = \frac{(f_i -
+  x_i)^2}{2\sig^2}$$ and for a pair clique, we define $V_c(f_i, f_j) =\begin{cases}
+0 & \text{ if }  f_i = f_j\\
+k & \text{ otherwise}
+\end{cases}
+$
+
+The mot probable configuration is where the whole image is
+constant. Total variation prime which is an explicit description would be $V_c^{tv} = (f_i, f_j) = |f_i
+- f_j|_l$, but practically people don't do this. And the optimal MAP estimates of MRF is
+$\mathcal{NP}$-hard 
+
+Once we have these clique potentials, we have an optimization problem
+of minimizing $u(f)$. 
+
+White noise is called white because the fourier transform of the noise
+is constant. Color noise might have a low freq components in fourier
+transform, which means the noise of the neighbors are related. What if
+we have color noise?
+If we know $f_1$, previously we would've said $x_1$ is independent of
+everything else. But now since the noise is correlated, it's not the
+case here because the observations are related now and we have a
+$v$-structure. 
+
+Classic example: earthquake and burglur. They are independent event,
+but if we give an observation that an alarm goes off. This gives
+evidence about the burglar and the earthquake and makes them dependent
+because if earthquake happened, there's a low chance that burglary
+also happened.
+
+Now \emph{condition everything on the image} .In MRF, we can figure
+out the joint distribution of everything and we have a full generative
+model $P(f, X)$. But if we condition, we get the \textbf{conditional
+  random field} where we sought for $P(f|X)$. We don't have the
+generative model anymore, we don't have the distribution of the model,
+but having the image gets rid of the dependency problems. 
+
+\pagebreak
+
+\section{Lecture 11 - CRF}
+\label{sec:lecture-11}
+SItes = $S=\{s_i\}$, labels $f=\{f_i\}$, Neighborhoods: $j\in N_i \iff
+s_j $ is a neighbor of $s_i$. 
+
+Two restrictions to be a MRF:
+$P(f) > 0 \forall f$
+$P(f_i | f_{s-\{i\}} = P(f_i | f_{N_i})$ 
+
+For \textbf{CRF}, the graph is globally conditioned on the observation. None of
+the sites will be conditionally independent because all of the sites
+share the same observation.
+
+How does this change things?
+
+\subsection{Gibbs Distribution}
+Equivalent to MRF. For something to be a gibbs distribution, we say it
+has this form: $P(f) = \frac{1}{Z}e^{ -u(f)/T}$ where $u(f)$ is the
+energy. Key things is that $u$ can be factored. In particular, we say
+$u(f) = \sum_{c\in C} V_c(f)$. where $C$ is the set of all of the
+cliques, and $V_c$ is the potential of clique $c$.
+
+In CRF, the only difference is that we have $u(f, x)$, energy
+depending on the labels AND the observations. Where
+\begin{align*}
+  u(f,x) &= \sum_{c\in C} V_c(f,x)  \label{eq:35}\\
+&= \sum V_c(f_i, X) + \sum V_c(f_i, f_j, X)
+\end{align*}
+
+Pictorically, in MRF, every site has a single observation (value of
+pixel at $i$), in CRF, every site has a same observation, all of
+observed data. With a CRF, the label can be dependent on the whole
+image, or a piece of a image, but in MRF, you can only model the
+dependency on a single pixel.
+
+MRF is generative, it models the entire probability distribution
+$\arg\max_f P(f|X) \propto P(X|f)P(f)$. This might be very difficult! CRF models
+$P(f|X)$ directly and it's a discriminative model.
+
+\subsection{MAP Inference}
+\label{sec:inference}
+Problem of $\arg\max_f P(f | X)$. What's your best guess as to what's
+the best answer?
+
+In general NP-hard, so all solutions are iterative. How to chose the
+intial point? Heuristic is: try a bunch of random solutions, iterating
+it until you hit a local solution, pick that as your starting
+point. Only helpful if you can get the right place to start in 10\%,
+but in MRF usually it's so rare to hit the rigth place that it won't
+really help. Another approach is ignoring the interaction
+potential. Just base the starting point on the unary potential.
+
+\paragraph{Iterated Conditional Modes}
+$\hat f$ current labeling. Perform:
+for random $i$, $\hat f_i = \arg\min_{f_i} u(f_i\cup \hat f_{j\neq i},
+X)$ (maximize the probability so minimize the energy). If unary
+constraint is really strong, this is going to find the optimal. This
+gets stuck really easily in local-minima.
+
+\paragraph{Simulated Annealing}
+On convex function: Start some place, you move down (towards the
+minima). 
+If your function is not convex (with a lot of local minima), even if
+you're at a local minima you should be bouncing around to get out of it.
+
+Given $\hat f$, pick $f_i$ randomly $$p = \min(1, \frac{P(\hat f_{i\neq
+    j} \cup \{ f_i\}) }{P(\hat f) }$$ if the ratio $> 0$, this means that the old
+labeling was better, with ICM, we would've never moved. Instead here
+we still move sometime.
+
+$T$ in the gibbs distribution is the temperature. $e^{-u(f)/T}$, when $T$
+is high, the probability landscape is very flattened and the ratio is
+around 1, so whether it's good or not we always move. As temperature
+gets low, the labeling with the highest probability dominates (gets 1 
+and the rest 0), and the more spread out the probabilities are and less likely
+for us to move again.
+
+\subsection{Graph Cuts}
+\label{sec:graph-cuts}
+Simulated annealing is old, not ppl use graph cuts.
+
+Intuition: With ICM, you're considering one node at a time and saying
+would it improve if I change this? Idea here is to consider changing a
+lot of nodes at the same time.
+Two steps: $\ah$-expansion and $\ah-\beta$ swap.
+
+Problem of ICM is that pairwise constraints will not like changing one
+pixel at a time. $\ah-\beta$ swap can swap all the pixels that has
+either label, fix all other pixels, then relabel all those pixels in an optimal way just by using
+the two label. If this labeling is better, we'll take it.
+This is called the graph cut because we're making it into a graph and
+the min-cut corresponds to the best configuration of $\ah-\beta$
+labels.
+
+\paragraph{$\ah-\beta$ swap}
+Construct a graph where the terminal nodes are $\ah$ and $\beta$, take
+all sites currently labeled $\ah$ or $\beta$ as nodes and connected to
+both terminal nodes. We want the best cut where the cost of the cut is the weight of the edge. The
+cut corresponds to a labeling, and weight corresponds to the clique
+potential of that labeling.
+Goal is to find a cut so that $\ah$ and $\beta$ are disconnected. If you cut the edge connecting to $\ah$, that nodes gets $\ah$. Think
+ of edge as the clique potential, so cutting the edge is like taking
+ the potential.
+
+The min-cut will always keeps exactly one of the edge connecting to a
+terminal node. You also make edges between the sites, so that if sites
+don't ahve the same label they need to be cut.
+To make sure that each edge represents the clique potential, for
+example a site's edge connected to $\ah$ has weight $V_c(f_i
+= \ah, X) + \sum_{j\in \mathcal{N}_i} V_c(f_i=\ah, f_j, X)$ where
+$f_j\neq \ah, \beta$. For edges between sites, the weight there is
+$V_c(f_i, f_j, X)$. For this to work, you need to design the pair-wise
+potential to be s.t. if $f_i = f_j$, cost or the potential is 0. It
+also has to be symmetric (doesn't matter if it's labeled $\ah$ or
+$\beta$). 
+
+We create this graph, then do a min-cut $O(n^2)$ pretty fast
+practically.
+
+\paragraph{$\ah$-expansion}
+\label{sec:ah-expansion}
+Similar, whether they keep $\ah$ or everything else become $\ah$ or
+stay the same.
+
+The whole algorithm is start with an initial labeling, then do
+$\ah-\beta$ swap (or $\ah$-expansion) until you converge.
+
+Suppose we have a binary labeling problem. Then if we do min-cuts we
+have the globally optimal solution. So binary problems aren't really NP-hard.
+
 \pagebreak
 \pagebreak
+\pagebreak
+
 \end{document}
