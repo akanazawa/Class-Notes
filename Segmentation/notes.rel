@@ -15,7 +15,7 @@
 
 (master-dir . "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/")
 
-(label-numbers ("eq:" . 34))
+(label-numbers ("sec:gibbs-distribution" . 1) ("eq:" . 40))
 
 (bof "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex")
 
@@ -199,45 +199,89 @@
 
 (toc "toc" "      7.1 Markov Property" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "7.1" "\\subsection{Markov Property}" 37838)
 
-("sec:markov-property" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:markov-property" "s" "$x_1, \\dots, x_k$ form a markov chain if $P(x_k | x_{k-1}, \\dots, x_1) = P(x_k | x_{k-1})$. Assume $" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:27" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:27" "e" "P(x_k | x_{k-1}, \\dots, x_1) = \\sum_{j=1}^M P^{k-1}(j)P(x_k=s_i | x_{k-1} = s_j) " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:28" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:28" "e" "P^k = AP^{k-1} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:29" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:29" "e" "A^{n}P^1 = a_1\\lam_1^nv_1 + a_2\\lam_2^nv_2 " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 (toc "toc" "      7.2 Relaxation Labeling" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "7.2" "\\subsection{Relaxation Labeling}" 40192)
 
-("sec:relaxation-labeling" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:relaxation-labeling" "s" "Basic idea: Suppose I want to label regions. If you know that there's a telephone, the thing underne" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 (toc "toc" "      7.3 Intelligent Scissors" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "7.3" "\\subsection{Intelligent Scissors}" 41598)
 
-("sec:intelligent-scissors" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:intelligent-scissors" "s" "An interactive segmentation method. Idea: click on two different pixels. Find the best boundaries th" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 (toc "toc" "      7.4 Review of DP" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "7.4" "\\subsection{Review of DP}" 42530)
 
-("sec:review-dp" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:review-dp" "s" "Problem: we know the state as $x_1=0$, $x_n=1$. Find the most likely sequence of intermediate states" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 (toc "toc" "    8 Lecture 10 - Markov Random Field" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 2 "8" "\\section{Lecture 10 - Markov Random Field}" 43128)
 
-("sec:lecture-10-markov" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:lecture-10-markov" "s" "MRF is a collection of sites $S=\\{ s_1, \\dots, s_n\\}$ (in 2D grid of sites $S = \\{S_{ij}\\}$), and a " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:30" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:30" "e" "P(f_i |f_{S-\\{i\\}} = P(f_i | f_{N_i}) " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 (toc "toc" "      8.1 Gibbs Distribution" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "8.1" "\\subsection{Gibbs Distribution}" 45285)
 
-("sec:gibbs-distribution" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:gibbs-distribution" "s" "A clique is a set of sites $\\{s_{i_1}, s_{i_2}, \\dots \\}$ s.t. $s_{i_j} \\in N_{i_k} \\forall j,k$. $P" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:31" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:31" "e" "P(f) = \\frac{1}{Z}e^{-u(f) / T} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:32" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:32" "e" "u(f) = \\sum_{c\\in C} V_c(f) " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:33" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("eq:33" "e" "P(x_i | f, X/\\{x_i\\}) = P(x_i | f_i) " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
-("eq:34" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+(toc "toc" "    9 Lecture 11" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 2 "9" "\\section{Lecture 11}" 48877)
 
-("sec:lecture-10" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+("sec:lecture-11" "s" "SItes = $S=\\{s_i\\}$, labels $f=\\{f_i\\}$, Neighborhoods: $j\\in N_i \\iff s_j $ is a neighbor of $s_i$." "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      9.1 Gibbs Distribution" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "9.1" "\\subsection{Gibbs Distribution}" 49332)
+
+("eq:35" "s" " " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      9.2 Inference" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "9.2" "\\subsection{Inference}" 50424)
+
+("sec:inference" "s" "Problem of $\\arg\\max_f P(f | X)$. What's your best guess as to what's the best answer? In general NP" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          9.2.0.1  " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "9.2.0.1" "\\paragraph{}" 51346)
+
+(toc "toc" "          9.2.0.2 Graph Cuts" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "9.2.0.2" "\\paragraph{Graph Cuts}" 52230)
+
+("sec:graph-cuts" "s" "Simulated annealing is old, not ppl use graph cuts. Intuition: With ICM, you're considering one node" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          9.2.0.3 $\\ah$-expansion" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "9.2.0.3" "\\paragraph{$\\ah$-expansion}" 54317)
+
+("sec:ah-expansion" "s" "Similar, whether they keep $\\ah$ or everything else become $\\ah$ or stay the same. The whole algorit" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "    10 Lecture 12" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 2 "10" "\\section{Lecture 12}" 54736)
+
+("sec:lecture-12" "s" "MIn cut - cost of the cut is the sum of the weight of the edges, the min cut is the cut with smalles" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:36" "e" "\\exp(-\\frac{||I_j - I_j||^2}{\\sig}) " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          10.0.0.1  " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "10.0.0.1" "\\paragraph{}" 56042)
+
+("eq:37" "e" "cut(A,B) = \\sum_{u\\in A, v\\in B}w(u,v) " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:39" "e" "\\min_{A,B} Ncut(A,B) = \\frac{cut(A,B)}{assoc(A,V)} + \\frac{cut(B,A)}{assoc(B,V)} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          10.0.0.2 Computation" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "10.0.0.2" "\\paragraph{Computation}" 57455)
+
+("sec:computation" "s" "Computing this minimization is $NP$-hard (if you make your solution to have discrete yes foreward or" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:40" "e" "Ncut \\equiv \\frac{y^T(D-W)y}{y^TDy} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          10.0.0.3 How to solve \\eqref{eq:40}?" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "10.0.0.3" "\\paragraph{How to solve \\eqref{eq:40}?}" 58944)
+
+("eq:38" "e" "" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" "LOST LABEL.  RESCAN TO FIX.")
+
+("eq:34" "e" "" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" "LOST LABEL.  RESCAN TO FIX.")
+
+("sec:lecture-10" "s" "" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" "LOST LABEL.  RESCAN TO FIX.")
 
 (toc "toc" "      6.1 NL-Means filtering" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "6.1" "\\subsection{NL-Means filtering}" 33858)
 

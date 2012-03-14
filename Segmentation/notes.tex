@@ -1361,7 +1361,298 @@ Suppose we have a binary labeling problem. Then if we do min-cuts we
 have the globally optimal solution. So binary problems aren't really NP-hard.
 
 \pagebreak
+
+\section{Lecture 12 Normalized Cut}
+\label{sec:lecture-12}
+MIn cut - cost of the cut is the sum of the weight of the edges, the
+min cut is the cut with smallest cost. 
+
+Normalized Cut: to assign weight, you can look at the intensity
+differences $(I_i - I_j)$. But you want it s.t. weight is really low when the
+intensities are very different, so you do 
+\begin{equation}
+  \label{eq:36}
+\exp(-\frac{||I_j - I_j||^2}{\sig})  
+\end{equation}
+This is heavily biased towards smaller regions. If the edge weight is
+$\eps$, but the image is big enough s.t. the cut has a total cost of
+$n\eps$. If $n\eps > 2$, it's better to cut off a single pixel of cost
+2. The most influencial way to remove the bias is Normalized cut.
+
+\textbf{Grab cut}: Image witha n object in the middle. Min-cut will
+just cut off a tiny piece. Construct a graph using something like
+\eqref{eq:36}. Then the user traces this is forground and and this is
+background. So we reconstruct the graph with terminal nodes
+\emph{foreground} and \emph{background}. If a pixel has foreground,
+it's weight to the foreground pixel is $\infty$. Since this is
+interactive, user can fix it up. This is more like a MRF, where edges
+are pairwise costs and ``grabCut'' does the user interaction by
+squares. State of the art interactive segmentation result.
+
+\paragraph{Normalized-Cut}
+A generic graph algorithm. $V = \{ \text{all vertices}\}$, a \emph{cut
+} divides $V$ into $A$, $B$ s.t. $A\cap B = \emptyset, A\cup B = V$. A
+cost of  a cut is
+\begin{equation}
+  \label{eq:37}
+cut(A,B) = \sum_{u\in A, v\in B}w(u,v)
+\end{equation}
+Sum over $u$ and $v$ that are neighbors.
+An \emph{association} between $A$ and $B$ is the total sum of weights
+coming out of all of $A$.
+$assoc(A,V) = \sum_{u\in A, v\in V}w(u,v)$
+
+Proposed min cut
+\begin{equation}
+  \label{eq:39}
+  \min_{A,B} Ncut(A,B) = \frac{cut(A,B)}{assoc(A,V)} + \frac{cut(B,A)}{assoc(B,V)} 
+\end{equation}
+For small cut, the ratio would be 1, which would be high, so we avoid
+cutting smaller corners.
+
+Suppose we had an image that was all white. The best Ncut is a
+straight line in the middle. Vertical lines are equally low in cost so
+in terms of mincut that's good. By making them in the middle, you make
+the two terms equal. By symmetry the minimum is when those two are the
+same.
+
+So this has a bias towards equal sized shapes and a more compact,
+convex shapes. A circle vs very snake line polygon, there'll be more cuts
+between $A$ and $B$ in the snake, so circle is better. In general it thinks circular is
+better. (Some disadvantages to this although the biases here is better
+than biases in min-cut. Still it's generally a bad thing to have a
+bias that you can't control becuase it won't fit the problem.)
+
+\paragraph{Computation}
+\label{sec:computation}
+Computing this minimization is $NP$-hard (if you make your solution to
+have discrete yes foreward or no backward). You can relax the
+problem's discrete constraints (1 or -1), then the problem has a
+simple solution with eigenvalues.
+
+Let $W$ be the matrix of edge weights, symmetric because the graph is
+undirected. $W_{j,i} = $ edge between $i$ and $j$. $x$ is a solution
+vector and $x_i = \{1, -1\}$.
+$d$ is a vector of total weights, $d_i = \sum_{j\in V} W_{ij}$ is the
+sum of all the edges leaving node $i$.
+$D$ is a diagonal matrix $d_i$'s on the diagonal. $d_i$ is just the
+sum of $i$-th column of $W$.
+
+With a lot of arithmetic manipulation, they show that $Ncut$ is
+equivalent to solving the following:
+\begin{equation}
+  \label{eq:40}
+  Ncut \equiv \frac{y^T(D-W)y}{y^TDy}
+\end{equation}
+where $y = (\vec 1+x) - b(\vec 1-x)$ and $b\in \mathbf{R}$ that depends on the
+segmentation, the ratio of all the edges in $A$ leaving $A$ and that
+of $B$. $b = \frac{ assoc(A,V)}{assoc(B,V)}$. If $x_i=1, y_i = 2$,
+$x_i=-1, y_i = -2b$.
+
+Example for intuition: Suppose $b = 1$, we can divide images in to two
+equal sets. Suppose $\vec x$ has bunch of 1s followed by bunch of
+-1s. $x = (1,  \dots, 1, -1 \dots, -1)^T, y = (2, \dots, 2, -2, \dots,
+-2)^T$. So $Dy = Wy = (2d_1, 2d_2, \dots,  2d_k, -2d_{k+1}, \dots, -2d_n)^t$. When we multiply $W$ by $y$, we get positive values for first
+part, negative values for the second pard... NEXT LECTURE.
+
+\paragraph{How to solve \eqref{eq:40}?}
+We let $Z = D^{1/2}y$ to remove $D$ from the denominator. So we get $y
+= D^{-1/2}Z$ and now \eqref{eq:40} becomes $$\frac{z^t
+  D^{-1/2}(D-W)D^{-1/2}z}{z^Tz} = \frac{z^TMz}{z^Tz}$$, where $M =
+D^{-1/2}(D-W)D^{-1/2}$. This is still symmetric becaue both row and
+col are scaled in the same way. Since $M$ is a symmetric matrix, we
+can decompose it into:
+$C = Q^TMQ$, where $Q$ is an orthonormal matrix and $C$ is diagonal,
+which is equivalent to saying $QCQ^T = M$. Let $Qv = Z$,  where $v =
+Q^TZ$, substitue all, then we get
+\begin{align*}
+\frac{z^TMz}{z^Tz}&=\frac{v^tQ^tCQ^TQv}{v^TQ^TQv}\\
+&=\frac{vCv}{v^Tv}\\
+&= \frac{v_1^2\lam_1^2 + \cdots + v_n^2\lam_n^2 }{v_1^2 + \cdots + v_n^2}
+\end{align*}
+Where the diagonal elements in $C$ $\lam_1, \lam_2, \dots,
+\lam_n$, because they are the eigenvalues of $M$.
+
+This is basically a weighted average by $\lam_i$s. This is minimized
+by giving the smallest one the most weight. So this is minimized by $v
+= (0, \dots, 0, 1)$, where $z$ is the eigenvector associated with the
+smallest eigenvalue of $M$.
+
+Extra condition, we actually don't want the smallest eigenvalue of $M$ because if we
+have a trivial segmentation where all the values in $\vec x$ is 1,
+the smallest eigenvalue would be 0 ($(D-W)y = 0$). So we want the
+second smallest eigenvalue. $z$ is the eigenvector associated with the
+second smallest eigenvalue.
+
+This entire process gives us a continuous values of $\vec x$. We pick
+some threshold and say that everything above is $A$ and everything
+below is $B$. Since we really want to minimize the cost, we can try
+every single threshold and test which one gives us the minimum
+Ncut. Because there are only $N$ possible threshold. This isn't so expensive.
+
+Size of $M$ is $n^2$ where $n$ is the \# of pixels. This is pretty expensive
+if $n$ is big. To get around this, we don't have to connect every
+pixel to every pixel, say within 10 pixels. So every pixel is
+connected to 100 pixels. It will give us a million by million graph
+that's very sparse. But there's a method to find the eigenvalues with
+sparse graph.
+
+What do they actually use for edge weights? They use $d(i,j)=
+\begin{cases}
+  1 & \text{immediate neighbor}\\
+  2 & else
+\end{cases}$, and 
+$$e^{\frac{-d(i,j)^2}{\sig_d}} e^{\frac{-(I_i, I_j)^2}{\sig_I}}$$ This
+  looks exactly like bilateral filter
+
 \pagebreak
+
+\section{Lecture - 13: Parametric Clustering}
+\label{sec:lecture-13}
+Midterm assigned 3/26, due 4/2.
+\subsection{Project 1}
+Taking the first derivative a sobel mask $(-.1, 0, .1)$.
+For NL-means, $h$ is the big parameter that determines how much
+smoothing should be done. 
+\subsection{Normalized Cut Example}
+Recap: $W$ , edge weights between all pairs of pixels, $D$, a diagonal
+matrix where $D_{ii}$ = sum of all weights leaving/connected to vertex
+$i$. $\vec x$ a vector with domain $\{-1, 1\}$.
+What you want to do is to $$\min \frac{ assoc(A,B)}{assoc(A,V)} +
+\frac{ assoc(B,A)}{assoc(B,V)}$$ and this is equivalent to  $\min
+\frac{y^T(D-W)y}{y^TDy}$, where $y=(1+\vec x) - b(1-\vec x)$, $b =
+\frac{ assoc(A,V)}{assoc(B,V)}$.
+Suppose $b=1$. Then $y\in \{-2, 2\}$, everything is symmetric. 
+
+Intuition why $\min \frac{ assoc(A,B)}{assoc(A,V)} +
+\frac{ assoc(B,A)}{assoc(B,V)} \equiv \min
+\frac{y^T(D-W)y}{y^TDy}$:
+$Wy$,  a column vector, the inner product of the first row of $W$ (all
+edges leaving $A$) and $\vec y$, so $Wy =
+\begin{pmatrix}
+  2assoc(v_1, A) - 2assoc(v_1, B) \\
+  2assoc(v_2, A) - 2assoc(v_2, B) \\
+\vdots
+\end{pmatrix}$
+
+Now, $y^TWy$, a quadratic equation, every edge between $A$ and $A$ are
+multiplyed by $2$, and every edge between $A$ and $B$ are mulitplied
+by $2$ and $-2$, and every edge between $B$ and $B$ are multiplied by
+$2$. think about parts of  that's $2$, i.e. vertices that
+correspond to $A$. Each element in $Wy$ is multiplyed by $2$, you'll
+get 4 times $assoc(A,A)$, when $-2$ is multiplied by 
+$$y^TWy = 4 assoc(A,A) -4assoc(A,B)  - 4assoc(B,A) + 4assoc(B,B).$$
+
+First row of $D$ gets multiplied by $y$, 
+\begin{align*}
+y^TDy &= y^T
+\begin{pmatrix}
+  y_1assoc(v_1,V)\\
+  y_2assoc(v_2,V)\\
+\vdots
+\end{pmatrix}\\
+&=  4assoc(A,V) -4assoc(B, V)  
+\end{align*}
+
+All of the edge weights multiplied by 4. They all cancel out so remove
+them.
+Now the ratio 
+\begin{align*}
+y^TWy/y^TDy &= \frac{assoc(A,V) + assoc(B,V) - assoc(A,A) -
+assoc(B,B) - 2assoc(A,B)}{assoc(A,V) + assoc(B,V)}\\  
+&=\frac{assoc(A,B) + assoc(B,A) + assoc(A,B) + assoc(B,A)}{assoc(A,V)
+  + assoc(B,V)}\\
+&=\frac{2assoc(A,B)}{2assoc(A,V)} + \frac{2assoc(B,A)}{2assoc(B,V)}\\
+&=\frac{assoc(A,B)}{assoc(A,V)} + \frac{assoc(B,A)}{assoc(B,V)}\\
+\end{align*}
+Which is what we wanted.
+Since $assoc(A,V)$ is edges coming out from all of $A$, if you
+subtract it with $assoc(A,A)$, we get $assoc(A,B)$.
+
+Normalized cut can be applied to any graph, it's just a way of taking
+a graph and seperating it in two parts. If two nodes (pixels) are
+similar, we have a stronger edge between them.
+
+Going more abstract, think about the problem as clustering points in
+high dimensional space: K-means, EM
+
+\subsection{Parametric Clustering}
+Few examples: a bunch of points in a 3-D space, and we  want to group these
+points together in a cluster. A good cluster is a cluster where the
+points are close togehter as possible given a limited number of
+clusters. In vision, your three dimensions might be RGB. You might
+want to cluster according to colors. If you discretize those clusters,
+finding segments might be easier. Another reason you might want to do
+this is to add 2 more dimensions, RBG + X and Y. Then clusters are
+those similar in color and space. This can be very effective.
+Another example is a perceptual grouping problem. If you draw three
+lines (2 with positive slope, 1 intersecting both), there are 3
+clusters and the points are close to those lines. You can represent
+things parametrically. For a line, you need n-1 to
+represent direction, n-1 as the shift = $2(n-1)$ parameters.
+Looking at lines can give you structures of a building, another reason
+for looking at lines is to estimate the plane. If you move a camera in
+one direction and if you track points, in the image, objects move in
+the opposite direction but background moves slower. As camera moves,
+points on a plane moves in affine transformations, so you can cluster
+points in similar affine transformation (6 free degrees). These are
+all parametric clustering problems.
+
+Technically this is known as the chicken and egg problems. If we knew
+the parameters, we can figure out the assignments to the cluster, if
+you know the assignments you can figure out the parameters that
+fit. The way to go around this is iterative method, where you have an
+initial guess and you keep updating until you converge. Many of these problems
+might be NP-hard to find the optimal solution, so we use heuristics
+which is the iterative algorithm. Although this is heuristics in
+practice it often works very well.
+
+\paragraph{K-means}
+\label{sec:k-means}
+We have bunch of points $x_1, \dots, x_n$, and we want to form $K$
+clusters $A_1, \dots , A_k$, where $x_i \in A_j$ means point $i$ is in
+cluster $j$. Ever cluster will have a parameter that describes it and
+here we'll use cluster centers, $c_1, \dots, c_k$. Our objective is
+\begin{equation}
+  \label{eq:41}
+  \min_{A, c} \sum_{j=1}^k\sum_{x_i\in A_j} ||c_j - x_i||^2
+\end{equation}
+
+The algorithm:
+\begin{enumerate}
+\STATE   Guess centers $c$
+\STATE Assign each point to nearest center
+\STATE Recompute $c$ s.t. $c_j  = \sum_{x_i\in
+  A_j}\frac{x_i}{||A_j||}$
+\STATE Repeat until convergence. (no assignments change)
+\end{enumerate}
+
+The reassignment can only reduce the cost. If you want to
+minimize $\sum_{x_i\in A_j} ||c_j - x_i||^2$, you can take the
+derivatie but you find out that the center is the average of all the
+points in the cluster. Convergence? It might not converge to a global
+minima but it will converge to a local minima. We'll have a cycle if
+there's a point half way in between and it keeps on changing. But
+cycling doesn't change the cost, so if convergence is defined by when
+cost doesn't change, convergence is assured. 
+
+Used in color quantization, when you want to compactly represent a
+colro image. Every pixel has $RBG$, which is 24 bits. Suppose you want
+to represent 4 bits not 24, this means we only have 16 colors. You can
+quantize it and it'll still look good. For something like this we
+don't necessarily have to have the global clustering. 
+
+The first guess in $K$-means is really important. You can get
+situations where all of your points gets assinged to a single
+cluster. You need good heuristics to chose the starting guess. 
+
 \pagebreak
+
+\pagebreak
+
+\pagebreak
+
+
+
 
 \end{document}
