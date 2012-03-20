@@ -15,7 +15,7 @@
 
 (master-dir . "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/")
 
-(label-numbers ("sec:gibbs-distribution" . 1) ("eq:" . 40))
+(label-numbers ("sec:lecture-12" . 1) ("sec:gibbs-distribution" . 1) ("eq:" . 41))
 
 (bof "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex")
 
@@ -276,6 +276,22 @@
 ("eq:40" "e" "Ncut \\equiv \\frac{y^T(D-W)y}{y^TDy} " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 (toc "toc" "          10.0.0.3 How to solve \\eqref{eq:40}?" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "10.0.0.3" "\\paragraph{How to solve \\eqref{eq:40}?}" 58944)
+
+(toc "toc" "    11 Lecture - 12" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 2 "11" "\\section{Lecture - 12}" 61317)
+
+(toc "toc" "      11.1  " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "11.1" "\\subsection{}" 61589)
+
+(toc "toc" "      11.2 EM" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "11.2" "\\subsection{EM}" 64005)
+
+(toc "toc" "          11.2.0.1 K-means" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "11.2.0.1" "\\paragraph{K-means}" 65873)
+
+("sec:k-means" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:41" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("sec:em" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("sec:lecture-12-1" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 ("eq:38" "e" "" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" "LOST LABEL.  RESCAN TO FIX.")
 
