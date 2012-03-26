@@ -15,7 +15,7 @@
 
 (master-dir . "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/")
 
-(label-numbers ("sec:lecture-12" . 1) ("sec:gibbs-distribution" . 1) ("eq:" . 41))
+(label-numbers ("sec:lecture-12" . 1) ("sec:gibbs-distribution" . 1) ("eq:" . 46))
 
 (bof "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex")
 
@@ -288,6 +288,32 @@
 ("sec:k-means" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 ("eq:41" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      11.3 Midterm" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "11.3" "\\subsection{Midterm}" 67616)
+
+(toc "toc" "      11.4 Parametric Clustering" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "11.4" "\\subsection{Parametric Clustering}" 70177)
+
+(toc "toc" "          11.4.0.1 Mixture of Gaussians" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "11.4.0.1" "\\paragraph{Mixture of Gaussians}" 71151)
+
+("sec:mixture-gaussians" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:42" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:43" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:44" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:45" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:46" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          11.4.0.2 Kernel Density Estimation" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "11.4.0.2" "\\paragraph{Kernel Density Estimation}" 73041)
+
+("sec:kern-dens-estim" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("sec:param-clust" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("sec:midterm" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 ("sec:em" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
