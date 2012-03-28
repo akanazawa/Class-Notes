@@ -1507,7 +1507,7 @@ $$e^{\frac{-d(i,j)^2}{\sig_d}} e^{\frac{-(I_i, I_j)^2}{\sig_I}}$$ This
 
 \pagebreak
 
-\section{Lecture - 13: Parametric Clustering}
+\section{Lecture 13: Parametric Clustering}
 \label{sec:lecture-13}
 Midterm assigned 3/26, due 4/2.
 \subsection{Project 1}
@@ -1647,7 +1647,7 @@ situations where all of your points gets assinged to a single
 cluster. You need good heuristics to chose the starting guess. 
 
 \pagebreak
-\section{Lecture - 14: EM}
+\section{Lecture 14: EM}
 
 \paragraph{Midterm} Due 4/4/12.
 You can talk about the material, using the internet as a resource is
@@ -1661,12 +1661,12 @@ Questions
 \item Apply perona-malik to a sine wave, what is the method noise?
   Idea is if the filter is perfect the signal won't change. But it
   does, have a sense of how much method changes the original signal
-\item Prove the method noise of non-local means is white noise. Apply
+\item Prove the method noise of non-local means is like white noise. Apply
   NL-means to sine wave (the analytic expression of the method noise
   is a pain), look at the method noise of two different locations, show
-  that they are uncorrelated even if those points are close. Prove
+  that they are uncorrelated even if those points are close (or correlated). Prove
   true or false. \textbf{Extra credit} if you can characterize the method noise
-  intuitively. 
+  intuitively. (Bound doesn't matter but you can assume that $t\in [0, 2\pi]$.
 \item MRF, a rabbit moving from one region to a neighboring region
   with equal probability, (never stay at the same region). After a
   while what's the probability distribution (stable distriubtion?)
@@ -1790,7 +1790,190 @@ with only one class.
 
 \pagebreak
 
+\section{Lecture 15: Level Sets}
+\label{sec:lecture-15}
+Idea is to do ``Curve evolution'', how a curve moves over time. Start
+with a closed contour, then you have a some equation/force about how you
+want this contour to change. Track how this contour moves over time.
+
+Motivation in respect to vision/segmentation: One of the oldest approach is to
+find the skeletons of objects with graph like edges inside (stick
+figures). Skeleton seems like a very useful. The first algorithm that
+was proposed was to move the curve inward and shrink it until you get
+a medial axis. Definition of a skeleton is where the contours collide
+by shrinking (equidistant from multiple points from a
+contour). Another example of curve evolution has to do with
+segmentation. Finding a boundary of an object with some noise around
+it. One way to do this is to form an objective function (that explains
+what a boundary should be like) and do gradient descent. The function
+might say that the boundary has to have high gradient and the inside
+and outside of the boundary should have uniform intensity.  A natural
+way of doing segmentation. To improve the boundary, you need a method
+of evolving curves, you're doing optimization in a weird space where
+what you're changing is a contour. Many classical methods that try to
+do this curve evolution (even outside vision). i.e. how does the oil
+drop in water change? (you know the forces given by water) Started out
+as a numerical analysis problem. It turns out there are subtlties
+to do this right, 80's 90's ppl had interesting insights and started
+using for vision.
+
+It's trickier than it looks.
+
+Say $c(s,t)$ a curve, $s$ location $\in \mathbf{R}^2$, $t$, time. $t=0$ is the initial
+curve. i.e. $c(1/2, 0)$ is some point $(x,y)$ on the curve at time
+0The first derivative $c_s \equiv$ tangent, $c_{ss} \equiv$ curvature
+normal. The temporal derivative $c_t(s,0)$ is how it's moving. Assume that the
+shrinking/motion is always to the curvature normal pointing inside (move in orthogonal
+direction).
+
+Shrinking can be described by
+\begin{equation}
+  \label{eq:47}
+c_t(s,t) = n(s,t)
+\end{equation}
+ It says the way the
+contour is moving is in the direction of the normal all at a constant
+speed. \eqref{eq:47} is a part of the Grassfire algorithm. This is one
+of the simplest curve evolution you can think of. 
+
+One problem, if you have a completely smooth curve (infinitly
+differentiable at all points). It's possible that at a small amount of
+time you might get a V (absolute value function), a cone, and get
+discontinuity. (ex on contour like a half of the tao sign) Now your
+evolution is no longer well-defined. 
+
+Another problem, you can start with a curve that looks like a dumbel
+(hyoutan), you might change the topology of the contour by getting two
+disconnected circles. Level sets give you a way to deal with these
+changes in the topology.
+
+Reminder note: Curve evolutino can be used for image
+denoising. Suppose you have a noisy image, look at the iso-illuminate
+contour (contour where intensity is all 0 and 1). Around the noise,
+you'll get weird contours, around objects you get smooth contour, so
+by doing curve evolution noises disappear pretty quicky.
+
+To see what the hazards are, here's an one of the earliest method. The
+Snakes method by Kass, Witkin, and Terzopoulos (~'87). Their idea was
+to have a user roughly draw a contour and move it s.t. it'll go around
+where the gradient is high, and that the integral of the contour to be
+small (forcing contour to be small). How? Put points uniformly along
+the contour, for each one of the points compute the gradient and use
+finite differences to compute teh curvature and do gradient
+descent. This works pretty well, advantage is that it's intuitive but
+has couple of problems. 
+\begin{enumerate}
+\item Pointed out by the level sets handoug. You can have something
+  smooth to get a cone structure and markers get really close and
+  other parts markers get very far so the discretizaton gets
+  unstable. It can work but it can have some artifacts.
+\item These markers do not give you a way to change the topology.
+\end{enumerate}
+But very influencial.
+
+\subsection{Level Set Approach}
+\label{sec:level-set-approach}
+Write curve evolution as a differential equation and look into a
+stable way to solve this equation numerically. 
+We start with
+\subsubsection{Boundary Value Formulation}
+We assume as the curve evolves it never crosses the same location
+twice. Then we can describe the curve evolution by $T(x,y)$ at what
+time did the curve cross position $(x,y)$? Locations where this is 0
+are the initial conditions. Now we can write it as following
+\begin{equation}
+  \label{eq:10}
+||\grad T || \dot F = 1
+\end{equation}
+$F$ is the speed that depends on the image. $||\grad T||$ is
+saying that the slower the crossing time as more rapidly the things
+are changing. 
+Example $T(0) = 0, T(1) = 2, T(2)=4$. The change in $T' = 2$, the
+speed if $F=1/2$ because it takes 2 seconds to move forward. The
+faster it's moving the more slowly the arrival time is changing. Think
+of it as waiting for the train, if you wait for 10hrs (the change in
+arrival time is BIG) it means that
+the train is moving really SLOW. If the train is moving really FAST,
+the change in arrival time ($||\grad T||$) is SMALL.
+
+The assumption fails for certain curves (like telephone handle).
+
+So write it as $\phi(x(t), t)=0$ $\phi$ is a function of position and
+time. So when it crosses the same point twice, $\phi$ is different. When $\phi=0$ that means that at time $t$, the curve will be at
+$x(t)$. (Like the equation of a circle $x^2+y^2=25$, when this is 0 it
+means that a point $(x,y)$ is on the circle).
+
+Using chain rule, we get the derivative
+\begin{equation}
+  \label{eq:15}
+  \phi_t + \grad \phi(x(t),t)x'(t) = 0
+\end{equation}
+How $\phi$ is changing over time, with gradient over position and time
+with change in position over time. This takes the place of \eqref{eq:10}
+Relating speed with the change in contour. Since $F$ is the speed in normal
+direction, it is equal to $x'(t) \dot n = F$  and $n$ is given by $n=\frac{\grad \phi}{||\grad
+  \phi||}$. 
+Combining these together you get 
+\begin{align*}
+ x'(t)\frac{\grad \phi}{||\grad \phi ||} &= F\\
+  x'(t) \grad \phi&= F||\grad \phi ||\\
+\end{align*}
+
+and  from \eqref{eq:15}
+\begin{equation}
+  \label{eq:22}
+\phi_t + F||\grad \phi || =0  
+\end{equation}
+
+We know $F$, don't really know $\phi$. Example to keep in mind is that
+if $F=1$ we have grassfire. 
+Another unintuitive thing about $\phi$ is that when it isn't 0, it
+doesn't matter what it is, but numerically it's well-behaved around
+where it'll be 0.
+
+It's more like $F||\grad \phi ||$ is how the speed is changing. Object
+whose cross sections have different topology.
+
+Grass fire $c_t = n(s)$, constant speed, another natural evolution
+is speed depending on the curvative, $c_t = k(s)n(s)$, so if you have high curvature
+it moves slow. Then  you can write this as $c_t = c_{ss}$. This should
+remind you of the diffusion eqution where it was something like $u_t =
+u_{xx}$. It's kind of a diffusion along the contour. Ultimately this
+will converge to a circle then a point and vanishes.
+
+This is important because this is the kind of smoothing that prevents
+discontinuities from the contour (grassfire gives us this). If you do
+$c_t = n(s) +\eps k(s)n(s)$, because as curvature gets huge (around a
+cone discontinuity point the curvature goes to $\infty$) the diffusion
+process takes over and smoothes it out.  \eqref{eq:22} is called the
+\textbf{initial value formulation}. \eqref{eq:10} is the \textbf{boundary
+value formulation}.
+
+\subsection{Upwind differencing}
+\label{sec:upwind-differencing}
+Make the problem simpler in 1D $$u_t + u_x = 0.$$ $u$ is a function in $x$ and
+$t$, just a differential equation. We say $u(x,0) = f(x)$. We get some
+initial values at time 0. $u$ is like $\phi$ over there. We can solve
+this equation by
+\begin{equation}
+  \label{eq:23}
+u(x,t) = f(x-t)  
+\end{equation} Why is this a solution? Becuase
+$u_t = -f'(x-t)$, $u_x = f'(x-t)$, so $u_t+u_x = 0$. \eqref{eq:23} is
+saying that the
+value of $u(1,0) = u(2,1)$, basically a function is just shifted if
+you move forward in time. You need to discretize the problem
+correctly. You need to estimate your new value by the point you moved
+from, not what you had.....
+
+
+
 \pagebreak
 
+\pagebreak
+
+\pagebreak
+
+\pagebreak
 
 \end{document}
