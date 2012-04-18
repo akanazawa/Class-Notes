@@ -4,6 +4,7 @@
 \newcommand{\ah}{\alpha}
 \newcommand{\lam}{\lambda}
 \newcommand{\gam}{\gamma}
+\newcommand{\Gam}{\Gamma}
 \newcommand{\kap}{\kappa}
 \newcommand{\rarr}{\rightarrow}
 \newcommand{\larr}{\leftarrow}
@@ -34,6 +35,8 @@
 \renewcommand{\vec}[1]{\boldsymbol{#1}}
 % gradient
 \newcommand{\grad}{\nabla}
+% linear alg
+\newcommand{\inv}[1]{#1^{-1}}
 
 \newcommand{\noi}{\noindent}
 \parskip 5pt
@@ -1970,10 +1973,545 @@ from, not what you had.....
 
 \pagebreak
 
-\pagebreak
+\section{Lecture  16: }
+\label{sec:lecture-16}
+Midterm question 6 part 2: find the rectangle inside the image that
+minimizes the NCut cost.  Is there some way you can change the graph
+s.t. a rectangle is going to be the best segmentation in the graph.
+
+Think about it in 1D: A chain of nodes with weight 1, what's the
+partition of this graph that optimizes the cost? Is it going to touch
+the boundary?..
+Suppose single cut (---|---, as opposed to --|---|--) is the best,
+then you can change the edge weight around the edges so that we get
+--|--|--. You can add some nodes, edge weight doesn't have to be
+finite.
+
+prob 5's ``will we get caught in a local optimum'' question refers to
+this specific problem i.e. is this problem the specific problem where
+you always find the global optimum? For this question you can assume
+any num of pixel possible (find a counter example?)
+
+\subsection{Level Sets Cont}
+\label{sec:level-sets-cont}
+Two important equations $|| \grad T || F = 1$,  $\phi_t + \grad
+\phi(x(t), t) x'(t) = 0$
+
+Example for solving this problem, using the upwind differencing.
+Looking at a much simpler differential equation:
+\begin{equation}
+  \label{eq:34}
+  u_x + u_t = 0\\
+  u(x,0) = f(x)
+\end{equation}
+$u$ is a function of $x$ and $t$, so it's like a 1D version of curve
+evolution. We can guess the solution to this differential
+equation $$u(x,t) = f(x-t),$$ because $u_x = f'(x-t)$, $u_t =
+-f'(x-t)$, and if $t=0, u(x,t) = f(x)$.
+
+We'll solve this by discretizing the problem by using finite
+differences
+
+\paragraph{Wrong way to do this}
+\label{sec:wrong-way-do}
+Using finite differences to estimate derivatives: $u_x = u(x+1, t) -
+u(x, t)$, $u_t = u(x, t+1) - u(x, t)$
+As an example let $f(x) = x^2$. Plug them into the differential
+equation and get $$u(x+1, t) - u(x,t) +u(x, t+1) - u(x,t)= 0$$
+We want to use values at time $t$ to guess values at time $t+1$. 
+Do this by saying $u(x,t+1) = 2u(x,t) -u(x+1, t)$
+Now use this equation to figure out $u(4,1)$. 
+
+\begin{align*}
+u(4,1) &= 2u(4,0) - u(5, 0) \\  
+&=2(16) - 25 = 7
+\end{align*}
+This isn't right! the analytic solution we get from the guessed
+solution ($f(4-1) = 9$).
+This is because of the finite differences, $u_x(4,0)$ gives us $9$ but
+it's $8=2x$.
+
+\paragraph{Correct way}
+\label{sec:correct-way}
+Set $u_x = u(x,t) - u(x-1, t)$.
+Then we would've gotten $u(x,t+1) - u(x-1, t) = 0$, $u(x,t+1) =
+u(x-1,t)$. For this $u(4,1) = 9$. Which is the exact right answer!
+
+This means that the solution propagates in left to right, in $x=t$
+slope of 1. Advection equation (like translating slope 1 line at each
+x). Meaning the values depends entirely on stuff on the left and not
+on stuff to the right. So it's important to look at solutions in it's
+direction (left to right).
+
+Doing the finite difference in correct direction is called ``upwind''
+differencing. The idea is that if you have a contour and it's moving
+in some direction, in solving for values at $t+1$, you should only
+look at times from $t$, not from $t+1, t+2$, but only from $t, t-1,
+\dots$.
+
+\subsection{Fast Marching Algorithm}
+\label{sec:fast-march-alg}
+A way of solving PDE using upwind differencing efficiently. 
+$||\grad T ||F = 1$ (grassfire algorithm, curve is moving in
+constant speed). The simple case a grid is initialized with $T(0,0) =
+0$. Where $T$ is the function of $x, y$ $T(x,y) = c$ means the curve
+crosses $(x,y)$ at time $c$.  After $7$ seconds this will look like a
+circle with radius 7 centered at the origin. 
+We want places where $T > 0$, but we can not stably do this unless we
+know the value at time before. in a 9 by 9 neighborhood, (0,1), (1,0),
+(-1,0), (0,-1) are 1.  Now compute $T(1,1)$ only using the values I
+know
+$\grad T(1,1) \approx (T(1,1) - T(0,1), T(1,1) - T(1,0))$
+Now solve for $T(1,1)$. 
+$||\grad T||^2 \approx 2(T(1,1) - 1)^2 = 1$
+So $T(1,1) \approx \sqrt{\frac{1}{2}} + 1$. The real answer is
+$\sqrt{2}$. This is like drawing segment
+(with slope -1 between (0,1) and (1,0), and finding the distance
+between (1,1) and the midpt on that segment.
+This is like picking the pixel where we don't know the arrival time,
+find the pixels where we know the value of.  You need to know which
+pixels are going to be next by the curve function $T$. 
+
+This is used a lot, but for segmentation  $\phi_t + \grad
+\phi(x(t), t) x'(t) = 0$ is the more important equation to solve. In
+practice, we solve this by assuming we know the level set at some
+time. $\phi(x, y, t_0) = 0$. We come up with some way of assigning a
+value to near by points in the plane at time $t_0 + 1$. First we need
+to come up with values of $\phi$ that's not on the level set 0. (just
+do linear if 1 pixel away set it to 1 etc). Now, what's at $t_0+1$? To
+make it efficient, updating phi through out the plane is expensive, so
+\emph{narrow band method}, put a band around the curve both inside and
+outside. Only work with things that are within two bands until the
+curve touches the upper or inner band (depending on the direction of
+the curve). Need to use upwind differencing to solve. 
+
+\subsection{Level Sets in Segmentation}
+\label{sec:segmentation}
+Chan and Vege. Let two regions to be $\Gamma_-$, $\Gamma_+$, where
+$\Gam_-$ is the region inside the contour. Let $u_-$ be the uniform
+intensity inside the contour $u_- = \int_{(x,y) \in \Gam_-} u(x,y)/
+\int_{(x,y)\in \Gam_-} 1$, $u_+$ defined similarliy. With cost
+$$\int_{\Gam_-} (u(x,y) - u_-)^2 + \int_{\Gam_+} (u(x,y) - u_+)^2 +
+\lam || \Gam ||$$
+Idea is that if you have a fairly uniform background and foreground,
+if you optimize this cost you can segment the image well. Then they do
+curve evolution as the optimization of this cost function (gradient descent). This is what
+you have to do to do gradient descent on a contour. You do this until
+you converge and that's your segmentation. Level set methods can
+change topology so you can start out as some one big contour and get
+multiple contours in the end. 
+Your baseline approach should be come up with a cost function and do
+optimization. If you initialize in a good way you can get a pretty
+good solution. This works if your initialization is good, or if your
+cost function is good. Many work on coming up with priors on the cost
+function and defining the curve evolution. 
+
+\subsection{Wavelets}
+\label{sec:wavelets}
+When we look at papers on texture, we'll see that one of the ideas is
+to describe each pixel, not just with intensity but a high dimensional
+vector that describes what the region is like around that pixel. We
+filter the region in many ways and use the set of vectors as a
+feature. 
+
+\textbf{Gabor filter} captures the frequency of image at different
+scales. Fourier can give you high frequency component but asking what
+scale is pointless because it's defined globally over the whole, so the idea of
+gabor is to take a sine wave and multiply it by a gaussian. Then you
+get a\emph{ windowed fourier}. Suppose you take the fourier transform,
+note that multiplication in one domain is convolution in
+another. Fourier of sine is a delta function and gaussian is
+gaussian. 
+Width of gaussian is the scale, frequency of sine wave specifies the frequency
+Gabor filter gives us information that is local in space and local in
+frequency. Wavelets provide us a better way to do this that's still
+localized in space and frequency, better because it gives you
+orthonormal vectors. 
+
+
 
 \pagebreak
 
+\section{Lecture - 16: Texture}
+\label{sec:lecture-16-1}
+
+\subsection{Midterm Solutions}
+\label{sec:midterm-solutions}
+\begin{enumerate}
+\item Cosine is like a eigenvector of a function so all it's going to
+  do is to be scaled. Since we know $u(0) = 0.9\cos(1) = 0.9$, so
+  scale all with 0.9.
+\item
+  \begin{enumerate}
+  \item $\frac{d}{dx}(g(||\grad u||^2) u_x)$ Analytically it's not
+  hard and you can see what the method noise is. Intuitive idea of
+  what's going on: The idea of PM is higher the derivative, the less
+  you smooth, so you smooth places at the peaks of $\sin$ more. So
+  very little noise around $0$ but more in like $\pi/2$. 
+\item Smoothed sine wave is just going to be sine wave with small
+  magnitude, so all gradient is just scaled down. The intuition is
+  that as you smooth the sine wave, method noise will increase. In the
+  limit as $\sig \rarr \infty$, smoothing everywhere and so this is
+  like gaussian smoothing. 
+  \end{enumerate}
+\item Idea was: method noise of NL-means? Test fo what's going to
+  happen with method noise because analytical expression is really
+  messy. The idea is if you smooth with NL-means, it takes a region
+  around this point, compares it with the rest and take weighted
+  average, so this is averaging with immediate neighbor. So if you
+  pick a point $t$ and $t+\delta$, the weight will be almost
+  identical. So as these points get closer together, the weights will
+  get more similar. In the limit the weights will be almost the same
+  and so the effect of smoothing will almost be the same. The reason
+  we don't see in 2D images is because if you move few pixels away the
+  method noise will be pretty different.
+\item Come up with a transition matrix and compute the stationary
+  distriubtion, which is the normalized leading eigenvector of the matrix.
+\item Clique potentials: How to think about this: given B-B-B-B, you
+  know that the sum of the pairwise potentials should reflect the
+  joint probability of this event occuring. Compare this with B-C, you
+  know the joint probability of this given the conditional
+  probability. Sum of the probability of first example should be
+  bigger than that of the second one. Clique potentials should be
+  logarithmic to the joint probaiblity. (like adding is same as
+  multiplying) So clique potentials just need to be log of the
+  conditional probability i.e. $-\log(.95)$ for B-B. And you don't
+  have to worry about making the clique potential normalized because
+  of the $Z$ term outside. 
+
+Getting into local minima using graphcuts? You can only change from
+one label to another in one swap for alpha-beta swapping. So if you
+have ground-truth sea onto top pof boat with initialization of sky to
+house. If sky to house is decent, and you don't see the best with sea
+and boat unless you change both labels at the same time, you'll get
+stuck.
+\item NCut cost: To compute the Ncut cost just count how many
+  edges/cut and put it in the formula. For (b), notice that in the
+  original graph, cutting it in two is better. Intuitively this should
+  be obvious because NCut is optimized when you balance the cut and
+  minimize the cut so a cut in the middle is the best. To get around
+  this give an infinite cost at the boundary edges. For the square
+  argument, you could do it with partial derivatives, but you can show
+  that the rectangle with minimum perimeter and area is a square.
+\end{enumerate}
+
+\subsection{Texture}
+\label{sec:texture}
+In texture, there's no edge when two rectangle with 0 mean but
+different variance s.t. average intensity in small windows is
+the same. But because we have the same average intensity in the two
+regions, edge detectors don't work.
+
+\textbf{Issues} 
+Texture is not well defined. In vision it's about
+variation in an region. Imagine there's an infinite sample of a
+texture and take little pieces of it.
+\begin{enumerate}
+\item Discrimination/Analysis: are these two textures same?  When you're asked if two
+pieces are the same, we're asking if they're taken from the same
+infinite roll of texture. 
+\item Synthesis: Generate a different sample but make it look like it
+  came from the same roll
+\item Texture boundary detection
+\item Shape from texture
+\end{enumerate}
+
+\textbf{Our Definition}: Something that repeats but with
+variation. A texture is a repeated sample from a same probability
+distribution. Maybe true for pile of objects, but not really for a
+tiled floor. But mostly to formalize it we'll ask are these two
+samples from the same distribution? A good working definition.
+
+Simplest texture is when every pixel is iid. Pretty limited in real
+life. But then, two sets of samples is jut statistics. Just take a
+histogram of each patch and see if they come from the same
+distribution (SSD comparison, Chi-squared test, etc)
+
+We can apply filters to characterize the textures to capture it's
+distribution in the filtered responses. 
+
+We can use the same idea in synthesis. \emph{Bergen and Heeger}: A texture is a distribution of
+filtered responses, (if we have 50 filters, every pixel has 50-D
+feature vector). Synthesize an image so that you have a similar
+distrubition in the 50D space. Mapping every pixel to a higher
+dimension and getting the same distribution in this space. 
+
+Tricky because filter responses depend on other pixels around
+it. 
+
+Failes on textures with more coherent structure. ONe way to explain is
+that when you have a strong edge, there's a big correlation between
+filter responses and neighboring pixels around the edge, so the
+assumption that the 50-D vectors are iid doesn't really hold. (Pairs
+of pixels are dependent) But going to a full joint model is not
+tractable from a single sample. The trick is to figure out which of
+the joint probability is most important.
+
+The idea was to use some Markov model to model this joint
+distribution. One way is to do it in the \textbf{wavelet domain}. 
+
+
+Idea of wavelets ( Filters that are localized both in space and frequency.
+): High frequency elements that are very spatially
+localized. Put it in a pyramid that covers larger regions so at higher
+levels you have larger filters that are low in frequency. To model
+this, joint distribution from a root to it's child in the pyramid but
+you don't have to do it on the full joint relationships in different
+scale and locations. 
+This can capture edges because edge produces discontinuities at many
+scales.
+
+From Shannon, a Markov model for modeling English. Trying to estimate
+the entropy of human language by using a low order Markov
+model. (What's the next letter? given a sequence of letters). For
+example, first
+pick from iid uniform distribution (0th order), then now pick letters with
+distribution that favors vowels (1st order). Now then pick letters
+given the letter before (2nd order). Then do it depending on the two
+letter before etc. This is like texture synthesis in 1D, has the
+texture of english sentences)
+
+You do exactly this in texture with Markov model of wavelets
+(\emph{DeBonet}). It's non-parametric. Then \emph{Efros and Leung} did
+it without wavelets. Using shannon idea, pick a pixel, find a place where you have
+similar pixels and copy them over. This is like copying but it's not
+just repetition. Only fails for very structured texture (pile of
+fruits).
+
+Low order Markov models don't completely capture everything about
+texture. So the model that works well for synthesis might not work for recognition.
+
+\pagebreak
+
+\subsection{Lecture - 17 Motion Segmentation}
+\label{sec:lecture-17}
+Motivation: \emph{Hidden bird} illusion. Motion helps segmentation. 
+
+Definition: Seperate a image sequence by motion cues
+\begin{itemize}
+\item Multiple moving objects: seperate by two motions
+\item Fixed scene with a moving camera: objects with different depth
+  has a different motion. We're not going to talk about this but a
+  classic approach is the ``layered'' segmentation where one clusters
+  surfaces in terms of transformations because different surfaces are on different affine
+  transformations.
+\end{itemize}
+Objects are set of points. 
+
+\paragraph{SfM}
+\label{sec:sfm}
+A pinhole camera maps a 3D world point $(X_i,Y_i,Z_i)$ to a image coordinate
+$(X_i/Z_i, Y_i/Z_i)$, where the focal point is at the origin,
+and there is a plane with focal length $Z=1$ that captures the light (distance from the focal
+point). Called the \emph{perspective projection}.
+
+Scaled orthographic projection: when the variation in the depth is
+not big. Compute the average depth of the world, so the mapping is
+$(x_i, y_i) = s(X_i, Y_i)$, there $s= 1/\bar Z$. The image points are
+just the scaled version of the world coordinate. 
+
+Now, 
+\begin{align*}
+\begin{pmatrix}
+  x_1 & x_2 & \dots& x_n\\
+  y_1& y_2& \dots& y_n\\
+\end{pmatrix}
+=
+\begin{pmatrix}
+  s & 0 & 0\\
+0 & s & 0
+\end{pmatrix} T R
+\begin{pmatrix}
+  X_1 & X_2 & \dots & X_n\\
+  Y_1 & Y_2 & \dots & Y_n\\
+  Z_1 & Z_2 & \dots & Z_n\\
+ 1 &1 & \dots & 1\\
+\end{pmatrix}
+\end{align*}
+Where $R$ is the rotation matrix with property $RR^T=I$ (every row of
+$R$ is a unit vetor and rows are orthonormal to each other). Just
+rotates the coordinate system. $T$ is the translation matrix, where
+you add a row of ones to the world coordinate, and use $$
+T =\begin{pmatrix}
+  1 & 0 & 0 & t_x\\
+  0 & 1 & 0 & t_y\\  0 & 0 & 1 & t_z\\
+\end{pmatrix}
+$$
+$$R =
+\begin{pmatrix}
+  R & 0\\
+0 & 1
+\end{pmatrix}
+$$
+Now, multiplying the first matrix, $T$, and $R$ gives us a 2 by 4
+motion matrix
+$$
+\begin{pmatrix}
+s_{11} & s_{12} & s_{13} & t_x\\
+s_{11} & s_{22} & s_{23} & t_y\\
+\end{pmatrix}
+$$
+If we have one image, we have $8+3n$ unknowns, $2n$ knowns. Can't
+solve it.
+
+But if we have two images, and stack the image matrix to $4$ by $n$,
+middle matrix to $4$ by $4$ and the world matrix is $4$ by $n$. 
+
+If we have $k$ images, then we have a $2k$ by $n$ image matrix that we
+want to factorize into $2k$ by $4$ motion matrix and $4$ by $n$ world
+matrix. i.e. $I = MS$.
+
+This is a bilinear system where you can solve it with SVD decomposition. From
+Tomasi-Kanade's factorization theorem, that the image matrix is rank
+4. $SVD(I) = U V D'$, where the $V$ is the diagonal matrix with the
+first 4 (and only 4) singular values of $I$. So only keep the first 4 cols
+of $U$ and first 4 rows of $D'$ and the first 4 diagonal vals of $V$
+and get $\hat M \hat S$. Ambiguity still remains since we can have a
+$A\inv A$ matrix in between $S$ and $M$ but it's only linear. To
+remove the ambiguity, you can use the nonlinear constraints (that
+$R$'s rows have to be orthogonal). 
+
+For one motion, we have $I = MS$, $S$ is 4 by $n$, $M$ is 2 by 4. With
+two motion, we stack the motion matrix $I$ is a $2k$ by $n$ matrix,
+($k$=number of frames), $(M_1 M_2)$, a $2k$ by $8$ and $
+(\begin{smallmatrix}
+S_1 & 0   \\
+0 & S_2
+\end{smallmatrix})$, $8$ by $n$.
+Point it you can still write everything as a matrix
+multiplication. Now $I$ is rank 8. (So any cols of $I$ is a linear
+combination of 8 other cols of $I$). But, if you just looked at $S_1$,
+then $M_2$  would have no effect so $I$ is rank 4, that means the cols
+of $I$ that come from one object is a linear combination of 4 other
+cols that come from the same object. The problem we face is that we
+have a matrix of rank 8, but now we want to divide the matrix so that
+each subset has rank 4. 
+
+HOW?
+Rewrite the matrix with a different basis. 
+Take the first column and use it as the first basis, a unit vector
+starting with 1 followed by 0. The second columns will be the second
+basis element, so $0, 1, 0, \dots$. Eventually after the 8th basis,
+9th column has to be a linear combination of the first 8 cols. So 9th
+col will have 4 non-zero values, and 4 zeros ex $(a 0 0 b c 0 d 0
+)$. If we can do this, that means the cols used for the four non-zero entries come from the
+same place. I.e. the matrix falls apart into two options.
+
+Not exactly because if you hit a column that's not linearly
+independent, then you know that it has  to be a linear combination of
+the 4 previous basis and can tell which columns belong to the same
+object. A method by to Bill Gear.
+
+Things can get complicated because if teh motion is degenerate we can
+get matrix rank $\le 4$. 
+\pagebreak
+
+\section{Lecture - 18 Wavelets}
+\label{sec:lecture-18}
+For multiscale representations. Also for image denoising, and image
+denoising is making an image more uniform so it's related to as
+segmentation. A foundamental way of representing images.
+
+Wavelets are image description localized in image/space and frequency. An
+orthonormal basis for images. Fourier transform did this but wavelets
+give us another basis. Fourier transfrom is perfectly localized in
+frequency, but not in space. Wavelets does both, but with a range of
+tradeoff. For a region, what's the frequency? We're talking about
+wavelets for a question like this.
+
+\subsection{Haar wavelet}
+\label{sec:haar-wavelet}
+The simplest possible case. Basis elements
+$$\Psi(t)
+\begin{cases}
+  -1 & 0 \le t \le 1/2\\
+ 1 & 1/2 \le t \le 1\\
+0 & \text{else}
+\end{cases}
+$$ is a square shaped function. The higher frequency dies
+out quickly in its fourier transformation. Very spatially local,
+called the\emph{ mother waelet}. It's a unit vector.
+
+Translate it by $u$ gives us another Haar wavelet, shifted to the
+right by $u$ $\Psi_u(t) = \Psi(t-u)$. Just representing a different
+position of an image. We'll also allow this to scale (wider), so that we can
+capture bigger location/frequency. $\Psi_u^s(t) =
+\frac{1}{\sqrt{s}}\Psi(\frac{t-u}{s})$. The $\inv{\sqrt{s}}$ term is
+there to make it a unit vector.
+
+\paragraph{Orthonormality}
+\label{sec:orthonormality}
+$\Psi_u^s$ $u=0, 1, 2, \dots, s=1,2,4,8, \dots$ Scale by factors of 2
+and shift by 1. All $\Psi_u^s$ are orthogonal (Because all nonzero stuff will
+be multiplied by 0, so the inner product is 0).
+This spans the space of all functions i.e. any function can be
+represented in an infinite series of these wavelets
+$$f(t) = \sum_{u,s}\ah_{u,s} \Psi_u^s(t)$$
+
+\textbf{$f(t)$ is a piece-wise constant function}: Say the constant
+part is 2 pixels wide. Then if you use a wavelet elements with 4
+pixels wide, what's left over is a piece-wise constant function where
+constant parts are 4 pixels wide. In the limit as you keep on adding
+more and more representation you'll get more constant regions. 
+
+If you use wavelets with the same scale (constant width), 
+
+Because wavelets are orthonormal, the coefficients are just the inner
+product with the original function and the wavelet $\ah_{u,s} = \lc
+f(t), \Psi_u^t \rc$. Start off with a function with half piece-wise
+constatn function. Suppose the heights of two pieces is $a$ and
+$b$, represent it with a mother wavelet, you get $-a/2 + b/2 = (b-a)/2$ which is
+$\ah_{u,1}$. This way we represented a piece of this function by the
+mother wavelet multiplied by the coefficient $\ah_{u,1}$. Now, $\lc
+f(t), \Psi_u^s(t)\rc$
+has a height of $-1\ah_{u,1} = (a-b)/2$ and $1\ah{u,1} = (b-a)/2$. Now,
+what's left over is ($f(t) - \ah_{u,1}\Psi_u^s(t)$): $a - (a-b)/2 = (b+a)/2$ and $b-(b-a)/2 = (b+a)/2$,
+now they have the same height. 
+So $f(t) - \ah_{u,1}\Psi_u^s(t)$ is a piece-wise constant function
+with same scale/width, removing all the changes in that image at that
+scale. This is like a first derivative operator, measuring what's
+changing at a particular scale. (High frequency means things are
+changing rapidly, meaning wavelets are changing rapidly, if smooth,
+the energy of wavelets will be small. This is
+measuring the frequency spectrum of an image but in spatially
+localized way)
+
+You can represent any image with these orthonormal basis (wavelets). 
+
+\paragraph{Wavelet Shrinkage}
+\label{sec:wavelet-shrinkage}
+A denoising algorithm. The representation of images in the wavelet
+domain tends to be sparse. Fourier transform gives you high energy
+(many coefficients away from 0). Image contains a lot of
+discontinuity, in wavelets there are many coefficients that are close
+to 0.
+A delta function is an ultimate image with a discontinuity. If you
+take a fourier transform of a delta function, it's flat, uniform and
+not sparse. Wavelet transform of a delta function, is just one shift
+where the coefficient is non-zero, everywhere else the coefficient is
+zero. 
+Because wavelets are spatially localized, the delta function only
+affect the wavelet that overlaps that region.  Theoretically, you can
+show that wavelet transformation is much sparse than fourier
+transformation and also true in practice. Well used in image
+compression.
+
+Given $I=$signal + white noise, if we do fouier transform, we get the
+FT of the signal + a uniform function. With wavelet transform, we get
+a sparse signal + also a uniform function. Fourier transform is giving
+you a basis, white noise is uniform in that basis, a spherecle
+Gaussian distribution. Wavelet is also an
+orthonormal basis so i'ts just rotating a spherecle Gaussian
+distribution.
+The right way to get rid of the noise is to threshold the wavelet
+transformed function. If a value of the wavelet transformed signal is
+small, set it to 0. David Donoho proves that this is an asymptotically optimal way of reducing
+noise. 
+Wavelet shrinkage seem to preserve boundaries (discontinuities) well,
+similar to bilateral filter.
+
+\pagebreak
+\pagebreak
 \pagebreak
 
 \end{document}

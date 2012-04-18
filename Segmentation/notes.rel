@@ -15,7 +15,7 @@
 
 (master-dir . "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/")
 
-(label-numbers ("eq:" . 23))
+(label-numbers ("sec:lecture-16" . 2) ("eq:" . 34))
 
 (bof "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex")
 
@@ -342,6 +342,72 @@
 ("sec:upwind-differencing" "s" "Make the problem simpler in 1D $$u_t + u_x = 0.$$ $u$ is a function in $x$ and $t$, just a different" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 ("eq:23" "e" "u(x,t) = f(x-t) " "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "    16 Lecture - 16" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 2 "16" "\\section{Lecture - 16}" 82726)
+
+("sec:lecture-16" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      16.1 Level Sets Cont" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "16.1" "\\subsection{Level Sets Cont}" 83601)
+
+("sec:level-sets-cont" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("eq:34" "e" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          16.1.0.1 Wrong way to do this" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "16.1.0.1" "\\paragraph{Wrong way to do this}" 84248)
+
+("sec:wrong-way-do" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          16.1.0.2 Correct way" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "16.1.0.2" "\\paragraph{Correct way}" 84956)
+
+("sec:correct-way" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      16.2 Fast Marchin Algorithm" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "16.2" "\\subsection{Fast Marchin Algorithm}" 85755)
+
+(toc "toc" "      16.3 In Segmentation" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "16.3" "\\subsection{In Segmentation}" 87752)
+
+("sec:segmentation" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      16.4 Wavelets" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "16.4" "\\subsection{Wavelets}" 88955)
+
+("sec:wavelets" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "    17 Lecture - 16" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 2 "17" "\\section{Lecture - 16}" 90083)
+
+("sec:lecture-16-1" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      17.1 Midterm Solutions" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "17.1" "\\subsection{Midterm Solutions}" 90141)
+
+("sec:midterm-solutions" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      17.2 Texture" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "17.2" "\\subsection{Texture}" 93502)
+
+("sec:texture" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      17.3 Lecture - 16" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "17.3" "\\subsection{Lecture - 16}" 97514)
+
+(toc "toc" "          17.3.0.1 SfM" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "17.3.0.1" "\\paragraph{SfM}" 98135)
+
+("sec:sfm" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "    18 Lecture - 18" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 2 "18" "\\section{Lecture - 18}" 102270)
+
+("sec:lecture-18" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "      18.1 Haar wavelet" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 3 "18.1" "\\subsection{Haar wavelet}" 102897)
+
+("sec:haar-wavelet" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          18.1.0.1 Orthonormality" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "18.1.0.1" "\\paragraph{Orthonormality}" 103631)
+
+("sec:orthonormality" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+(toc "toc" "          18.1.0.2 Wavelet Shrinkage" "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil 5 "18.1.0.2" "\\paragraph{Wavelet Shrinkage}" 105686)
+
+("sec:wavelet-shrinkage" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("sec:lecture-16-2" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
+
+("sec:fast-march-algor" "s" nil "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex" nil "")
 
 (eof "/Users/kanazawa/Documents/github/Class-Notes/Segmentation/notes.tex")
 ))
